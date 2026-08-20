@@ -5,8 +5,12 @@
   <p>
     Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
     documentation
-    <el-button>点击</el-button>
+    <el-button class="btn">点击</el-button>
   </p>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.btn {
+  background-color: $errColor;
+}
+</style>
