@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="menu">
-      <el-col :span="24">
+      <!-- <el-col :span="24"> -->
         <h5 class="mb-2">Visul LowCode</h5>
         <el-menu :router="true" :default-active="$route.path">
           <el-menu-item-group title="工作台">
@@ -19,7 +19,7 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-menu>
-      </el-col>
+      <!-- </el-col> -->
     </div>
     <div class="content">
       <div class="header">
@@ -69,6 +69,7 @@ import { ref } from 'vue'
   display: flex;
 
   .menu {
+    flex-shrink: 0;
     width: 200px;
     height: 600px;
     border: 1px solid gray;

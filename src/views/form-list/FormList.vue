@@ -20,10 +20,10 @@
     <div class="form-table">
       <el-table :data="tableData" style="width: 100%" max-height="320">
         <el-table-column type="selection" width="40" />
-        <el-table-column fixed prop="date" label="表单名称" width="330" />
-        <el-table-column prop="name" label="状态" width="140" />
-        <el-table-column prop="state" label="创建时间" width="250" />
-        <el-table-column prop="city" label="最后修改" width="250" />
+        <el-table-column fixed prop="date" label="表单名称" min-width="350" />
+        <el-table-column prop="name" label="状态" width="120" />
+        <el-table-column prop="state" label="创建时间" width="200" />
+        <el-table-column prop="city" label="最后修改" width="200" />
         <el-table-column prop="address" label="数据量" width="200" />
         <el-table-column prop="address" label="操作" width="200" />
       </el-table>
