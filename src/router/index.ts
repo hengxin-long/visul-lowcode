@@ -11,11 +11,19 @@ const router = createRouter({
       children: [
         {
           path: '/form-list',
-          component: import('@/views/form-list.vue')
+          component: import('@/views/form-list.vue'),
+          meta: {
+            title: '全部表单',
+            breadcrumb: ['工作台', '全部表单']
+          }
         },
         {
           path: '/form-design',
-          component: import('@/views/form-design.vue')
+          component: import('@/views/form-design.vue'),
+          meta: {
+            title: '新建表单',
+            breadcrumb: ['工作台', '新建表单']
+          }
         }
       ]
     }
