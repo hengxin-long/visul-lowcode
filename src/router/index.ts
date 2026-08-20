@@ -11,7 +11,7 @@ const router = createRouter({
       children: [
         {
           path: '/form-list',
-          component: import('@/views/form-list.vue'),
+          component: import('@/views/form-list/index.vue'),
           meta: {
             title: '全部表单',
             breadcrumb: ['工作台', '全部表单']
