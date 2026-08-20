@@ -51,7 +51,6 @@
         </el-card>
       </div>
       <div class="main">
-        我是主体
         <RouterView />
       </div>
     </div>
