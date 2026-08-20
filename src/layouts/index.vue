@@ -3,10 +3,7 @@
     <div class="menu">
       <el-col :span="24">
         <h5 class="mb-2">Visul LowCode</h5>
-        <el-menu 
-        :router="true"
-        :default-active="$route.path"
-        >
+        <el-menu :router="true" :default-active="$route.path">
           <el-menu-item-group title="工作台">
             <el-menu-item index="/form-list">
               <el-icon>
@@ -26,8 +23,31 @@
     </div>
     <div class="content">
       <div class="header">
-        <el-card shadow="never">
-          <span>工作台/全部表单</span>
+        <el-card shadow="never" :body-style="{
+          padding: '10px 20px',
+          height: '70px',
+          display: 'flex',
+          justifyContent: 'space-between'
+        }">
+          <div class="header-left">
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item v-for="item in $route.meta.breadcrumb" :key="item">
+                {{ item }}
+              </el-breadcrumb-item>
+            </el-breadcrumb>
+            <p class="title">{{ $route.meta.title }}</p>
+          </div>
+          <div class="header-right">
+            <el-icon :size="20">
+              <House />
+            </el-icon>
+            <el-button :style="{ margin: '10px' }">
+              <el-icon>
+                <CirclePlus />
+              </el-icon>
+              新建表单
+            </el-button>
+          </div>
         </el-card>
       </div>
       <div class="main">
@@ -41,8 +61,8 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { Edit, Document } from '@element-plus/icons-vue';
-import {ref} from 'vue'
+import { Edit, Document, CirclePlus, House } from '@element-plus/icons-vue';
+import { ref } from 'vue'
 </script>
 
 <style scoped lang="scss">
@@ -64,5 +84,16 @@ import {ref} from 'vue'
       width: 100%;
     }
   }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  margin: 10px 0 0 0;
+  font-size: 20px;
+  font-weight: 600;
 }
 </style>
