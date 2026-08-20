@@ -3,15 +3,18 @@
     <div class="menu">
       <el-col :span="24">
         <h5 class="mb-2">Visul LowCode</h5>
-        <el-menu default-active="1">
+        <el-menu 
+        :router="true"
+        :default-active="$route.path"
+        >
           <el-menu-item-group title="工作台">
-            <el-menu-item index="1" @click="$router.push({ path: '/form-list' })">
+            <el-menu-item index="/form-list">
               <el-icon>
                 <Document />
               </el-icon>
               <span>全部表单</span>
             </el-menu-item>
-            <el-menu-item index="2" @click="$router.push({ path: '/form-design' })">
+            <el-menu-item index="/form-design">
               <el-icon>
                 <Edit />
               </el-icon>
@@ -22,7 +25,11 @@
       </el-col>
     </div>
     <div class="content">
-      <div class="header">我是顶部</div>
+      <div class="header">
+        <el-card shadow="never">
+          <span>工作台/全部表单</span>
+        </el-card>
+      </div>
       <div class="main">
         我是主体
         <RouterView />
@@ -35,6 +42,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import { Edit, Document } from '@element-plus/icons-vue';
+import {ref} from 'vue'
 </script>
 
 <style scoped lang="scss">
@@ -46,6 +54,15 @@ import { Edit, Document } from '@element-plus/icons-vue';
     height: 600px;
     border: 1px solid gray;
     background-color: #fff;
+  }
+
+  .content {
+    width: 100%;
+
+
+    .header {
+      width: 100%;
+    }
   }
 }
 </style>
