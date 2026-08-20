@@ -1,5 +1,5 @@
-
 <template>
+  我是布局
   <RouterView />
 </template>
 
@@ -8,7 +8,4 @@ import { RouterView } from 'vue-router';
 </script>
 
 <style scoped lang="scss">
-.btn {
-  background-color: $errColor;
-}
 </style>
