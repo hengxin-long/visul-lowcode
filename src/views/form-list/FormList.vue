@@ -18,14 +18,14 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="data" style="width: 100%" max-height="320">
+      <el-table :data="formData" style="width: 100%" max-height="320">
         <el-table-column type="selection" width="40" />
-        <el-table-column fixed prop="date" label="表单名称" min-width="350" />
-        <el-table-column prop="name" label="状态" width="120" />
-        <el-table-column prop="state" label="创建时间" width="200" />
-        <el-table-column prop="city" label="最后修改" width="200" />
-        <el-table-column prop="address" label="类型" width="180" />
-        <el-table-column fixed="right" label="操作" min-width="120">
+        <el-table-column prop="formName" label="表单名称" min-width="350" />
+        <el-table-column prop="status" label="状态" width="120" />
+        <el-table-column prop="createTime" label="创建时间" width="200" />
+        <el-table-column prop="updateTime" label="最后修改" width="200" />
+        <el-table-column prop="formType" label="类型" width="180" />
+        <el-table-column label="操作" min-width="120">
           <template #default>
             <el-button link type="primary" size="small">
               编辑
@@ -34,25 +34,9 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="sizes, prev, pager, next, jumper" :total="tableData.length"
-        :page-size="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :page-sizes="[2, 3, 5, 10, 15, 20]" />
-      <!-- <el-table :data="formData" style="width: 100%" max-height="320">
-        <el-table-column type="selection" width="40" />
-        <el-table-column fixed prop="formName" label="表单名称" min-width="350" />
-        <el-table-column prop="status" label="状态" width="120" />
-        <el-table-column prop="createTime" label="创建时间" width="200" />
-        <el-table-column prop="updateTime" label="最后修改" width="200" />
-        <el-table-column prop="formType" label="类型" width="180" />
-        <el-table-column fixed="right" label="操作" min-width="120">
-          <template #default>
-            <el-button link type="primary" size="small">
-              编辑
-            </el-button>
-            <el-button link type="primary" size="small">复制</el-button>
-          </template>
-        </el-table-column>
-      </el-table> -->
+      <el-pagination background :layout="layout" :total="total" :page-size="pageSize" @size-change="handleSizeChange"
+        @current-change="handleCurrentChange" :page-sizes="pageSizes" :current-page="currentPage"
+        :disabled="isDisable" />
     </div>
   </div>
 </template>
@@ -60,112 +44,64 @@
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
 import { getFormList } from '@/api/form'
-import { onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { ref } from 'vue'
 
+// 表单列表数据
 const formData = ref([])
 
+// 布局
+const layout = ref<string>('sizes, prev, pager, next, jumper')
+// 当前页
+const currentPage = ref<number>(1)
+// 每页条数
+const pageSize = ref<number>(5)
+// 选择每页显示条数
+const pageSizes = ref<number[]>([5, 10, 15, 20])
+// 总数
+const total = ref<number>(0)
+// 是否禁用
+const isDisable = ref<boolean>(true) // formData为空数组之前先禁用
+
+watch(() => formData.value.length, () => {
+  console.log('监听到了')
+  isDisable.value = formData.value.length === 0 ? true : false
+})
+
+
+// 表单数据请求函数
 const getFormData = async () => {
+  console.log(`page: ${currentPage.value}, pageSize: ${pageSize.value}`)
   const res = await getFormList({
-    page: 1,
-    pageSize: 10
+    page: currentPage.value,
+    pageSize: pageSize.value
   })
-  formData.value = res.data
+  const { fdata, ftotal } = res.data
+  formData.value = fdata
+  total.value = ftotal
   console.log('res === ', res)
 }
 
-getFormData()
+
 onMounted(() => {
+  getFormData()
+  if (formData.value.length === 0) {
+    console.log('等于0')
+  } else {
+    console.log('不等于-')
+  }
 })
 
-interface d {
-  date: string,
-  name: string,
-  state: string,
-  city: string,
-  address: string,
-  zip: string,
+const handleSizeChange = (value: number) => {
+  currentPage.value = 1
+  pageSize.value = value
+  getFormData()
 }
 
-const tableData = ref<d[]>([
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-])
-
-const data = ref<d[]>([])
-const pageSize = ref(5)
-// 解决方案
-let i = 0
-for (const d of tableData.value) {
-  if (i < pageSize.value) {
-    data.value.push(d)
-    i++
-    continue
-  }
-  break
-}
-console.log('data ', data)
-
-const handleSizeChange = (pageSize: number) => {
-  console.log('pageSize', pageSize)
-}
-
-const handleCurrentChange = (currentPage: number) => {
-  console.log('currentPage ', currentPage)
+const handleCurrentChange = (value: number) => {
+  console.log('current ', value)
+  currentPage.value = value
+  getFormData()
 }
 
 </script>
