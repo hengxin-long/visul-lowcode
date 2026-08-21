@@ -34,8 +34,9 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="sizes, prev, pager, next, jumper" :total="tableData.length" :page-size="pageSize"
-        @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[2, 3, 5, 10, 15, 20]"/>
+      <el-pagination background layout="sizes, prev, pager, next, jumper" :total="tableData.length"
+        :page-size="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :page-sizes="[2, 3, 5, 10, 15, 20]" />
       <!-- <el-table :data="formData" style="width: 100%" max-height="320">
         <el-table-column type="selection" width="40" />
         <el-table-column fixed prop="formName" label="表单名称" min-width="350" />
@@ -65,13 +66,16 @@ import { ref } from 'vue'
 const formData = ref([])
 
 const getFormData = async () => {
-  const res = await getFormList({ page: 1, pageSize: 10 })
-  formData.value = res.data.list
-  console.log('res', res)
+  const res = await getFormList({
+    page: 1,
+    pageSize: 10
+  })
+  formData.value = res.data
+  console.log('res === ', res)
 }
 
+getFormData()
 onMounted(() => {
-  getFormData()
 })
 
 interface d {
