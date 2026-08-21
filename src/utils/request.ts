@@ -12,7 +12,7 @@ request.interceptors.request.use(res => {
 })
 
 request.interceptors.response.use(res => {
-  console.log('响应拦截config ', res)
+  console.log('响应拦截config ', res.data)
   return res.data
 })
 
