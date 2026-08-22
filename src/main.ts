@@ -6,8 +6,8 @@ import router from './router'
 
 // 导入全局样式
 import './styles/common.scss'
-// 导入组件样式（不导入消息框等会看不到）
-import 'element-plus/dist/index.css'
+// 只引入el-message组件样式，避免和定制主题色冲突
+import 'element-plus/theme-chalk/el-message.css'
 
 const app = createApp(App)
 
