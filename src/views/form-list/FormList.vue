@@ -63,29 +63,29 @@ const total = ref<number>(0)
 // 是否禁用
 const isDisable = ref<boolean>(true) // formData为空数组之前先禁用
 
-watch(() => formData.value.length, () => {
+watch(() => formData.value?.length, () => {
   console.log('监听到了')
-  isDisable.value = formData.value.length === 0 ? true : false
+  isDisable.value = formData.value?.length === 0 ? true : false
 })
 
 
 // 表单数据请求函数
 const getFormData = async () => {
-  console.log(`page: ${currentPage.value}, pageSize: ${pageSize.value}`)
+  console.info(`page: ${currentPage.value}, pageSize: ${pageSize.value}`)
   const res = await getFormList({
     page: currentPage.value,
     pageSize: pageSize.value
   })
-  const { fdata, ftotal } = res.data
-  formData.value = fdata
-  total.value = ftotal
-  console.log('res === ', res)
+  
+  formData.value = res.data?.fdata
+  total.value = res.data?.ftotal
+  console.info('res: ', res)
 }
 
 
 onMounted(() => {
   getFormData()
-  if (formData.value.length === 0) {
+  if (formData.value?.length === 0) {
     console.log('等于0')
   } else {
     console.log('不等于-')
