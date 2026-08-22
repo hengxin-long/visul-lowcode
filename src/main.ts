@@ -6,6 +6,8 @@ import router from './router'
 
 // 导入全局样式
 import './styles/common.scss'
+// 导入组件样式（不导入消息框等会看不到）
+import 'element-plus/dist/index.css'
 
 const app = createApp(App)
 
