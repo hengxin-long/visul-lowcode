@@ -1,5 +1,6 @@
 // import { defineMock } from './base'
 import { defineMock } from 'vite-plugin-mock-dev-server'
+import httpStatus from '../src/types/http-status'
 
 export default defineMock([
   {
@@ -28,14 +29,20 @@ export default defineMock([
         fdata.push({ ...formData[i] })
       }
 
-
+      let code = httpStatus.success.code
+      let msg = httpStatus.success.msg
+      if (fdata.length === 0) {
+        console.log('数组为空')
+        code = httpStatus.failed.code
+        msg = httpStatus.failed.msg
+      }
       return {
-        code: 200,
+        code,
         data: {
           fdata,
           ftotal
         },
-        msg: 'success'
+        msg
       }
     }
   }
