@@ -13,12 +13,12 @@
         <el-icon>
           <Search />
         </el-icon>
-        <el-input class="search" type="search" placeholder="搜索表单名称" />
+        <el-input v-model="searchKeyword" class="search" type="search" placeholder="搜索表单名称" />
         <el-button>筛选</el-button>
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="formData" style="width: 100%" max-height="320">
+      <el-table :data="filterTableData" style="width: 100%" max-height="320">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
@@ -78,6 +78,8 @@ const isDisable = ref<boolean>(true) // formData为空数组之前先禁用
 const dialogVisible = ref<boolean>(false)
 // 预删除的行（表单）
 const form = ref()
+// 搜索查询
+const searchKeyword = ref<string>('')
 
 watch(() => formData.value?.length, () => {
   console.log('监听到了')
@@ -145,6 +147,20 @@ const handleSubmit = async () => {
     getFormData()
   }
 }
+
+// 搜索计算属性，暂时先这样
+const filterTableData = computed(() => {
+  // 去掉两边空格，没有输入，全部返回
+  if (!searchKeyword.value.trim()) return formData.value
+  const kw = searchKeyword.value.trim().toLowerCase()
+  console.log(kw)
+  return formData?.value.filter((data) => {
+    // ref 数组初始化空数组，没有写类型，被推导成 `Ref<never[]>` 后续需优化
+    return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
+  }
+  )
+}
+)
 </script>
 
 <style scoped lang="scss">
