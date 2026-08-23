@@ -10,6 +10,9 @@
         </ul>
       </div>
       <div class="filter">
+        <el-select v-model="formType" placeholder="选择类型" style="width: 240px" @change="handleSelectFormType">
+          <el-option v-for="item in formTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
         <el-icon>
           <Search />
         </el-icon>
@@ -80,6 +83,19 @@ const dialogVisible = ref<boolean>(false)
 const form = ref()
 // 搜索查询
 const searchKeyword = ref<string>('')
+// 表单类型
+const formType = ref('')
+// 表单类型选项
+const formTypeOptions = [
+  {
+    label: '业务表单',
+    value: '业务表单'
+  },
+  {
+    label: '调查表单',
+    value: '调查表单'
+  }
+]
 
 watch(() => formData.value?.length, () => {
   console.log('监听到了')
@@ -158,8 +174,12 @@ const filterTableData = computed(() => {
     return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
   }
   )
+})
+
+const handleSelectFormType = (value: string) => {
+  console.log(value)
+  console.log(filterTableData)
 }
-)
 </script>
 
 <style scoped lang="scss">
