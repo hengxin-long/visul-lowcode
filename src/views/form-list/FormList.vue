@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="formData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据">
+      <el-table :data="formData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据" :default-sort="{prop: 'updateTime', order: 'descending'}">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
