@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="filterTableData" style="width: 100%" max-height="320">
+      <el-table :data="filterTableData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
@@ -85,7 +85,6 @@ watch(() => formData.value?.length, () => {
   console.log('监听到了')
   isDisable.value = formData.value?.length === 0 ? true : false
 })
-
 
 // 表单数据请求函数
 const getFormData = async () => {
