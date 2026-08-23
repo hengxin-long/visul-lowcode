@@ -61,6 +61,7 @@ import { Search } from '@element-plus/icons-vue'
 import { getFormList, deleteById } from '@/api/form'
 import { computed, onMounted, watch } from 'vue'
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
 // 表单列表数据
 const formData = ref([])
@@ -164,8 +165,8 @@ const handleSubmit = async () => {
   const res = await deleteById(form?.value.id)
   console.log('发起删除请求')
   console.log(res)
-  if (res.code) {
-    console.log('hahahhahahahhhahahha')
+  if (res.code === 200) {
+    ElMessage.success('删除成功')
     getFormData()
   }
 }
