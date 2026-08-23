@@ -9,3 +9,10 @@ export function getFormList(params: { page: number; pageSize: number }) {
     params
   })
 }
+
+export function deleteById(id: string) {
+  return request({
+    url: `${BASE_FORM_USL}/form/delete/${id}`,
+    method: 'DELETE',
+  })
+}
