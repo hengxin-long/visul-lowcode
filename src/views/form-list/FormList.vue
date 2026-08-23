@@ -17,7 +17,7 @@
           <Search />
         </el-icon>
         <el-input v-model="searchKeyword" class="search" type="search" placeholder="搜索表单名称" />
-        <el-button @click="handleFilter">查询</el-button>
+        <el-button @click="handleFilter" type="primary">查询</el-button>
       </div>
     </div>
     <div class="form-table">

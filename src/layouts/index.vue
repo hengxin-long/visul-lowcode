@@ -41,7 +41,7 @@
             <el-icon :size="20">
               <House />
             </el-icon>
-            <el-button :style="{ margin: '10px' }">
+            <el-button :style="{ margin: '10px' }" type="primary">
               <el-icon>
                 <CirclePlus />
               </el-icon>
