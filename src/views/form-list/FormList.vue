@@ -23,27 +23,39 @@
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
         <el-table-column prop="createTime" label="创建时间" width="200" />
-        <el-table-column prop="updateTime" label="最后修改" width="200" />
+        <el-table-column prop="updateTime" sortable label="最后修改" width="200" />
         <el-table-column prop="formType" label="类型" width="180" />
         <el-table-column label="操作" min-width="120">
-          <template #default>
-            <el-button link type="primary" size="small">
+          <template #default="scope">
+            <el-button type="primary" size="small" @click="handleEdit(scope.row)">
               编辑
             </el-button>
-            <el-button link type="primary" size="small">复制</el-button>
+            <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination background :layout="layout" :total="total" :page-size="pageSize" @size-change="handleSizeChange"
         @current-change="handleCurrentChange" :page-sizes="pageSizes" :current-page="currentPage"
         :disabled="isDisable" />
+      <!-- 删除弹框 -->
+      <el-dialog v-model="dialogVisible" title="提示" width="500" :before-close="handleClose">
+        <span>确认删除表单？</span>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="handleSubmit">
+              确认
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
-import { getFormList } from '@/api/form'
+import { getFormList, deleteById } from '@/api/form'
 import { computed, onMounted, watch } from 'vue'
 import { ref } from 'vue'
 
@@ -62,6 +74,10 @@ const pageSizes = ref<number[]>([5, 10, 15, 20])
 const total = ref<number>(0)
 // 是否禁用
 const isDisable = ref<boolean>(true) // formData为空数组之前先禁用
+// 删除提示框状态
+const dialogVisible = ref<boolean>(false)
+// 预删除的行（表单）
+const form = ref()
 
 watch(() => formData.value?.length, () => {
   console.log('监听到了')
@@ -76,7 +92,7 @@ const getFormData = async () => {
     page: currentPage.value,
     pageSize: pageSize.value
   })
-  
+
   formData.value = res.data?.fdata
   total.value = res.data?.ftotal
   console.info('res: ', res)
@@ -104,6 +120,31 @@ const handleCurrentChange = (value: number) => {
   getFormData()
 }
 
+const handleEdit = (row: any) => {
+  // console.log('编辑的 index == ', index, 'row: ', row)
+}
+
+const handleDelete = (row: any) => {
+  form.value = row
+  dialogVisible.value = true
+  console.log('form.value ', form.value)
+}
+
+const handleClose = () => {
+  dialogVisible.value = false
+}
+
+// 删除异步请求
+const handleSubmit = async () => {
+  dialogVisible.value = false
+  const res = await deleteById(form?.value.id)
+  console.log('发起删除请求')
+  console.log(res)
+  if (res.code) {
+    console.log('hahahhahahahhhahahha')
+    getFormData()
+  }
+}
 </script>
 
 <style scoped lang="scss">
