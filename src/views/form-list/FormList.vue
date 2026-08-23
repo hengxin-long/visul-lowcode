@@ -17,11 +17,11 @@
           <Search />
         </el-icon>
         <el-input v-model="searchKeyword" class="search" type="search" placeholder="搜索表单名称" />
-        <el-button>筛选</el-button>
+        <el-button @click="handleFilter">查询</el-button>
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="filterTableData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据">
+      <el-table :data="formData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
@@ -37,9 +37,9 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background :layout="layout" :total="total" :page-size="pageSize" @size-change="handleSizeChange"
-        @current-change="handleCurrentChange" :page-sizes="pageSizes" :current-page="currentPage"
-        :disabled="isDisable" />
+      <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="total" :page-size="pageSize"
+        @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="pageSizes"
+        :current-page="currentPage" :disabled="isDisable" />
       <!-- 删除弹框 -->
       <el-dialog v-model="dialogVisible" title="提示" width="500" :before-close="handleClose">
         <span>确认删除表单？</span>
@@ -83,6 +83,13 @@ const dialogVisible = ref<boolean>(false)
 const form = ref()
 // 搜索查询
 const searchKeyword = ref<string>('')
+/**
+ * 分页组件是否影藏
+ * v-if判断，true为显示，false为隐藏
+ * （bug）返回筛选的数据，分页功能会无效
+ * （暂时先这样处理）只有做关键字查询时才会隐藏
+ */
+const isPaginationVisible = ref(true)
 // 表单类型
 const formType = ref('')
 // 表单类型选项
@@ -163,22 +170,35 @@ const handleSubmit = async () => {
   }
 }
 
+const handleFilter = async () => {
+  console.log('keyword ', searchKeyword.value)
+  const res = await getFormList({
+    page: currentPage.value,
+    pageSize: pageSize.value,
+    keywords: searchKeyword.value
+  })
+  console.log('筛选结果：', res.data)
+  formData.value = res.data?.fdata
+  total.value = res.data?.ftotal
+  isPaginationVisible.value = false
+}
+
 // 搜索计算属性，暂时先这样
-const filterTableData = computed(() => {
-  // 去掉两边空格，没有输入，全部返回
-  if (!searchKeyword.value.trim()) return formData.value
-  const kw = searchKeyword.value.trim().toLowerCase()
-  console.log(kw)
-  return formData?.value.filter((data) => {
-    // ref 数组初始化空数组，没有写类型，被推导成 `Ref<never[]>` 后续需优化
-    return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
-  }
-  )
-})
+// const filterTableData = computed(() => {
+//   // 去掉两边空格，没有输入，全部返回
+//   if (!searchKeyword.value.trim()) return formData.value
+//   const kw = searchKeyword.value.trim().toLowerCase()
+//   console.log(kw)
+//   return formData?.value.filter((data) => {
+//     // ref 数组初始化空数组，没有写类型，被推导成 `Ref<never[]>` 后续需优化
+//     return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
+//   }
+//   )
+// })
 
 const handleSelectFormType = (value: string) => {
   console.log(value)
-  console.log(filterTableData)
+  // console.log(filterTableData)
 }
 </script>
 

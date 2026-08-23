@@ -8,15 +8,44 @@ export default defineMock([
     method: 'GET',
     // query：查询参数，是 /form/list?page=1&pageSize=10 问号后面的参数
     body(res) {
+      // 返回的数据
+      let fdata = []
+      // 总条数
+      let ftotal = formData.length
+
+      /** 当前页 */
       const currentPage = Number(res.query.page)
       const pageSize = Number(res.query.pageSize)
-      console.log('进入mock函数', typeof currentPage, typeof pageSize)
-      console.log('进入mock处理函数', res.query)
+      const keywords = res.query?.keywords
+      let code = httpStatus.success.code
+      let msg = httpStatus.success.msg
 
-      // 返回的数据
-      const fdata = []
-      // 总条数
-      const ftotal = formData.length
+      console.log('进入mock函数', typeof currentPage, typeof pageSize)
+
+      // 有关键字就筛选 返回
+      if (keywords?.trim()) {
+        console.log('keywords ', keywords?.trim())
+        const kw = keywords.toLowerCase()
+        const fdata = formData.filter((data) => {
+          return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
+        })
+
+
+        ftotal = fdata.length
+        if (fdata.length === 0) {
+          code = httpStatus.failed.code
+          msg = '暂无数据'
+        }
+
+        return {
+          code,
+          data: {
+            fdata,
+            ftotal
+          },
+          msg
+        }
+      }
 
       // 当前索引
       let i = (currentPage - 1) * pageSize
@@ -30,8 +59,6 @@ export default defineMock([
         fdata.push({ ...formData[i] })
       }
 
-      let code = httpStatus.success.code
-      let msg = httpStatus.success.msg
       if (fdata.length === 0) {
         console.log('数组为空')
         code = httpStatus.failed.code
@@ -51,7 +78,7 @@ export default defineMock([
     url: '/mock/form/delete/:id',
     method: 'DELETE',
     // params：路径参数，是 /delete/:id 路径占位符得来的
-    body({params}) {
+    body({ params }) {
       console.log('id: ', params.id, typeof params.id)
 
       let code = httpStatus.success.code
