@@ -1,8 +1,9 @@
 import request from '@/utils/request'
+import type {FormQueryParams} from './types'
 
 const BASE_FORM_USL = '/mock'
 
-export function getFormList(params: { page: number; pageSize: number }) {
+export function getFormList(params: FormQueryParams) {
   return request({
     url: `${BASE_FORM_USL}/form/list`,
     method: 'GET',
