@@ -10,7 +10,7 @@
         </ul>
       </div>
       <div class="filter">
-        <el-select v-model="formType" placeholder="选择类型" style="width: 240px" @change="handleSelectFormType">
+        <el-select v-model="formType" placeholder="选择表单类型" style="width: 240px" @change="handleSelectFormType">
           <el-option v-for="item in formTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <el-icon>
@@ -199,6 +199,7 @@ const handleFilter = async () => {
 
 const handleSelectFormType = (value: string) => {
   console.log(value)
+  console.log('formType ', formType.value)
   // console.log(filterTableData)
 }
 </script>
@@ -219,9 +220,13 @@ const handleSelectFormType = (value: string) => {
   justify-content: space-between;
   height: 50px;
 
-  .nav,
-  .filter {
+  .nav {
     flex: 0.25;
+    padding: 5px;
+  }
+
+  .filter {
+    flex: 0.35;
     padding: 5px;
   }
 
