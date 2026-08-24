@@ -5,5 +5,9 @@ import type { BaseQueryParams } from "../common"
  */
 export interface FormQueryParams extends BaseQueryParams {
   keywords?: string,
-  formType?: string
+  formType?: string,
+}
+
+export interface FormQueryStatusParams {
+  status: string
 }
