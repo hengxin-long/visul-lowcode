@@ -71,25 +71,23 @@ const formStore = useFormStore()
 
 /** 表单列表和总数 */
 const { formData, total } = storeToRefs(formStore)
-// 展示在页面的数据
+/** 展示在页面的数据 */ 
 const viewFormData = ref<FormItem[]>([])
-// 布局
+/** 布局 */
 const layout = ref<string>('total, sizes, prev, pager, next, jumper')
-// 当前页
+/** 当前页 */
 const currentPage = ref<number>(1)
-// 每页条数
+/** 每页条数 */
 const pageSize = ref<number>(5)
-// 选择每页显示条数
+/** 选择每页显示条数 */
 const pageSizes = ref<number[]>([5, 10, 15, 20])
-// 总数
-// const total = ref<number>(0)
-// 是否禁用
-const isDisable = ref<boolean>(true) // formData为空数组之前先禁用
-// 删除提示框状态
+/** 是否禁用，viewFormData为空数组之前先禁用 */
+const isDisable = ref<boolean>(true)
+/** 删除提示框状态 */
 const dialogVisible = ref<boolean>(false)
-// 预删除的行（表单）
+/** 预删除的行（表单） */
 const form = ref()
-// 搜索查询
+/** 搜索查询 */
 const searchKeyword = ref<string>('')
 /**
  * 分页组件是否影藏
@@ -98,9 +96,9 @@ const searchKeyword = ref<string>('')
  * （暂时先这样处理）只有做关键字查询时才会隐藏
  */
 const isPaginationVisible = ref(true)
-// 表单类型
+/** 表单类型 */
 const formType = ref('')
-// 表单类型选项
+/** 表单类型选项 */
 const formTypeOptions = [
   {
     label: '业务表单',
