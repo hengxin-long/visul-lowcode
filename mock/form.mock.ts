@@ -7,7 +7,7 @@ export default defineMock([
     url: '/mock/form/list',
     method: 'GET',
     // query：查询参数，是 /form/list?page=1&pageSize=10 问号后面的参数
-    body({query}) {
+    body({ query }) {
       // 返回的数据
       let fdata = []
       // 总条数
@@ -98,13 +98,24 @@ export default defineMock([
   {
     url: '/mock/form/status',
     method: 'GET',
-    body({query}) {
+    body({ query }) {
       console.log('进入到status接口')
       let statusForm = []
       let total = 0
       if (query?.status) {
         statusForm = formData.filter(item => query.status === item.status)
+        return {
+          code: 200,
+          data: {
+            fdata: statusForm,
+            ftotal: statusForm.length
+          },
+          msg: 'ok'
+        }
       }
+
+      // 按表单状态筛选
+      statusForm = formData.filter(item => query.formStatus === item.status)
 
       return {
         code: 200,
@@ -183,7 +194,7 @@ const formData = [
     id: '4',
     formName: '登录表单',
     formType: '业务表单',
-    status: 'published',
+    status: 'close',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-01 08:10:00',
     schema: {
@@ -203,7 +214,7 @@ const formData = [
     id: '5',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'published',
+    status: 'close',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -403,7 +414,7 @@ const formData = [
     id: '15',
     formName: '登录表单',
     formType: '业务表单',
-    status: 'draft',
+    status: 'close',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -463,7 +474,7 @@ const formData = [
     id: '18',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'close',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
