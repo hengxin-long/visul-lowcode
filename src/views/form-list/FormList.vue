@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="formData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据" :default-sort="{prop: 'updateTime', order: 'descending'}">
+      <el-table :data="viewFormData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据" :default-sort="{prop: 'updateTime', order: 'descending'}">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
@@ -65,9 +65,11 @@ import { ElMessage } from 'element-plus'
 
 // 表单列表数据
 const formData = ref([])
+// 展示在页面的数据
+const viewFormData = ref([])
 
 // 布局
-const layout = ref<string>('sizes, prev, pager, next, jumper')
+const layout = ref<string>('total, sizes, prev, pager, next, jumper')
 // 当前页
 const currentPage = ref<number>(1)
 // 每页条数
@@ -118,7 +120,11 @@ const getFormData = async () => {
     pageSize: pageSize.value
   })
 
-  formData.value = res.data?.fdata
+  // 深拷贝，互不影响
+  formData.value = JSON.parse(JSON.stringify(res.data?.fdata))
+  viewFormData.value = JSON.parse(JSON.stringify(res.data?.fdata))
+
+  console.log('formData.value type is: ', formData.value, ' res.data.fdata type is:', res.data?.fdata)
   total.value = res.data?.ftotal
   console.info('res: ', res)
 }
@@ -133,8 +139,12 @@ onMounted(() => {
   }
 })
 
-const handleSizeChange = (value: number) => {
+const resetCurrentPage = () => {
   currentPage.value = 1
+}
+
+const handleSizeChange = (value: number) => {
+  resetCurrentPage()
   pageSize.value = value
   getFormData()
 }
@@ -173,15 +183,21 @@ const handleSubmit = async () => {
 
 const handleFilter = async () => {
   console.log('keyword ', searchKeyword.value)
+  resetCurrentPage()
+
   const res = await getFormList({
     page: currentPage.value,
     pageSize: pageSize.value,
     keywords: searchKeyword.value
   })
+
   console.log('筛选结果：', res.data)
-  formData.value = res.data?.fdata
+  
+  formData.value = JSON.parse(JSON.stringify(res.data?.fdata))
+  viewFormData.value = JSON.parse(JSON.stringify(res.data?.fdata))
+
   total.value = res.data?.ftotal
-  isPaginationVisible.value = false
+  isPaginationVisible.value = searchKeyword.value.trim() === '' ? true : false
 }
 
 // 搜索计算属性，暂时先这样
@@ -197,10 +213,12 @@ const handleFilter = async () => {
 //   )
 // })
 
+// 按表单类型筛选（有bug）
 const handleSelectFormType = (value: string) => {
   console.log(value)
   console.log('formType ', formType.value)
-  // console.log(filterTableData)
+  viewFormData.value = formData.value.filter(item => value === item.formType)
+  formType.value = ''
 }
 </script>
 
