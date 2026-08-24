@@ -3,9 +3,9 @@
     <div class="form-nav">
       <div class="nav">
         <ul>
-          <li v-for="v in 4">
-            <span class="title">已发布</span>
-            <span class="count"> 24</span>
+          <li v-for="item in selectStatusBtn" :key="item.id" :class="item.type" @click="handleStatusForm(item.type)">
+            <span class="title">{{ item.label }}&nbsp;</span>
+            <span class="count">{{ item.count }}</span>
           </li>
         </ul>
       </div>
@@ -42,11 +42,11 @@
         @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="pageSizes"
         :current-page="currentPage" :disabled="isDisable" />
       <!-- 删除弹框 -->
-      <el-dialog v-model="dialogVisible" title="提示" width="500" :before-close="handleClose">
+      <el-dialog v-model="isDelDialogVisible" title="提示" width="500" :before-close="handleClose">
         <span>确认删除表单？</span>
         <template #footer>
           <div class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button @click="isDelDialogVisible = false">取消</el-button>
             <el-button type="primary" @click="handleSubmit">
               确认
             </el-button>
@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
-import { deleteById } from '@/api/form'
+import { deleteById, getFormByStatus } from '@/api/form'
 import { onMounted, watch } from 'vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -71,7 +71,7 @@ const formStore = useFormStore()
 
 /** 表单列表和总数 */
 const { formData, total } = storeToRefs(formStore)
-/** 展示在页面的数据 */ 
+/** 展示在页面的数据 */
 const viewFormData = ref<FormItem[]>([])
 /** 布局 */
 const layout = ref<string>('total, sizes, prev, pager, next, jumper')
@@ -84,7 +84,7 @@ const pageSizes = ref<number[]>([5, 10, 15, 20])
 /** 是否禁用，viewFormData为空数组之前先禁用 */
 const isDisable = ref<boolean>(true)
 /** 删除提示框状态 */
-const dialogVisible = ref<boolean>(false)
+const isDelDialogVisible = ref<boolean>(false)
 /** 预删除的行（表单） */
 const form = ref()
 /** 搜索查询 */
@@ -142,22 +142,22 @@ const handleCurrentChange = (value: number) => {
 }
 
 const handleEdit = (row: any) => {
-  // console.log('编辑的 index == ', index, 'row: ', row)
+  console.log('编辑的row', 'row: ', row)
 }
 
 const handleDelete = (row: any) => {
   form.value = row
-  dialogVisible.value = true
+  isDelDialogVisible.value = true
   console.log('form.value ', form.value)
 }
 
 const handleClose = () => {
-  dialogVisible.value = false
+  isDelDialogVisible.value = false
 }
 
 // 删除异步请求
 const handleSubmit = async () => {
-  dialogVisible.value = false
+  isDelDialogVisible.value = false
   const res = await deleteById(form?.value.id)
   console.log('delete res: ', res)
   if (!res) {
@@ -184,6 +184,63 @@ const handleSelectFormType = (value: string) => {
   console.log('formType ', formType.value)
   viewFormData.value = formData.value.filter(item => value === item.formType)
   formType.value = ''
+}
+
+/** 筛选表单状态按钮 */
+const selectStatusBtn = [
+  {
+    id: '1',
+    label: '全部',
+    count: 26,
+    type: 'all active'
+  },
+  {
+    id: '2',
+    label: '已发布',
+    count: 11,
+    type: 'published'
+  },
+  {
+    id: '3',
+    label: '草稿',
+    count: 4,
+    type: 'draft'
+  },
+  {
+    id: '4',
+    label: '已关闭',
+    count: 5,
+    type: 'close'
+  },
+]
+
+// 给元素添加激活类
+const addActiveClass = (selector: string) => {
+  document.querySelector('.active')?.classList.remove('active')
+  document.querySelector(selector)?.classList.add('active')
+}
+
+const handleStatusForm = async (type: string) => {
+  const selector: string = `.nav ul .${type}`
+
+  resetCurrentPage()
+  if (type.includes('all')) {
+    const classArr = type.split(' ')
+    addActiveClass(`.${classArr[0]}`)
+    getFormData()
+    return
+  }
+
+  addActiveClass(selector)
+
+  const res = await getFormByStatus({
+    page: currentPage.value,
+    pageSize: pageSize.value,
+    formStatus: type,
+  })
+  console.log('status form data: ', res)
+  formData.value = res.fdata
+  total.value = res.ftotal
 }
 
 onMounted(() => {
@@ -249,6 +306,8 @@ onMounted(() => {
       border-radius: 6px;
       text-align: center;
       line-height: 40px;
+      cursor: pointer;
+      transition: all .3s;
 
       .title {
         font-size: 13px;
@@ -263,13 +322,27 @@ onMounted(() => {
       background-color: #fff;
 
       .title {
-        font-size: 15px;
+        font-size: 14px;
         color: $vlcpColor;
         font-weight: 600;
       }
 
       .count {
-        font-size: 13px;
+        font-size: 12px;
+      }
+    }
+
+    .active {
+      background-color: #fff;
+
+      .title {
+        font-size: 14px;
+        color: $vlcpColor;
+        font-weight: 600;
+      }
+
+      .count {
+        font-size: 12px;
       }
     }
   }
