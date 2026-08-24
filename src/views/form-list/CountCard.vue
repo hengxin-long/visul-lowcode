@@ -19,19 +19,16 @@
 <script setup lang="ts">
 import { MessageBox } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
-import { useFormStore } from '@/stores/form';
-import { storeToRefs } from 'pinia';
-import { getFormByStatus } from '@/api/form';
-
-const { total } = storeToRefs(useFormStore())
-const published = ref<number>(0)
+import { getFormByStatus, getFormList } from '@/api/form';
 
 defineOptions({ name: 'CountCard' })
+const all = ref<number>(0)
+const published = ref<number>(0)
 
 const cardData = ref([
   {
     title: '全部',
-    count: total,
+    count: all,
   },
   {
     title: '已发布',
@@ -55,7 +52,16 @@ const getStatusForm = async () => {
   console.log('countcard res ', res)
 }
 
+const getData = async () => {
+  const res = await getFormList({
+    page: 1,
+    pageSize: 5
+  })
+  all.value = res.ftotal
+}
+
 onMounted(() => {
+  getData()
   getStatusForm()
 })
 </script>
