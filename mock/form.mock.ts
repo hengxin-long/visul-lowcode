@@ -26,13 +26,12 @@ export default defineMock([
       if (keywords?.trim()) {
         console.log('keywords ', keywords?.trim())
         const kw = keywords.toLowerCase()
-        const fdata = formData.filter((data) => {
-          return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
+        fdata = formData.filter((data) => {
+          return data.id === kw || data.formName.toLowerCase().includes(kw)
         })
 
-
         ftotal = fdata.length
-        if (fdata.length === 0) {
+        if (ftotal === 0) {
           code = httpStatus.failed.code
           msg = '暂无数据'
         }
