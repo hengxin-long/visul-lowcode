@@ -145,7 +145,7 @@ const formData = [
     id: '4',
     formName: '登录表单',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-01 08:10:00',
     schema: {
@@ -158,7 +158,7 @@ const formData = [
     id: '5',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -184,7 +184,7 @@ const formData = [
     id: '7',
     formName: '问卷表单',
     formType: '调查表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-06-02 12:10:00',
     schema: {
@@ -197,7 +197,7 @@ const formData = [
     id: '8',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -210,7 +210,7 @@ const formData = [
     id: '9',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -262,7 +262,7 @@ const formData = [
     id: '13',
     formName: '报名表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-03-03 09:10:00',
     updateTime: '2026-07-03 09:10:00',
     schema: {
@@ -275,7 +275,7 @@ const formData = [
     id: '14',
     formName: '登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-04-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -314,7 +314,7 @@ const formData = [
     id: '17',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -340,7 +340,7 @@ const formData = [
     id: '19',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
@@ -366,7 +366,7 @@ const formData = [
     id: '21',
     formName: '报名登记表',
     formType: '业务表单',
-    status: 'draft',
+    status: 'published',
     createTime: '2026-08-03 09:10:00',
     updateTime: '2026-08-03 09:10:00',
     schema: {
