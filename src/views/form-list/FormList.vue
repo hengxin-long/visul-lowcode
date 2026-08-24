@@ -21,7 +21,8 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="viewFormData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据" :default-sort="{prop: 'updateTime', order: 'descending'}">
+      <el-table :data="viewFormData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据"
+        :default-sort="{ prop: 'updateTime', order: 'descending' }">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="350" />
         <el-table-column prop="status" label="状态" width="120" />
@@ -62,12 +63,15 @@ import { getFormList, deleteById } from '@/api/form'
 import { computed, onMounted, watch } from 'vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useFormStore } from '@/stores/form'
+import { storeToRefs } from 'pinia'
 
-// 表单列表数据
-const formData = ref([])
+const formStore = useFormStore()
+
+/** 表单列表和总数 */
+const { formData, total } = storeToRefs(formStore)
 // 展示在页面的数据
 const viewFormData = ref([])
-
 // 布局
 const layout = ref<string>('total, sizes, prev, pager, next, jumper')
 // 当前页
@@ -77,7 +81,7 @@ const pageSize = ref<number>(5)
 // 选择每页显示条数
 const pageSizes = ref<number[]>([5, 10, 15, 20])
 // 总数
-const total = ref<number>(0)
+// const total = ref<number>(0)
 // 是否禁用
 const isDisable = ref<boolean>(true) // formData为空数组之前先禁用
 // 删除提示框状态
@@ -107,37 +111,21 @@ const formTypeOptions = [
   }
 ]
 
-watch(() => formData.value?.length, () => {
-  console.log('监听到了')
-  isDisable.value = formData.value?.length === 0 ? true : false
+// 监听useFormStore的formData
+watch(() => formData.value, () => {
+  viewFormData.value = formData.value
+  isDisable.value = viewFormData.value?.length === 0 ? true : false
 })
 
 // 表单数据请求函数
-const getFormData = async () => {
-  console.info(`page: ${currentPage.value}, pageSize: ${pageSize.value}`)
-  const res = await getFormList({
+const getFormData = () => {
+  console.info('page: ', currentPage.value, ' pageSize: ', pageSize.value)
+  formStore.getData({
     page: currentPage.value,
     pageSize: pageSize.value
   })
-
-  // 深拷贝，互不影响
-  formData.value = JSON.parse(JSON.stringify(res.data?.fdata))
-  viewFormData.value = JSON.parse(JSON.stringify(res.data?.fdata))
-
-  console.log('formData.value type is: ', formData.value, ' res.data.fdata type is:', res.data?.fdata)
-  total.value = res.data?.ftotal
-  console.info('res: ', res)
+  console.log('formData ', formData)
 }
-
-
-onMounted(() => {
-  getFormData()
-  if (formData.value?.length === 0) {
-    console.log('等于0')
-  } else {
-    console.log('不等于-')
-  }
-})
 
 const resetCurrentPage = () => {
   currentPage.value = 1
@@ -150,7 +138,6 @@ const handleSizeChange = (value: number) => {
 }
 
 const handleCurrentChange = (value: number) => {
-  console.log('current ', value)
   currentPage.value = value
   getFormData()
 }
@@ -173,7 +160,6 @@ const handleClose = () => {
 const handleSubmit = async () => {
   dialogVisible.value = false
   const res = await deleteById(form?.value.id)
-  console.log('发起删除请求')
   console.log(res)
   if (res.code === 200) {
     ElMessage.success('删除成功')
@@ -181,45 +167,29 @@ const handleSubmit = async () => {
   }
 }
 
-const handleFilter = async () => {
+const handleFilter = () => {
   console.log('keyword ', searchKeyword.value)
   resetCurrentPage()
 
-  const res = await getFormList({
+  formStore.getData({
     page: currentPage.value,
     pageSize: pageSize.value,
     keywords: searchKeyword.value
   })
 
-  console.log('筛选结果：', res.data)
-  
-  formData.value = JSON.parse(JSON.stringify(res.data?.fdata))
-  viewFormData.value = JSON.parse(JSON.stringify(res.data?.fdata))
-
-  total.value = res.data?.ftotal
   isPaginationVisible.value = searchKeyword.value.trim() === '' ? true : false
 }
 
-// 搜索计算属性，暂时先这样
-// const filterTableData = computed(() => {
-//   // 去掉两边空格，没有输入，全部返回
-//   if (!searchKeyword.value.trim()) return formData.value
-//   const kw = searchKeyword.value.trim().toLowerCase()
-//   console.log(kw)
-//   return formData?.value.filter((data) => {
-//     // ref 数组初始化空数组，没有写类型，被推导成 `Ref<never[]>` 后续需优化
-//     return data?.id.includes(kw) || data?.formName.toLowerCase().includes(kw)
-//   }
-//   )
-// })
-
-// 按表单类型筛选（有bug）
+// 按表单类型筛选
 const handleSelectFormType = (value: string) => {
-  console.log(value)
   console.log('formType ', formType.value)
   viewFormData.value = formData.value.filter(item => value === item.formType)
   formType.value = ''
 }
+
+onMounted(() => {
+  getFormData()
+})
 </script>
 
 <style scoped lang="scss">
