@@ -1,7 +1,8 @@
-
-import axios from 'axios'
+import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from "axios";
 import httpStatus from '@/types/http-status'
 import {ElMessage} from 'element-plus'
+import type { ApiResult, PageResult } from "@/api/common";
+
 
 const request = axios.create({
   baseURL: '',
@@ -13,13 +14,14 @@ request.interceptors.request.use(res => {
   return res
 })
 
-request.interceptors.response.use(res => {
-  console.info('响应拦截config ', res)
-  const {code, msg} = res.data
+request.interceptors.response.use(
+  (response: AxiosResponse<ApiResult>): AxiosResponse | any => {
+  console.info('响应拦截config ', response)
+  const {code, data, msg} = response.data as ApiResult
   if (code === httpStatus?.failed?.code) {
     ElMessage.error(msg || "请求失败")
   }
-  return res.data
+  return data
 })
 
 export default request

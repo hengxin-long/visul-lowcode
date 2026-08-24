@@ -10,14 +10,14 @@ export interface FormSchema {
   components: FormComponent[]
 }
 
-export type FormStatus = 'draft' | 'published'
+export type FormStatus = 'draft' | 'published' | 'close'
 
 export interface FormItem {
   id: string,
   formName: string,
   formType: string,
   status: FormStatus,
-  schema: FormSchema,
   createTime: string,
   updateTime: string
+  schema: FormSchema,
 }

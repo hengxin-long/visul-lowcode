@@ -59,19 +59,20 @@
 
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
-import { getFormList, deleteById } from '@/api/form'
-import { computed, onMounted, watch } from 'vue'
+import { deleteById } from '@/api/form'
+import { onMounted, watch } from 'vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
+import type { FormItem } from '@/types/form'
 
 const formStore = useFormStore()
 
 /** 表单列表和总数 */
 const { formData, total } = storeToRefs(formStore)
 // 展示在页面的数据
-const viewFormData = ref([])
+const viewFormData = ref<FormItem[]>([])
 // 布局
 const layout = ref<string>('total, sizes, prev, pager, next, jumper')
 // 当前页
@@ -160,8 +161,8 @@ const handleClose = () => {
 const handleSubmit = async () => {
   dialogVisible.value = false
   const res = await deleteById(form?.value.id)
-  console.log(res)
-  if (res.code === 200) {
+  console.log('delete res: ', res)
+  if (!res) {
     ElMessage.success('删除成功')
     getFormData()
   }

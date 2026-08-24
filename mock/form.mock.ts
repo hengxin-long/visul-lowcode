@@ -90,11 +90,7 @@ export default defineMock([
       formData.splice(idIndex, 1)
       return {
         code,
-        // data: {
-        //   data: formData,
-        //   total: formData.length
-        // },
-        data: {},
+        data: null,
         msg
       }
     }
@@ -112,7 +108,14 @@ const formData = [
     schema: {
       formName: '客户信息收集表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -125,7 +128,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -138,7 +148,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'checkbox',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -151,7 +168,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -164,7 +188,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -177,7 +208,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -190,7 +228,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'search',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -203,7 +248,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'search',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -216,7 +268,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'password',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -229,7 +288,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'password',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -242,7 +308,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -255,7 +328,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'checkbox',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -268,7 +348,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -281,7 +368,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -294,7 +388,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -307,7 +408,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'date',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -320,7 +428,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'date',
+          props: {
+            require: false
+          }
+        }
+      ]
     }
   },
   {
@@ -333,7 +448,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: false
+          }
+        }
+      ]
     }
   },
   {
@@ -346,7 +468,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'date',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -359,7 +488,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: false
+          }
+        }
+      ]
     }
   },
   {
@@ -372,7 +508,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'button',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -385,7 +528,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'button',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -398,7 +548,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -411,7 +568,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'input',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -424,7 +588,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'checkbox',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
   {
@@ -437,7 +608,14 @@ const formData = [
     schema: {
       formName: '报名登记表',
       formType: '业务表单',
-      components: []
+      components: [
+        {
+          componentType: 'button',
+          props: {
+            require: true
+          }
+        }
+      ]
     }
   },
 ]
