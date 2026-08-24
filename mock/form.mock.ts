@@ -7,16 +7,16 @@ export default defineMock([
     url: '/mock/form/list',
     method: 'GET',
     // query：查询参数，是 /form/list?page=1&pageSize=10 问号后面的参数
-    body(res) {
+    body({query}) {
       // 返回的数据
       let fdata = []
       // 总条数
       let ftotal = formData.length
 
       /** 当前页 */
-      const currentPage = Number(res.query.page)
-      const pageSize = Number(res.query.pageSize)
-      const keywords = res.query?.keywords
+      const currentPage = Number(query.page)
+      const pageSize = Number(query.pageSize)
+      const keywords = query?.keywords
       let code = httpStatus.success.code
       let msg = httpStatus.success.msg
 
@@ -92,6 +92,27 @@ export default defineMock([
         code,
         data: null,
         msg
+      }
+    }
+  },
+  {
+    url: '/mock/form/status',
+    method: 'GET',
+    body({query}) {
+      console.log('进入到status接口')
+      let statusForm = []
+      let total = 0
+      if (query?.status) {
+        statusForm = formData.filter(item => query.status === item.status)
+      }
+
+      return {
+        code: 200,
+        data: {
+          fdata: statusForm,
+          ftotal: statusForm.length
+        },
+        msg: 'ok'
       }
     }
   }
