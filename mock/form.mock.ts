@@ -78,16 +78,29 @@ export default defineMock([
     method: 'DELETE',
     // params：路径参数，是 /delete/:id 路径占位符得来的
     body({ params }) {
-      console.log('id: ', params.id, typeof params.id)
-
       let code = httpStatus.success.code
       let msg = httpStatus.success.msg
-      const idIndex = formData.findIndex(item => item.id === params.id)
-      if (idIndex === -1) {
-        code = httpStatus.failed.code
-        msg = '删除失败'
+
+      let indexes = []
+
+      if (params.id.includes(',')) {
+        indexes = params.id.split(',')
+        indexes.pop()
+      } else {
+        indexes = [params.id]
       }
-      formData.splice(idIndex, 1)
+      console.log('indexes: ', indexes)
+
+      for (let id of indexes) {
+        const idIndex = formData.findIndex(item => item.id === id)
+        formData.splice(idIndex, 1)
+        
+      }
+      // if (idIndex === -1) {
+      //   code = httpStatus.failed.code
+      //   msg = '删除失败'
+      // }
+
       return {
         code,
         data: null,
