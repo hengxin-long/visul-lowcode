@@ -10,19 +10,20 @@
         </ul>
       </div>
       <div class="filter">
-        <el-button @click="toBatchDelete">批量删除</el-button>
+        <el-button @click="reset">重置</el-button>
+        <el-button @click="showDelDialog">批量删除</el-button>
         <el-select v-model="formType" placeholder="选择表单类型" style="width: 240px" @change="handleSelectFormType">
           <el-option v-for="item in formTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <el-icon>
           <Search />
         </el-icon>
-        <el-input v-model="searchKeyword" class="search" type="search" placeholder="搜索表单名称" />
-        <el-button @click="handleFilter" type="primary">查询</el-button>
+        <el-input v-model="queryParams.keywords" class="search" type="search" placeholder="搜索表单名称或id" />
+        <el-button @click="handleSearch" type="primary">搜索</el-button>
       </div>
     </div>
     <div class="form-table">
-      <el-table :data="viewFormData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据"
+      <el-table ref="formTableRef" :data="viewFormData" style="width: 100%" max-height="320" :border="true" empty-text="暂无数据"
         :default-sort="{ prop: 'updateTime', order: 'descending' }" @select="handleSingleRow"
         @select-all="handleAllRow">
         <el-table-column type="selection" width="40" />
@@ -40,42 +41,28 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="total" :page-size="pageSize"
-        @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="pageSizes"
-        :current-page="currentPage" :disabled="isDisable" />
-      <!-- 删除弹框 -->
+      <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="total"
+        :page-size="queryParams.pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :page-sizes="pageSizes" :current-page="queryParams.page" :disabled="isDisable" />
+      <!-- 确认删除弹窗 -->
       <el-dialog v-model="isDelDialogVisible" title="提示" width="500" :before-close="handleClose">
         <span>确认删除表单？</span>
         <template #footer>
           <div class="dialog-footer">
-            <el-button @click="isDelDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="handleSubmit">
+            <el-button @click="handleClose">取消</el-button>
+            <el-button type="primary" @click="submitDelForm">
               确认
             </el-button>
           </div>
         </template>
       </el-dialog>
-
-      <!-- 批量删除提示框 -->
-      <el-dialog v-model="isBatDelDialogVisible" title="提示" width="500" :before-close="handleCloseBatDel">
-        <span>确认批量删除表单？</span>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-button @click="isBatDelDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="submitBatchDel">
-              确认
-            </el-button>
-          </div>
-        </template>
-      </el-dialog>
-
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
-import { deleteById, getFormByStatus } from '@/api/form'
+import { deleteById } from '@/api/form'
 import { onMounted, watch } from 'vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -83,27 +70,39 @@ import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 import type { FormItem } from '@/types/form'
 import { useRouter } from 'vue-router'
+import type { FormQueryParams } from '@/api/form/types'
+import type { TableInstance } from 'element-plus'
 
 const formStore = useFormStore()
 const router = useRouter()
+
 /** 表单列表和总数 */
 const { formData, total } = storeToRefs(formStore)
-/** 展示在页面的数据 */
+/** 视图数据 */
 const viewFormData = ref<FormItem[]>([])
+/** 视图总页数，随viewFormData动态改变 */
+const viewTotal = ref<number>(0)
+/** 
+ * el-table绑定ref属性
+ * 目的是拿到组件实例对象调用clearSelection()
+ */
+const formTableRef = ref<TableInstance>()
 /** 布局 */
 const layout = ref<string>('total, sizes, prev, pager, next, jumper')
 /** 当前页 */
-const currentPage = ref<number>(1)
+// const currentPage = ref<number>(1)
 /** 每页条数 */
-const pageSize = ref<number>(5)
+// const pageSize = ref<number>(5)
 /** 选择每页显示条数 */
 const pageSizes = ref<number[]>([5, 10, 15, 20])
+/** 表单状态 */
+// const formStatus = ref<string>('all')
 /** 是否禁用，viewFormData为空数组之前先禁用 */
 const isDisable = ref<boolean>(true)
 /** 删除提示框状态 */
 const isDelDialogVisible = ref<boolean>(false)
-/** 预删除的行（表单） */
-const form = ref()
+/** 预删除的表单，存id，批量删除 id用逗号隔开 */
+const delForm = ref<string>('')
 /** 搜索查询 */
 const searchKeyword = ref<string>('')
 /**
@@ -126,35 +125,41 @@ const formTypeOptions = [
     value: '调查表单'
   }
 ]
+/** 表单查询参数 */
+const queryParams = ref<FormQueryParams>({
+  page: 1,
+  pageSize: 5,
+  formStatus: 'all'
+})
 
 // 监听useFormStore的formData
-watch(() => formData.value, () => {
+watch(() => [formData.value, total.value], () => {
   viewFormData.value = formData.value
+  viewTotal.value = total.value
   isDisable.value = viewFormData.value?.length === 0 ? true : false
 })
 
 // 表单数据请求函数
 const getFormData = () => {
-  console.info('page: ', currentPage.value, ' pageSize: ', pageSize.value)
-  formStore.getData({
-    page: currentPage.value,
-    pageSize: pageSize.value
-  })
+  console.info('page: ', queryParams.value.page, ' pageSize: ', queryParams.value.pageSize)
+  formStore.getData(queryParams.value)
   console.log('formData ', formData)
 }
 
 const resetCurrentPage = () => {
-  currentPage.value = 1
+  queryParams.value.page = 1
 }
 
 const handleSizeChange = (value: number) => {
   resetCurrentPage()
-  pageSize.value = value
+  queryParams.value.pageSize = value
   getFormData()
 }
 
 const handleCurrentChange = (value: number) => {
-  currentPage.value = value
+  queryParams.value.page = value
+  console.log('currentPage', queryParams.value.page)
+  console.log('queryParams', queryParams.value)
   getFormData()
 }
 
@@ -163,38 +168,39 @@ const handleEdit = (row: any) => {
   router.push({ path: '/form-design' })
 }
 
-const handleDelete = (row: any) => {
-  form.value = row
-  console.log('row ', row)
-  isDelDialogVisible.value = true
-  console.log('form.value ', form.value)
+const resetDelForm = () => {
+  delForm.value = ''
 }
 
+const handleDelete = (row: any) => {
+  delForm.value = row.id
+  showDelDialog()
+  console.log('row.id ', row.id)
+}
+
+// 关闭删除弹窗
 const handleClose = () => {
   isDelDialogVisible.value = false
+  console.log('formTableRef ', formTableRef.value)
+  // 清楚选中的复选框
+  formTableRef.value?.clearSelection()
+  resetDelForm()
 }
 
-// 删除异步请求
-const handleSubmit = async () => {
-  isDelDialogVisible.value = false
-  const res = await deleteById(form?.value.id)
-  console.log('delete res: ', res)
-  if (!res) {
-    ElMessage.success('删除成功')
-    getFormData()
-  }
+// 显示删除弹窗
+const showDelDialog = () => {
+  if (delForm.value === '') return ElMessage.error('请选择要删除的表单')
+  isDelDialogVisible.value = true
+  console.log('delForm ', delForm.value)
 }
 
-const handleFilter = () => {
-  console.log('keyword ', searchKeyword.value)
+// 搜索表单
+const handleSearch = () => {
+  console.log('keyword ', queryParams.value.keywords)
   resetCurrentPage()
-
-  formStore.getData({
-    page: currentPage.value,
-    pageSize: pageSize.value,
-    keywords: searchKeyword.value
-  })
-
+  getFormData()
+  // 小bug
+  // searchKeyword.value = queryParams.value.keywords || ''
   isPaginationVisible.value = searchKeyword.value.trim() === '' ? true : false
 }
 
@@ -202,7 +208,8 @@ const handleFilter = () => {
 const handleSelectFormType = (value: string) => {
   console.log('formType ', formType.value)
   viewFormData.value = formData.value.filter(item => value === item.formType)
-  formType.value = ''
+  viewTotal.value = viewFormData.value.length
+  // formType.value = ''
 }
 
 /** 筛选表单状态按钮 */
@@ -210,25 +217,25 @@ const selectStatusBtn = [
   {
     id: '1',
     label: '全部',
-    count: 26,
+    count: formStore.all,
     type: 'all active'
   },
   {
     id: '2',
     label: '已发布',
-    count: 11,
+    count: formStore.published,
     type: 'published'
   },
   {
     id: '3',
     label: '草稿',
-    count: 4,
+    count: formStore.draft,
     type: 'draft'
   },
   {
     id: '4',
     label: '已关闭',
-    count: 5,
+    count: formStore.close,
     type: 'close'
   },
 ]
@@ -239,69 +246,64 @@ const addActiveClass = (selector: string) => {
   document.querySelector(selector)?.classList.add('active')
 }
 
+// 处理表单状态
 const handleStatusForm = async (type: string) => {
   const selector: string = `.nav ul .${type}`
+  queryParams.value.formStatus = type
 
   resetCurrentPage()
+  // 分隔类名
   if (type.includes('all')) {
     const classArr = type.split(' ')
-    addActiveClass(`.${classArr[0]}`)
+    queryParams.value.formStatus = classArr[0] as string
+    addActiveClass(`.nav ul .${classArr[0]}`)
     getFormData()
     return
   }
 
   addActiveClass(selector)
-
-  const res = await getFormByStatus({
-    page: currentPage.value,
-    pageSize: pageSize.value,
-    formStatus: type,
-  })
-  console.log('status form data: ', res)
-  formData.value = res.fdata
-  total.value = res.ftotal
+  getFormData()
 }
-/** 批量删除 */
-const batchDelete = ref<string>('')
-const isBatDelDialogVisible = ref<boolean>(false)
 
-const addIdToBatchDelete = (selection: FormItem[]) => {
+const addIdToDelForm = (selection: FormItem[]) => {
   for (let item of selection) {
-    batchDelete.value += `${item.id},`
+    delForm.value += `${item.id},`
   }
-  console.log(batchDelete)
+  console.log('选中表单后的delForm', delForm.value)
 }
 
-const toBatchDelete = () => {
-  if (batchDelete.value === '') return ElMessage.error('请选择要删除的表单')
-  isBatDelDialogVisible.value = true
-}
-
-const handleCloseBatDel = () => {
-  isBatDelDialogVisible.value = false
-}
-
+// 单选表单
 const handleSingleRow = (selection: FormItem[]) => {
   console.log('单行数据', selection)
-  batchDelete.value = ''
-  addIdToBatchDelete(selection)
+  delForm.value = ''
+  addIdToDelForm(selection)
 }
 
+// 全选表单
 const handleAllRow = (selection: FormItem[]) => {
   console.log('全选数据', selection)
   if (selection.length === 0) {
-    batchDelete.value = ''
+    delForm.value = ''
     return
   }
-  addIdToBatchDelete(selection)
+  addIdToDelForm(selection)
 }
 
-const submitBatchDel = () => {
-  const res = deleteById(batchDelete.value)
+const submitDelForm = async () => {
+  console.log('delForm: ', delForm.value)
+  const res = await deleteById(delForm.value)
+  handleClose()
   console.log(res)
-  handleCloseBatDel()
   ElMessage.success('删除成功')
+  resetDelForm()
+  formStore.countForm()
   resetCurrentPage()
+  getFormData()
+}
+
+const reset = () => {
+  queryParams.value.keywords = ''
+  formType.value = ''
   getFormData()
 }
 

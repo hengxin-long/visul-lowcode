@@ -8,42 +8,46 @@ export default defineMock([
     method: 'GET',
     // query：查询参数，是 /form/list?page=1&pageSize=10 问号后面的参数
     body({ query }) {
+      // 一类状态的表单数据
+      let statusData = []
       // 返回的数据
       let fdata = []
       // 总条数
-      let ftotal = formData.length
+      let ftotal = 0
 
       /** 当前页 */
       const currentPage = Number(query.page)
+      /** 每页条数 */
       const pageSize = Number(query.pageSize)
+      /** 表单状态 */
+      const formStatus = query.formStatus
+      /** 关键字 */
       const keywords = query?.keywords
+
       let code = httpStatus.success.code
       let msg = httpStatus.success.msg
 
       console.log('进入mock函数', typeof currentPage, typeof pageSize)
 
+      // 按状态筛选
+      if (formStatus !== 'all') {
+        statusData = formData.filter(item => formStatus === item.status)
+        console.log('statusData ', statusData)
+        ftotal = statusData.length
+        console.log('ftotal ', ftotal)
+      } else {
+        statusData = formData
+        ftotal = formData.length
+      }
+
       // 有关键字就筛选 返回
       if (keywords?.trim()) {
         console.log('keywords ', keywords?.trim())
         const kw = keywords.toLowerCase()
-        fdata = formData.filter((data) => {
+        statusData = statusData.filter((data) => {
           return data.id === kw || data.formName.toLowerCase().includes(kw)
         })
-
-        ftotal = fdata.length
-        if (ftotal === 0) {
-          code = httpStatus.failed.code
-          msg = '暂无数据'
-        }
-
-        return {
-          code,
-          data: {
-            fdata,
-            ftotal
-          },
-          msg
-        }
+        ftotal = statusData.length
       }
 
       // 当前索引
@@ -55,13 +59,13 @@ export default defineMock([
         endInd = ftotal
       }
       for (i; i < endInd; i++) {
-        fdata.push({ ...formData[i] })
+        fdata.push({ ...statusData[i] })
       }
 
       if (fdata.length === 0) {
         console.log('数组为空')
         code = httpStatus.failed.code
-        msg = httpStatus.failed.msg
+        msg = '数据返回错误'
       }
       return {
         code,
@@ -94,7 +98,7 @@ export default defineMock([
       for (let id of indexes) {
         const idIndex = formData.findIndex(item => item.id === id)
         formData.splice(idIndex, 1)
-        
+
       }
       // if (idIndex === -1) {
       //   code = httpStatus.failed.code
@@ -135,6 +139,37 @@ export default defineMock([
         data: {
           fdata: statusForm,
           ftotal: statusForm.length
+        },
+        msg: 'ok'
+      }
+    }
+  },
+  {
+    url: '/mock/form/count',
+    method: 'GET',
+    body() {
+      const status = ['published', 'draft', 'close']
+      const count = {
+        published: 0,
+        draft: 0,
+        close: 0
+      }
+
+      // 按状态筛选
+      for (let s of status) {
+        let c = formData.filter(item => s === item.status).length
+        console.log('length', c)
+        count[s] = c
+      }
+      console.log(count)
+
+      return {
+        code: 200,
+        data: {
+          all: formData.length,
+          published: count.published,
+          draft: count.draft,
+          close: count.close
         },
         msg: 'ok'
       }

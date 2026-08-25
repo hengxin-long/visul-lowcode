@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import type { FormQueryParams, FormQueryStatusParams } from './types'
-import type { PageResult } from '../common'
+import type { PageResult, CountForm } from '../common'
 import type { FormItem } from '@/types/form'
 
 const BASE_FORM_USL = '/mock/form'
@@ -25,10 +25,10 @@ export function deleteById(id: string) {
   })
 }
 
-export function getFormByStatus(params: FormQueryParams | FormQueryStatusParams) {
-  return request<unknown, PageResult<FormItem>>({
-    url: `${BASE_FORM_USL}/status`,
-    method: 'GET',
-    params
+/** 按表单状态统计表单 */
+export function countFormByStatus() {
+  return request<unknown, CountForm>({
+    url: `${BASE_FORM_USL}/count`,
+    method: 'GET'
   })
 }

@@ -19,11 +19,20 @@ export interface BaseQueryParams {
   page: number,
   /** 每页显示条数 */
   pageSize: number
+  /** 表单状态 */
+  formStatus: string
 }
 
 /** 分页接口结果 */
 export interface PageResult<T> {
   fdata: T[],
-  ftotal: number,
-  status?: string
+  ftotal: number
+}
+
+/** 按表单状态统计表单 */
+export interface CountForm {
+  all: number,
+  published: number,
+  draft: number,
+  close: number
 }
