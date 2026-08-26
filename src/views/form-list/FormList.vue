@@ -10,15 +10,17 @@
         </ul>
       </div>
       <div class="filter">
-        <el-button @click="reset">重置</el-button>
-        <el-button @click="showDelDialog">批量删除</el-button>
-        <el-select v-model="formType" placeholder="选择表单类型" style="width: 240px" @change="handleSelectFormType">
+        <el-button @click="reset" type="primary">重置</el-button>
+        <el-button @click="showDelDialog" type="primary">批量删除</el-button>
+        <el-select v-model="formType" placeholder="选择表单类型" style="width: 130px" @change="handleSelectFormType">
           <el-option v-for="item in formTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <el-icon>
-          <Search />
-        </el-icon>
-        <el-input v-model="queryParams.keywords" class="search" type="search" placeholder="搜索表单名称或id" />
+        <div class="search-dialog">
+          <el-icon class="icon-search">
+            <Search />
+          </el-icon>
+          <el-input v-model="queryParams.keywords" class="search" type="search" placeholder="搜索表单名称或id" />
+        </div>
         <el-button @click="handleSearch" type="primary">搜索</el-button>
       </div>
     </div>
@@ -353,17 +355,14 @@ onMounted(() => {
   justify-content: space-between;
   height: 50px;
 
+  .filter {
+    flex: 0.4;
+    padding: 5px;
+  }
+
   .nav {
     flex: 0.25;
     padding: 5px;
-  }
-
-  .filter {
-    flex: 0.35;
-    padding: 5px;
-  }
-
-  .nav {
     border-radius: 8px;
     background-color: rgb(233, 233, 233);
   }
@@ -375,11 +374,28 @@ onMounted(() => {
 
     .search {
       vertical-align: middle;
+      width: 200px;
+
+      /* :deep() 深度穿透，修改组件内部DOM */
+      :deep(.el-input__wrapper) {
+        padding: 0 10px 0 30px;
+      }
     }
 
     el-button {
-
       width: 50px;
+    }
+
+    .search-dialog {
+      position: relative;
+
+      .icon-search {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        z-index: 10;
+        transform: translateY(-50%);
+      }
     }
   }
 
@@ -396,7 +412,7 @@ onMounted(() => {
       text-align: center;
       line-height: 40px;
       cursor: pointer;
-      transition: all .3s;
+      
 
       .title {
         font-size: 13px;
@@ -409,11 +425,13 @@ onMounted(() => {
 
     li:hover {
       background-color: #fff;
+      transition: all .4s;
 
       .title {
         font-size: 14px;
         color: $vlcpColor;
         font-weight: 600;
+        transition: all .4s;
       }
 
       .count {
