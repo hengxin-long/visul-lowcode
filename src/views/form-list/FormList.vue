@@ -426,6 +426,15 @@ onMounted(() => {
     line-height: 40px;
   }
   
+  :deep(.el-table .el-table_1_column_2) {
+    border-right: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+  }
+
+  :deep(.el-table .el-table__header tr th) {
+    color: #fff;
+    background-color: $vlcpColor !important;
+  }
 
 }
 
