@@ -29,12 +29,12 @@
         empty-text="暂无数据" :default-sort="{ prop: 'updateTime', order: 'descending' }" @select="handleSingleRow"
         @select-all="handleAllRow">
         <el-table-column type="selection" width="40" />
-        <el-table-column prop="formName" label="表单名称" min-width="350" />
-        <el-table-column prop="status" label="状态" width="120" />
-        <el-table-column prop="createTime" label="创建时间" width="200" />
-        <el-table-column prop="updateTime" sortable label="最后修改" width="200" />
-        <el-table-column prop="formType" label="类型" width="180" />
-        <el-table-column label="操作" min-width="120">
+        <el-table-column prop="formName" label="表单名称" min-width="220" />
+        <el-table-column prop="status" label="状态" min-width="120" />
+        <el-table-column prop="createTime" label="创建时间" min-width="180" />
+        <el-table-column prop="updateTime" sortable label="最后修改" min-width="180" />
+        <el-table-column prop="formType" label="类型" max-width="180" />
+        <el-table-column label="操作" width="140">
           <template #default="scope">
             <el-button type="primary" size="small" @click="handleEdit(scope.row)">
               编辑
