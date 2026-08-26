@@ -8,11 +8,11 @@ export default defineMock([
     method: 'GET',
     // query：查询参数，是 /form/list?page=1&pageSize=10 问号后面的参数
     body({ query }) {
-      // 一类状态的表单数据
+      /** 一类状态的表单数据 */
       let statusData = []
-      // 返回的数据
+      /** 返回的数据 */
       let fdata = []
-      // 总条数
+      /** 总条数 */
       let ftotal = 0
 
       /** 当前页 */
@@ -32,9 +32,8 @@ export default defineMock([
       // 按状态筛选
       if (formStatus !== 'all') {
         statusData = formData.filter(item => formStatus === item.status)
-        console.log('statusData ', statusData)
+        console.info('statusData ', statusData)
         ftotal = statusData.length
-        console.log('ftotal ', ftotal)
       } else {
         statusData = formData
         ftotal = formData.length
@@ -42,7 +41,6 @@ export default defineMock([
 
       // 有关键字就筛选 返回
       if (keywords?.trim()) {
-        console.log('keywords ', keywords?.trim())
         const kw = keywords.toLowerCase()
         statusData = statusData.filter((data) => {
           return data.id === kw || data.formName.toLowerCase().includes(kw)
@@ -63,9 +61,9 @@ export default defineMock([
       }
 
       if (fdata.length === 0) {
-        console.log('数组为空')
+        console.info('数组为空')
         code = httpStatus.failed.code
-        msg = '数据返回错误'
+        msg = '暂无数据'
       }
       return {
         code,
@@ -84,63 +82,30 @@ export default defineMock([
     body({ params }) {
       let code = httpStatus.success.code
       let msg = httpStatus.success.msg
-
+      // 表单id
       let indexes = []
 
+      // 多id分割
       if (params.id.includes(',')) {
         indexes = params.id.split(',')
+        // 删除最后一项（为空）
         indexes.pop()
       } else {
         indexes = [params.id]
       }
       console.log('indexes: ', indexes)
 
+      // 筛选
       for (let id of indexes) {
         const idIndex = formData.findIndex(item => item.id === id)
         formData.splice(idIndex, 1)
 
       }
-      // if (idIndex === -1) {
-      //   code = httpStatus.failed.code
-      //   msg = '删除失败'
-      // }
 
       return {
         code,
         data: null,
         msg
-      }
-    }
-  },
-  {
-    url: '/mock/form/status',
-    method: 'GET',
-    body({ query }) {
-      console.log('进入到status接口')
-      let statusForm = []
-      let total = 0
-      if (query?.status) {
-        statusForm = formData.filter(item => query.status === item.status)
-        return {
-          code: 200,
-          data: {
-            fdata: statusForm,
-            ftotal: statusForm.length
-          },
-          msg: 'ok'
-        }
-      }
-
-      // 按表单状态筛选
-      statusForm = formData.filter(item => query.formStatus === item.status)
-
-      return {
-        code: 200,
-        data: {
-          fdata: statusForm,
-          ftotal: statusForm.length
-        },
-        msg: 'ok'
       }
     }
   },
