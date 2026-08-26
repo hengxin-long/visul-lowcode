@@ -1,6 +1,6 @@
 // import { defineMock } from './base'
 import { defineMock } from 'vite-plugin-mock-dev-server'
-import httpStatus from '../src/types/http-status'
+import { ApiCodeEnum } from '../src/enums/api'
 
 export default defineMock([
   {
@@ -24,8 +24,8 @@ export default defineMock([
       /** 关键字 */
       const keywords = query?.keywords
 
-      let code = httpStatus.success.code
-      let msg = httpStatus.success.msg
+      let code = ApiCodeEnum.SUCCESS
+      let msg = '数据获取成功'
 
       console.log('进入mock函数', typeof currentPage, typeof pageSize)
 
@@ -62,7 +62,7 @@ export default defineMock([
 
       if (fdata.length === 0) {
         console.info('数组为空')
-        code = httpStatus.failed.code
+        code = ApiCodeEnum.NOT_FOUND
         msg = '暂无数据'
       }
       return {
@@ -80,8 +80,8 @@ export default defineMock([
     method: 'DELETE',
     // params：路径参数，是 /delete/:id 路径占位符得来的
     body({ params }) {
-      let code = httpStatus.success.code
-      let msg = httpStatus.success.msg
+      let code = ApiCodeEnum.NO_CONTENT
+      let msg = '删除成功'
       // 表单id
       let indexes = []
 
@@ -99,7 +99,6 @@ export default defineMock([
       for (let id of indexes) {
         const idIndex = formData.findIndex(item => item.id === id)
         formData.splice(idIndex, 1)
-
       }
 
       return {
@@ -129,14 +128,9 @@ export default defineMock([
       console.log(count)
 
       return {
-        code: 200,
-        data: {
-          all: formData.length,
-          published: count.published,
-          draft: count.draft,
-          close: count.close
-        },
-        msg: 'ok'
+        code: ApiCodeEnum.SUCCESS,
+        data: count,
+        msg: '成功'
       }
     }
   }

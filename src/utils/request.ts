@@ -1,7 +1,7 @@
 import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from "axios";
-import httpStatus from '@/types/http-status'
+import { ApiCodeEnum } from "@/enums/api";
 import {ElMessage} from 'element-plus'
-import type { ApiResult, PageResult } from "@/api/common";
+import type { ApiResult } from "@/api/common";
 
 
 const request = axios.create({
@@ -18,7 +18,7 @@ request.interceptors.response.use(
   (response: AxiosResponse<ApiResult>): AxiosResponse | any => {
   console.info('响应拦截config ', response)
   const {code, data, msg} = response.data as ApiResult
-  if (code === httpStatus?.failed?.code) {
+  if (code === ApiCodeEnum.NOT_FOUND || code === ApiCodeEnum.BAD_REQUEST) {
     ElMessage.error(msg || "请求失败")
   }
   return data
