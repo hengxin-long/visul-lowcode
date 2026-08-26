@@ -29,7 +29,14 @@
         empty-text="暂无数据" :default-sort="{ prop: 'updateTime', order: 'descending' }" @select="handleSingleRow"
         @select-all="handleAllRow">
         <el-table-column type="selection" width="40" />
-        <el-table-column prop="formName" label="表单名称" min-width="220" />
+        <el-table-column prop="formName" label="表单名称" min-width="230">
+          <!-- 定义插槽实现指定单元格触发点击事件 -->
+          <template #default="{ row }">
+            <div @click="browseForm(row)" class="form-name">
+              {{ row.formName }}
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column prop="status" label="状态" min-width="120" />
         <el-table-column prop="createTime" label="创建时间" min-width="180" />
         <el-table-column prop="updateTime" sortable label="最后修改" min-width="180" />
@@ -60,6 +67,16 @@
           </div>
         </template>
       </el-dialog>
+      <!-- 浏览表单弹窗 -->
+      <el-dialog v-model="isBrowseFormVisible" title="提示" width="500" :before-close="closeBrowseForm">
+        <span>表单</span>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="handleEdit">编辑</el-button>
+            <el-button type="primary" @click="closeBrowseForm">确认</el-button>
+          </div>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -76,6 +93,7 @@ import type { FormItem } from '@/types/form'
 import { useRouter } from 'vue-router'
 import type { FormQueryParams } from '@/api/form/types'
 import type { TableInstance } from 'element-plus'
+import type { DefaultRow, TableColumnCtx } from 'element-plus/es/components/table/src/table/defaults.mjs'
 
 const formStore = useFormStore()
 const router = useRouter()
@@ -146,6 +164,20 @@ const resetCurrentPage = () => {
   queryParams.value.page = 1
 }
 
+/** 重置预删除的表单 */
+const resetDelForm = () => {
+  delForm.value = ''
+}
+
+/** 重置表单类型和搜索框关键字 */
+const reset = () => {
+  queryParams.value.keywords = ''
+  formType.value = ''
+  queryParams.value.page = 1
+  queryParams.value.pageSize = 5
+  getFormData()
+}
+
 /** 
  * 每页显示条数改变时调用
  * @param value 新的每页显示条数
@@ -165,30 +197,6 @@ const handleCurrentChange = (value: number) => {
   getFormData()
 }
 
-/** 
- * 点击编辑跳转到表单设计器
- * @param row 单个表单实例
-*/
-const handleEdit = (row: any) => {
-  console.log('编辑的row：', row)
-  router.push({ path: '/form-design' })
-}
-
-/** 重置预删除的表单 */
-const resetDelForm = () => {
-  delForm.value = ''
-}
-
-/** 
- * 表单单个删除
- * @param row 表单实例
-*/
-const handleDelete = (row: any) => {
-  delForm.value = row.id
-  showDelDialog()
-  console.log('row.id ', row.id)
-}
-
 /** 关闭确认删除弹窗 */
 const handleClose = () => {
   isDelDialogVisible.value = false
@@ -203,6 +211,16 @@ const showDelDialog = () => {
   if (delForm.value === '') return ElMessage.error('请选择要删除的表单')
   isDelDialogVisible.value = true
   console.log('delForm ', delForm.value)
+}
+
+/** 
+ * 表单单个删除
+ * @param row 表单实例
+*/
+const handleDelete = (row: any) => {
+  delForm.value = row.id
+  showDelDialog()
+  console.log('row.id ', row.id)
 }
 
 /** 表单名称或id搜索表单 */
@@ -329,13 +347,29 @@ const submitDelForm = async () => {
   getFormData()
 }
 
-/** 重置表单类型和搜索框关键字 */
-const reset = () => {
-  queryParams.value.keywords = ''
-  formType.value = ''
-  queryParams.value.page = 1
-  queryParams.value.pageSize = 5
-  getFormData()
+const isBrowseFormVisible = ref<boolean>(false)
+const toEditForm = ref<FormItem>()
+
+/** 关闭浏览表单弹窗 */
+const closeBrowseForm = () => {
+  isBrowseFormVisible.value = false
+  toEditForm.value = undefined
+}
+
+/** 
+ * 点击编辑跳转到表单设计器
+ * @param row 单个表单实例
+*/
+const handleEdit = (row: FormItem) => {
+  console.log('编辑的row：', row)
+  toEditForm.value = row
+  router.push({ path: '/form-design' })
+}
+
+const browseForm = (row: FormItem) => {
+  isBrowseFormVisible.value = true
+  toEditForm.value = row
+  console.log('浏览表单 ', row)
 }
 
 onMounted(() => {
@@ -344,7 +378,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-
 .form-body {
   width: 100%;
   margin-top: 20px;
@@ -352,7 +385,7 @@ onMounted(() => {
 
 .form-table {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 20px;
 
   :deep(.el-table) {
     border-radius: 10px 10px 0 0;
@@ -370,6 +403,30 @@ onMounted(() => {
     border: 1px solid var(--border-color);
     border-top: 0;
   }
+
+  .col-pointer {
+    cursor: pointer;
+  }
+
+  .form-name {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  :deep(.el-table .el-table__cell) {
+    padding: 0;
+    height: 40px;
+    
+  }
+
+  :deep(.el-table .el-table__cell .cell) {
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+  }
+  
+
 }
 
 .form-nav {
