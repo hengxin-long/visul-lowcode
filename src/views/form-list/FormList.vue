@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table ref="formTableRef" :data="viewFormData" style="width: 100%" max-height="320" :border="true"
+      <el-table ref="formTableRef" :data="viewFormData" style="width: 100%" max-height="320" :border="false"
         empty-text="暂无数据" :default-sort="{ prop: 'updateTime', order: 'descending' }" @select="handleSingleRow"
         @select-all="handleAllRow">
         <el-table-column type="selection" width="40" />
@@ -43,9 +43,11 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="total"
-        :page-size="queryParams.pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :page-sizes="pageSizes" :current-page="queryParams.page" :disabled="isDisable" />
+      <div class="pagination">
+        <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="total"
+          :page-size="queryParams.pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :page-sizes="pageSizes" :current-page="queryParams.page" :disabled="isDisable" />
+      </div>
       <!-- 确认删除弹窗 -->
       <el-dialog v-model="isDelDialogVisible" title="提示" width="500" :before-close="handleClose">
         <span>确认删除表单？</span>
@@ -340,6 +342,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+
 .form-body {
   width: 100%;
   margin-top: 20px;
@@ -347,7 +350,24 @@ onMounted(() => {
 
 .form-table {
   width: 100%;
-  margin-top: 15px;
+  margin-top: 30px;
+
+  :deep(.el-table) {
+    border-radius: 10px 10px 0 0;
+    border: 1px solid var(--border-color);
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: right;
+    padding: 0 25px;
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid var(--border-color);
+    border-top: 0;
+  }
 }
 
 .form-nav {
@@ -412,7 +432,7 @@ onMounted(() => {
       text-align: center;
       line-height: 40px;
       cursor: pointer;
-      
+
 
       .title {
         font-size: 13px;
