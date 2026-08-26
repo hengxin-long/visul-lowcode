@@ -333,6 +333,8 @@ const submitDelForm = async () => {
 const reset = () => {
   queryParams.value.keywords = ''
   formType.value = ''
+  queryParams.value.page = 1
+  queryParams.value.pageSize = 5
   getFormData()
 }
 
