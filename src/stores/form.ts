@@ -6,13 +6,23 @@ import type { FormItem } from '@/types/form'
 
 export const useFormStore = defineStore('form', () => {
 
+  /** 表单分页列表 */
   const formData = ref<FormItem[]>([])
+  /** 总页数 */
   const total = ref<number>(0)
+  /** 全部 */
   const all = ref<number>(0)
+  /** 已发布 */
   const published = ref<number>(0)
+  /** 草稿 */
   const draft = ref<number>(0)
+  /** 已关闭 */
   const close = ref<number>(0)
 
+  /**
+   * 获取表单数据
+   * @param params 表单分页查询参数实例
+   */
   const getData = async (params: FormQueryParams) => {
     const res = await getFormList(params)
     formData.value = res.fdata
@@ -20,6 +30,7 @@ export const useFormStore = defineStore('form', () => {
     console.info('store res: ', res)
   }
 
+  /** 获取表单状态类型的统计数 */
   const countForm = async () => {
     // 请求表单统计接口
     const res = await countFormByStatus()
