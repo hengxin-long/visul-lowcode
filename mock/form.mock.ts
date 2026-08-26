@@ -125,6 +125,7 @@ export default defineMock([
         console.log('length', c)
         count[s] = c
       }
+      count.all = formData.length
       console.log(count)
 
       return {
