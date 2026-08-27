@@ -8,14 +8,7 @@
       <div class="components">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item title="基础字段" name="1">
-            <div class="filed">
-              文本框
-            </div>
-            <div class="filed">
-              密码框
-            </div>
-            <div class="filed">
-              日期
+            <div v-for="form in forms" :class="form.className" :data-form-schema="JSON.stringify(form.formSchema)">{{ form.title }}
             </div>
           </el-collapse-item>
           <el-collapse-item title="Feedback" name="2">
@@ -42,6 +35,83 @@ import { onMounted, ref } from 'vue';
 import Sortable from 'sortablejs'
 
 const activeName = ref('1')
+const forms = ref([
+  {
+    className: 'form',
+    icon: '',
+    title: '输入框',
+    formSchema: {
+      id: '1',
+      formName: '客户信息收集表',
+      formType: '业务表单',
+      status: 'published', // draft草稿 / published已发布
+      createTime: '2026-08-01 10:20:00',
+      updateTime: '2026-08-02 14:30:00',
+      schema: {
+        formName: '客户信息收集表',
+        formType: '业务表单',
+        components: [
+          {
+            componentType: 'input',
+            props: {
+              require: true
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    className: 'form',
+    icon: '',
+    title: '密码框',
+    formSchema: {
+      id: '2',
+      formName: '登记表',
+      formType: '业务表单',
+      status: 'draft',
+      createTime: '2026-05-03 09:10:00',
+      updateTime: '2026-06-03 09:10:00',
+      schema: {
+        formName: '报名登记表',
+        formType: '业务表单',
+        components: [
+          {
+            componentType: 'input',
+            props: {
+              require: true
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    className: 'form',
+    icon: '',
+    title: '日期',
+    formSchema: {
+      id: '3',
+      formName: '申请表',
+      formType: '业务表单',
+      status: 'draft',
+      createTime: '2026-08-03 09:10:00',
+      updateTime: '2026-08-03 09:10:00',
+      schema: {
+        formName: '报名登记表',
+        formType: '业务表单',
+        components: [
+          {
+            componentType: 'checkbox',
+            props: {
+              require: true
+            }
+          }
+        ]
+      }
+    }
+  }
+])
 
 onMounted(() => {
   const form = document.querySelector('.el-collapse-item__content') as HTMLElement
@@ -98,15 +168,15 @@ onMounted(() => {
       gap: 10px;
     }
 
-    .filed {
-      width: 70px;
-      height: 70px;
+    .form {
+      width: 80px;
+      height: 50px;
       background-color: #fff;
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      font-size: 18px;
+      font-size: 14px;
       text-align: center;
-      line-height: 70px;
+      line-height: 50px;
       cursor: pointer;
     }
   }

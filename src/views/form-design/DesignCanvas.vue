@@ -24,8 +24,12 @@ onMounted(() => {
       put: true
     },
     animation: 150,
-    onAdd: (item: any) => {
-      console.log('添加到canvas', item)
+    onAdd: (evt: any) => {
+      // evt.item.dataset 拿到自定义属性
+      console.log('添加到canvas', evt.item.dataset)
+      // 反序列化
+      const formSchema = ref(JSON.parse(evt.item.dataset.formSchema))
+      console.log('拿到formSchama ', formSchema.value)
     }
   });
 })
