@@ -21,7 +21,7 @@
 .designer-components {
   width: 100%;
   height: calc(100vh - 60px);
-  padding: 25px 20px;
+  padding: 22px 20px;
 
   .title {
     display: flex;
