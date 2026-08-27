@@ -9,7 +9,9 @@
           <ComponentLibrary />
         </el-aside>
         <el-main>Main</el-main>
-        <el-aside width="250px">Aside</el-aside>
+        <el-aside width="250px">
+          <PropsPanel />
+        </el-aside>
       </el-container>
     </el-container>
   </div>
@@ -18,6 +20,7 @@
 <script setup lang="ts">
 import DesignHeader from './DesignHeader.vue';
 import ComponentLibrary from './ComponentLibrary.vue';
+import PropsPanel from './PropsPanel.vue';
 </script>
 
 <style scoped lang="scss">
