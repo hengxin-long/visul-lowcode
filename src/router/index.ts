@@ -17,15 +17,16 @@ const router = createRouter({
             breadcrumb: ['工作台', '全部表单']
           }
         },
-        {
-          path: '/form-design',
-          component: import('@/views/form-design.vue'),
-          meta: {
-            title: '新建表单',
-            breadcrumb: ['工作台', '新建表单']
-          }
-        }
+
       ]
+    },
+    {
+      path: '/form-design',
+      component: import('@/views/form-design/index.vue'),
+      meta: {
+        title: '新建表单',
+        breadcrumb: ['工作台', '新建表单']
+      }
     }
   ],
 })
