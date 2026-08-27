@@ -6,9 +6,11 @@
       </el-header>
       <el-container>
         <el-aside width="250px">
-          <ComponentLibrary />
+          <DesignComponentLibrary />
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main>
+          <DesignCanvas />
+        </el-main>
         <el-aside width="250px">
           <PropsPanel />
         </el-aside>
@@ -19,8 +21,9 @@
 
 <script setup lang="ts">
 import DesignHeader from './DesignHeader.vue';
-import ComponentLibrary from './ComponentLibrary.vue';
+import DesignComponentLibrary from './DesignComponentLibrary.vue';
 import PropsPanel from './PropsPanel.vue';
+import DesignCanvas from './DesignCanvas.vue';
 </script>
 
 <style scoped lang="scss">
@@ -35,5 +38,9 @@ import PropsPanel from './PropsPanel.vue';
 :deep(.el-aside) {
   background-color: #fff;
   box-shadow: 1px 0 var(--border-color);
+}
+
+:deep(.el-main) {
+  padding: 20px 140px;
 }
 </style>
