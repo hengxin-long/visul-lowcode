@@ -5,9 +5,11 @@
         <DesignHeader />
       </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="250px">
+          <ComponentLibrary />
+        </el-aside>
         <el-main>Main</el-main>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="250px">Aside</el-aside>
       </el-container>
     </el-container>
   </div>
@@ -15,6 +17,7 @@
 
 <script setup lang="ts">
 import DesignHeader from './DesignHeader.vue';
+import ComponentLibrary from './ComponentLibrary.vue';
 </script>
 
 <style scoped lang="scss">
@@ -24,5 +27,10 @@ import DesignHeader from './DesignHeader.vue';
   align-items: center;
   background-color: #fff;
   border: 1px solid var(--border-color);
+}
+
+:deep(.el-aside) {
+  background-color: #fff;
+  box-shadow: 1px 0 var(--border-color);
 }
 </style>
