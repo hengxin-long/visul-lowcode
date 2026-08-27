@@ -5,14 +5,30 @@
       <h3 class="form-name">{{ formName }}</h3>
     </div>
     <div class="form-canvas">
-      asjl 
+
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import Sortable from 'sortablejs'
 
+
+onMounted(() => {
+  const canvas = document.querySelector('.form-canvas') as HTMLElement
+  new Sortable(canvas, {
+    group: {
+      name: 'form',
+      pull: 'clone',
+      put: true
+    },
+    animation: 150,
+    onAdd: (item: any) => {
+      console.log('添加到canvas', item)
+    }
+  });
+})
 
 const formName = ref('登录表单')
 </script>
@@ -22,7 +38,7 @@ const formName = ref('登录表单')
   .form-name {
     margin: 3px 0 17px 0;
   }
-  
+
   .form-canvas {
     width: 100%;
     min-height: 400px;
@@ -32,4 +48,13 @@ const formName = ref('登录表单')
     border-radius: 15px;
   }
 }
+.filed {
+      width: 70px;
+      height: 70px;
+      background-color: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 25px;
+    }
+
 </style>

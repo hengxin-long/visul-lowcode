@@ -8,24 +8,24 @@
       <div class="components">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item title="基础字段" name="1">
-            <div class="filed" @click="handleClick">
-              字段
+            <div class="filed">
+              文本框
             </div>
-            <div class="filed" @click="handleClick">
-              字段
+            <div class="filed">
+              密码框
             </div>
-            <div class="filed" @click="handleClick">
-              字段
+            <div class="filed">
+              日期
             </div>
           </el-collapse-item>
           <el-collapse-item title="Feedback" name="2">
             <div>
-              字段
+              单选
             </div>
           </el-collapse-item>
           <el-collapse-item title="Efficiency" name="3">
             <div>
-              字段
+              多选
             </div>
           </el-collapse-item>
         </el-collapse>
@@ -38,23 +38,37 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Sortable from 'sortablejs'
 
 const activeName = ref('1')
 
-const handleClick = () => {
-  const example2Left = document.querySelector('.el-collapse-item__content') as HTMLElement
-  const item = new Sortable(example2Left, {
-    group: 'shared', // set both lists to same group
-    animation: 150,
-    disabled: false,
-    ghostClass: 'container',
+onMounted(() => {
+  const form = document.querySelector('.el-collapse-item__content') as HTMLElement
+  new Sortable(form, {
+    group: {
+      name: 'shared', // 组名
+      pull: 'clone', // 克隆
+      put: false, // 是否可放入
+    },
+    sort: false, // 列表内是否可排序
+    animation: 150, // 动画
+    ghostClass: 'form-canvas',
+    onStart: (item: any) => {
+      console.log('开始拖拽', item)
+    },
+    onEnd: (evt: any) => {
+      console.log(`元素从 ${evt.oldIndex} 移动到 ${evt.newIndex}`)
+    }
   });
-  console.log(item)
-}
+})
 
-
+// group: {
+//     name: "shared",        // 分组名称
+//     pull: true,           // 是否可以从此列表拖拽出元素 (true/false/function/"clone")
+//     put: true,            // 是否可以放入元素到此列表 (true/false/function/array)
+//     revertClone: false    // 克隆模式下是否还原克隆元素
+// }
 
 
 </script>
@@ -90,7 +104,10 @@ const handleClick = () => {
       background-color: #fff;
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      font-size: 25px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 70px;
+      cursor: pointer;
     }
   }
 
