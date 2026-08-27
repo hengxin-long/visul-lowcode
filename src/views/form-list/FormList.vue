@@ -404,10 +404,6 @@ onMounted(() => {
     border-top: 0;
   }
 
-  .col-pointer {
-    cursor: pointer;
-  }
-
   .form-name {
     width: 100%;
     height: 100%;
