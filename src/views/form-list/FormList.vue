@@ -426,14 +426,22 @@ onMounted(() => {
     line-height: 40px;
   }
   
+  :deep(.el-table .el-table__header tr th) {
+    color: #fff;
+    background-color: $vlcpColor;
+  }
+
   :deep(.el-table .el-table_1_column_2) {
     border-right: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
   }
 
-  :deep(.el-table .el-table__header tr th) {
-    color: #fff;
-    background-color: $vlcpColor !important;
+  :deep(.el-table .descending .sort-caret.descending) {
+    border-top-color: var(--sort-button-color);
+  }
+
+  :deep(.el-table .ascending .sort-caret.ascending) {
+    border-bottom-color: var(--sort-button-color);
   }
 
 }

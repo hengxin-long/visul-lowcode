@@ -139,6 +139,43 @@ console.log('height ', height)
     :deep(.el-scrollbar) {
       height: calc(100% - 70px);
     }
+
+    :deep(.el-menu-item-group__title) {
+      position: relative;
+    }
+
+    :deep(.el-menu-item-group__title::after) {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        width: 150px;
+        height: 2px;
+        background-color: $vlcpColor;
+    }
+
+    :deep(.el-menu-item-group .el-menu-item) {
+      position: relative;
+    }
+
+    :deep(.el-menu-item-group .el-menu-item::after) {
+      content: '';
+      position: absolute;
+      bottom: 1px;
+      left: 20px;
+      // 压缩为0宽度
+      transform: scaleX(0);
+      // 变换原点设置在左边
+      transform-origin: left center;
+      width: 120px;
+      height: 1px;
+      background-color: $vlcpColor;
+      transition: all cubic-bezier(0.39, 0.575, 0.565, 1) .3s;
+    }
+
+    :deep(.el-menu-item-group .el-menu-item:hover::after) {
+      transform: scaleX(1);
+    }
   }
 
   .content {

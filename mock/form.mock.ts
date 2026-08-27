@@ -32,7 +32,7 @@ export default defineMock([
       // 按状态筛选
       if (formStatus !== 'all') {
         statusData = formData.filter(item => formStatus === item.status)
-        console.info('statusData ', statusData)
+        console.info('statusData ', statusData.length)
         ftotal = statusData.length
       } else {
         statusData = formData
