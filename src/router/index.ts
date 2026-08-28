@@ -21,7 +21,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/form-design',
+      path: '/form-design/:id',
       component: import('@/views/form-design/index.vue'),
       meta: {
         title: '新建表单',
