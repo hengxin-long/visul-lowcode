@@ -21,7 +21,8 @@ const router = createRouter({
       ]
     },
     {
-      path: '/form-design/:id',
+      // id可选，新建表单不传id，编辑表单传id
+      path: '/form-design/:id?',
       component: import('@/views/form-design/index.vue'),
       meta: {
         title: '新建表单',
