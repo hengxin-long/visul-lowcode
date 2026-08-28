@@ -13,9 +13,26 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Sortable from 'sortablejs'
+import type { FormItem } from '@/types/form';
 
+// 初始化新建表单
+const form = ref<FormItem>()
 
 onMounted(() => {
+  // 初始化新表单
+  form.value = {
+    id: '1',
+    formName: '',
+    formType: '',
+    status: 'draft', // draft草稿 / published已发布
+    createTime: '',
+    updateTime: '',
+    schema: {
+      formName: '',
+      formType: '',
+      components: []
+    }
+  }
   const canvas = document.querySelector('.form-canvas') as HTMLElement
   new Sortable(canvas, {
     group: {
