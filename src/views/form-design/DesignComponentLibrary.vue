@@ -8,7 +8,8 @@
       <div class="components">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item title="基础字段" name="1">
-            <div v-for="form in forms" :class="form.className" :data-form-schema="JSON.stringify(form.formSchema)">{{ form.title }}
+            <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+              {{field.label }}
             </div>
           </el-collapse-item>
           <el-collapse-item title="Feedback" name="2">
@@ -31,91 +32,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import Sortable from 'sortablejs'
+import { baseFields } from '@/utils/materialList';
+import type { FormComponent } from '@/types/form'
 
 const activeName = ref('1')
-const forms = ref([
-  {
-    className: 'form',
-    icon: '',
-    title: '输入框',
-    formSchema: {
-      id: '1',
-      formName: '客户信息收集表',
-      formType: '业务表单',
-      status: 'published', // draft草稿 / published已发布
-      createTime: '2026-08-01 10:20:00',
-      updateTime: '2026-08-02 14:30:00',
-      schema: {
-        formName: '客户信息收集表',
-        formType: '业务表单',
-        components: [
-          {
-            componentType: 'input',
-            props: {
-              require: true
-            }
-          }
-        ]
-      }
-    }
-  },
-  {
-    className: 'form',
-    icon: '',
-    title: '密码框',
-    formSchema: {
-      id: '2',
-      formName: '登记表',
-      formType: '业务表单',
-      status: 'draft',
-      createTime: '2026-05-03 09:10:00',
-      updateTime: '2026-06-03 09:10:00',
-      schema: {
-        formName: '报名登记表',
-        formType: '业务表单',
-        components: [
-          {
-            componentType: 'input',
-            props: {
-              require: true
-            }
-          }
-        ]
-      }
-    }
-  },
-  {
-    className: 'form',
-    icon: '',
-    title: '日期',
-    formSchema: {
-      id: '3',
-      formName: '申请表',
-      formType: '业务表单',
-      status: 'draft',
-      createTime: '2026-08-03 09:10:00',
-      updateTime: '2026-08-03 09:10:00',
-      schema: {
-        formName: '报名登记表',
-        formType: '业务表单',
-        components: [
-          {
-            componentType: 'checkbox',
-            props: {
-              require: true
-            }
-          }
-        ]
-      }
-    }
-  }
-])
+const fields = ref<FormComponent[]>(baseFields)
+let sortbale: Sortable
 
 onMounted(() => {
   const form = document.querySelector('.el-collapse-item__content') as HTMLElement
-  new Sortable(form, {
+  sortbale = new Sortable(form, {
     group: {
       name: 'shared', // 组名
       pull: 'clone', // 克隆
@@ -124,13 +52,11 @@ onMounted(() => {
     sort: false, // 列表内是否可排序
     animation: 150, // 动画
     ghostClass: 'form-canvas',
-    onStart: (item: any) => {
-      console.log('开始拖拽', item)
-    },
-    onEnd: (evt: any) => {
-      console.log(`元素从 ${evt.oldIndex} 移动到 ${evt.newIndex}`)
-    }
   });
+})
+
+onUnmounted(() => {
+  sortbale?.destroy()
 })
 
 // group: {
@@ -168,7 +94,7 @@ onMounted(() => {
       gap: 10px;
     }
 
-    .form {
+    .field {
       width: 80px;
       height: 50px;
       background-color: #fff;

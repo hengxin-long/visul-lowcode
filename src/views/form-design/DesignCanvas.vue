@@ -5,18 +5,25 @@
       <h3 class="form-name">{{ formName }}</h3>
     </div>
     <div class="form-canvas">
-
+      <div class="form-component" v-for="com in form?.schema.components" :key="com.componentType">
+        <!-- 动态渲染组件 -->
+        <component :is="map[com.componentType]" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import Sortable from 'sortablejs'
 import type { FormItem } from '@/types/form';
+import { componentMap } from '@/utils/componentMap';
 
+const map = componentMap
 // 初始化新建表单
 const form = ref<FormItem>()
+const formName = ref('登录表单')
+let sortbale: Sortable
 
 onMounted(() => {
   // 初始化新表单
@@ -24,8 +31,8 @@ onMounted(() => {
     id: '1',
     formName: '',
     formType: '',
-    status: 'draft', // draft草稿 / published已发布
-    createTime: '',
+    status: 'draft',
+    createTime: new Date().toLocaleTimeString(),
     updateTime: '',
     schema: {
       formName: '',
@@ -34,24 +41,38 @@ onMounted(() => {
     }
   }
   const canvas = document.querySelector('.form-canvas') as HTMLElement
-  new Sortable(canvas, {
+  sortbale = new Sortable(canvas, {
     group: {
       name: 'form',
-      pull: 'clone',
       put: true
     },
     animation: 150,
+    // 组件拖拽到画布上的回调
     onAdd: (evt: any) => {
-      // evt.item.dataset 拿到自定义属性
-      console.log('添加到canvas', evt.item.dataset)
       // 反序列化
-      const formSchema = ref(JSON.parse(evt.item.dataset.formSchema))
-      console.log('拿到formSchama ', formSchema.value)
+      const field = ref(evt.item.dataset.field)
+
+      // console.log('拿到formSchama ', field.value)
+      form.value?.schema.components.push(JSON.parse(field.value))
+      console.log('components ', form.value?.schema.components)
+
+      // 拖拽的目标容器不是画布直接返回
+      if (evt.to !== canvas) return
+      // 加到components数组后移出dom元素，只留schema
+      if (evt.item) evt.item.remove()
+    },
+    onChange: ({ oldIndex, newIndex }) => {
+      // 从画布上移动结束后位置索引
+      console.log(`在画布上元素从 ${oldIndex} 移动到 ${newIndex}`)
+      console.log(form.value?.schema.components)
     }
   });
 })
 
-const formName = ref('登录表单')
+onUnmounted(() => {
+  sortbale?.destroy()
+})
+
 </script>
 
 <style scoped lang="scss">
@@ -69,13 +90,17 @@ const formName = ref('登录表单')
     border-radius: 15px;
   }
 }
-.filed {
-      width: 70px;
-      height: 70px;
-      background-color: #fff;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 25px;
-    }
 
+.field {
+  display: none;
+  width: 80px;
+  height: 50px;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+}
 </style>
