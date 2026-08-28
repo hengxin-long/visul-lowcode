@@ -72,7 +72,7 @@
         <span>表单</span>
         <template #footer>
           <div class="dialog-footer">
-            <el-button @click="handleEdit">编辑</el-button>
+            <el-button @click="toDesigner">编辑</el-button>
             <el-button type="primary" @click="closeBrowseForm">确认</el-button>
           </div>
         </template>
@@ -350,6 +350,13 @@ const submitDelForm = async () => {
 const isBrowseFormVisible = ref<boolean>(false)
 const toEditForm = ref<FormItem>()
 
+/** 带id参数跳转到 /form-design 页面 */
+const toDesigner = () => {
+  if (!toEditForm.value) return ElMessage.warning('请选择需要编辑的表单')
+  const formId = toEditForm.value.id
+  router.push({ path: `/form-design/${formId}` })
+}
+
 /** 关闭浏览表单弹窗 */
 const closeBrowseForm = () => {
   isBrowseFormVisible.value = false
@@ -363,9 +370,13 @@ const closeBrowseForm = () => {
 const handleEdit = (row: FormItem) => {
   console.log('编辑的row：', row)
   toEditForm.value = row
-  router.push({ path: '/form-design' })
+  toDesigner()
 }
 
+/** 
+ * 浏览表单
+ * @param row 单个表单实例
+ */
 const browseForm = (row: FormItem) => {
   isBrowseFormVisible.value = true
   toEditForm.value = row
@@ -413,7 +424,7 @@ onMounted(() => {
   :deep(.el-table .el-table__cell) {
     padding: 0;
     height: 40px;
-    
+
   }
 
   :deep(.el-table .el-table__cell .cell) {
@@ -421,7 +432,7 @@ onMounted(() => {
     height: 100%;
     line-height: 40px;
   }
-  
+
   :deep(.el-table .el-table__header tr th) {
     color: #fff;
     background-color: $vlcpColor;
