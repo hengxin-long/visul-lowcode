@@ -51,7 +51,7 @@
         </el-table-column>
       </el-table>
       <div class="pagination">
-        <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="total"
+        <el-pagination v-if="isPaginationVisible" background :layout="layout" :total="viewTotal"
           :page-size="queryParams.pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
           :page-sizes="pageSizes" :current-page="queryParams.page" :disabled="isDisable" />
       </div>
@@ -93,7 +93,6 @@ import type { FormItem } from '@/types/form'
 import { useRouter } from 'vue-router'
 import type { FormQueryParams } from '@/api/form/types'
 import type { TableInstance } from 'element-plus'
-import type { DefaultRow, TableColumnCtx } from 'element-plus/es/components/table/src/table/defaults.mjs'
 
 const formStore = useFormStore()
 const router = useRouter()
