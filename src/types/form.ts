@@ -1,5 +1,6 @@
 
 export interface FormComponent {
+  label: string,
   componentType: string,
   props: Record<string, any>
 }

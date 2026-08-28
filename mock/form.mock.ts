@@ -150,6 +150,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -170,6 +171,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -190,6 +192,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '多选框',
           componentType: 'checkbox',
           props: {
             require: true
@@ -210,6 +213,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '密码框',
           componentType: 'input',
           props: {
             require: true
@@ -230,6 +234,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '密码框',
           componentType: 'input',
           props: {
             require: true
@@ -250,6 +255,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '密码框',
           componentType: 'input',
           props: {
             require: true
@@ -270,6 +276,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '搜索框',
           componentType: 'search',
           props: {
             require: true
@@ -290,6 +297,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '搜索框',
           componentType: 'search',
           props: {
             require: true
@@ -310,6 +318,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '密码框',
           componentType: 'password',
           props: {
             require: true
@@ -330,6 +339,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '密码框',
           componentType: 'password',
           props: {
             require: true
@@ -350,6 +360,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -370,6 +381,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '多选框',
           componentType: 'checkbox',
           props: {
             require: true
@@ -390,6 +402,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -410,6 +423,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -430,6 +444,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -450,6 +465,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '日期面板',
           componentType: 'date',
           props: {
             require: true
@@ -470,6 +486,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '日期面板',
           componentType: 'date',
           props: {
             require: false
@@ -490,6 +507,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: false
@@ -510,6 +528,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '日期面板',
           componentType: 'date',
           props: {
             require: true
@@ -530,6 +549,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: false
@@ -550,6 +570,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '按钮',
           componentType: 'button',
           props: {
             require: true
@@ -570,6 +591,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '按钮',
           componentType: 'button',
           props: {
             require: true
@@ -590,6 +612,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -610,6 +633,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '输入框',
           componentType: 'input',
           props: {
             require: true
@@ -630,6 +654,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '多选框',
           componentType: 'checkbox',
           props: {
             require: true
@@ -650,6 +675,7 @@ const formData = [
       formType: '业务表单',
       components: [
         {
+          label: '按钮',
           componentType: 'button',
           props: {
             require: true
