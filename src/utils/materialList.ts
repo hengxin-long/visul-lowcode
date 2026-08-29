@@ -5,14 +5,25 @@ export const baseFields: FormComponent[] = [
     label: '密码框',
     componentType: 'password',
     props: {
+      label: '密码',
       require: true,
-      tyep: 'password'
+      tyep: 'password',
+      placeholder: '请输入密码',
+      disabled: false
     }
   },
   {
     label: '输入框',
     componentType: 'input',
-    props: {}
+    props: {
+      label: '用户名',
+      require: true,
+      type: 'text',
+      vModel: '',
+      placeholder: '请输入文本',
+      clearable: true,
+      disabled: false
+    }
   },
   {
     label: '日期',

@@ -8,7 +8,8 @@
         <el-aside width="250px">
           <DesignComponentLibrary />
         </el-aside>
-        <el-main>
+        <!-- 没选中画布中的组件就赋值为空 -->
+        <el-main @click="handleNotSelected">
           <DesignCanvas />
         </el-main>
         <el-aside width="250px">
@@ -24,6 +25,9 @@ import DesignHeader from './DesignHeader.vue';
 import DesignComponentLibrary from './DesignComponentLibrary.vue';
 import PropsPanel from './PropsPanel.vue';
 import DesignCanvas from './DesignCanvas.vue';
+import { useDesignStore } from '@/stores/design.ts';
+
+const { handleNotSelected } = useDesignStore()
 </script>
 
 <style scoped lang="scss">
