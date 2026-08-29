@@ -8,19 +8,17 @@
       <div class="components">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item title="基础字段" name="1">
+            <!-- <el-scrollbar max-height="200px"> -->
             <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-              {{field.label }}
+              {{ field.label }}
             </div>
+            <!-- </el-scrollbar> -->
           </el-collapse-item>
-          <el-collapse-item title="Feedback" name="2">
-            <div>
-              单选
-            </div>
+          <el-collapse-item title="主页字段" name="2">
+            <div>字段</div>
           </el-collapse-item>
-          <el-collapse-item title="Efficiency" name="3">
-            <div>
-              多选
-            </div>
+          <el-collapse-item title="表单字段" name="3">
+            <div>字段</div>
           </el-collapse-item>
         </el-collapse>
       </div>
@@ -86,7 +84,6 @@ onUnmounted(() => {
     width: 100%;
     height: 400px;
     margin: 20px 0;
-    background-color: #e0e0e0;
 
     :deep(.el-collapse-item__content) {
       display: flex;
