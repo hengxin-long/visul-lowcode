@@ -67,3 +67,13 @@ img {
 ul {
   list-style: none;
 }
+
+/* 画布占位虚线保留 */
+.sortable-ghost {
+  background: #f0f7ff;
+  border: 1px dashed #409eff;
+  height: 52px; /* 固定占位高度，和你的组件高度匹配 */
+}
+// .sortable-ghost > * {
+//   display: none !important;
+// }
