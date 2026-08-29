@@ -78,27 +78,36 @@ import Sortable from 'sortablejs'
 import { baseFields } from '@/utils/materialList';
 import type { FormComponent } from '@/types/form'
 import { SetUp } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus';
 
 const activeName = ref('1')
 const fields = ref<FormComponent[]>(baseFields)
-let sortbale: Sortable
+let sortbale: Sortable[] = []
 
 onMounted(() => {
-  const form = document.querySelector('.fields-box') as HTMLElement
-  sortbale = new Sortable(form, {
-    group: {
-      name: 'shared', // 组名
-      pull: 'clone', // 克隆
-      put: false, // 是否可放入
-    },
-    sort: false, // 列表内是否可排序
-    animation: 150, // 动画
-    ghostClass: 'form-canvas',
-  });
+  const fieldSet = document.querySelectorAll('.fields-box') as NodeListOf<HTMLElement>
+
+  if (!fieldSet[0]) return ElMessage.error('加载错误')
+
+  for (let fields of fieldSet) {
+    sortbale.push(new Sortable(fields, {
+      group: {
+        name: 'shared', // 组名
+        pull: 'clone', // 克隆
+        put: false, // 是否可放入
+      },
+      sort: false, // 列表内是否可排序
+      animation: 150, // 动画
+      ghostClass: 'form-canvas',
+    }));
+  }
 })
 
 onUnmounted(() => {
-  sortbale?.destroy()
+  // 卸载组件完组件销毁事件
+  for (let fields of sortbale) {
+    fields?.destroy()
+  }
 })
 
 // group: {
