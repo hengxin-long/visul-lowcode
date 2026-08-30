@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { FormItem, FormComponent } from '@/types/form'
+import { ElMessage } from "element-plus";
 
 export const useDesignStore = defineStore('design', () => {
 
@@ -35,11 +36,18 @@ export const useDesignStore = defineStore('design', () => {
     selectCom.value = null
   }
 
+  /** 清除表单组件 */
+  const clearFormComponent = () => {
+    if (!formSchema.value.schema.components[0]) return ElMessage.error('没有要清除的表单')
+    formSchema.value.schema.components = []
+  }
+
   return {
     formSchema,
     selectCom,
     handleSelect,
-    handleNotSelected
+    handleNotSelected,
+    clearFormComponent
   }
 
 })

@@ -2,13 +2,35 @@
   <el-scrollbar>
     <div class="canvas">
       <div class="designer-canvas">
-        <div class="title">
-          <p class="descrition">表单结构</p>
-          <h3 class="form-name">{{ formName }}</h3>
+        <div class="form-header">
+          <div class="info">
+            <p class="descrition">表单结构</p>
+            <h3 class="form-name">{{ formName }}</h3>
+          </div>
+          <div class="func">
+            <el-button @click="confirmClear">清除表单</el-button>
+            <!-- 清除确认框 -->
+            <el-dialog
+            v-model="isClearVisible"
+            title="警告"
+            width="400"
+            :before-close="closeClear"
+            >
+              <span>确认清除全部组件？</span>
+              <template #footer>
+                <div class="dialog-footer">
+                  <el-button @click="closeClear">取消</el-button>
+                  <el-button type="primary" @click="clearForm">
+                    确认清除
+                  </el-button>
+                </div>
+              </template>
+            </el-dialog>
+          </div>
         </div>
         <div class="form-canvas" @click="handleNotSelected">
-          <div ref="componet" class="form-component" v-for="com in formSchema?.schema.components"
-            :key="com.id" @click.stop="handleSelect(com)">
+          <div ref="componet" class="form-component" v-for="com in formSchema?.schema.components" :key="com.id"
+            @click.stop="handleSelect(com)">
             <!-- 动态渲染组件 -->
             <!-- 
         v-bind：绑定组件属性
@@ -39,14 +61,30 @@ const map = componentMap
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleSelect, handleNotSelected } = designStore
+const { handleSelect, handleNotSelected, clearFormComponent } = designStore
 
 const formName = ref('新建表单')
-
 let sortbale: Sortable
-
 // 组件的唯一id
 let id = 1
+
+/** 清除确认窗状态 */
+const isClearVisible = ref(false)
+
+/** 清除表单确认弹窗 */
+const confirmClear = () => {
+  isClearVisible.value = true
+}
+
+/** 关闭清除表单确认弹窗 */
+const closeClear = () => {
+  isClearVisible.value = false
+}
+
+const clearForm = () => {
+  closeClear()
+  clearFormComponent()
+}
 
 onMounted(() => {
 
@@ -112,9 +150,18 @@ onUnmounted(() => {
 }
 
 .designer-canvas {
-  .form-name {
-    margin: 3px 0 17px 0;
+
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 10px;
+
+    .form-name {
+      margin-top: 3px;
+    }
   }
+
 
   .form-canvas {
     width: 100%;
