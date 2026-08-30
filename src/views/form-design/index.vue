@@ -32,6 +32,7 @@ const { handleNotSelected } = useDesignStore()
 
 <style scoped lang="scss">
 .header {
+  height: var(--design-header);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,6 +46,6 @@ const { handleNotSelected } = useDesignStore()
 }
 
 :deep(.el-main) {
-  padding: 20px 140px;
+  padding: 0;
 }
 </style>
