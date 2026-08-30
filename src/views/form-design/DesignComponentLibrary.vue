@@ -1,75 +1,77 @@
 <template>
-  <el-scrollbar>
-    <div class="designer-components">
-      <div class="title">
-        <h3>添加字段</h3>
-        <p>拖拽或点击</p>
-      </div>
-      <div class="components">
-        <el-collapse v-model="activeName" accordion>
-          <el-collapse-item title="基础字段" name="1">
-            <el-scrollbar max-height="220px">
-              <div class="fields-box">
-                <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-                  <p>
-                    <el-icon class="icon">
-                      <SetUp />
-                    </el-icon>
-                  </p>
-                  <p>{{ field.label }}</p>
-                </div>
-              </div>
-            </el-scrollbar>
-          </el-collapse-item>
-          <el-collapse-item title="主页字段" name="2">
-            <el-scrollbar max-height="220px">
-              <div class="fields-box">
-                <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-                  <p>
-                    <el-icon class="icon">
-                      <SetUp />
-                    </el-icon>
-                  </p>
-                  <p>{{ field.label }}</p>
-                </div>
-              </div>
-            </el-scrollbar>
-          </el-collapse-item>
-          <el-collapse-item title="表单字段" name="3">
-            <el-scrollbar max-height="220px">
-              <div class="fields-box">
-                <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-                  <p>
-                    <el-icon class="icon">
-                      <SetUp />
-                    </el-icon>
-                  </p>
-                  <p>{{ field.label }}</p>
-                </div>
-              </div>
-            </el-scrollbar>
-          </el-collapse-item>
-          <el-collapse-item title="图表字段" name="4">
-            <el-scrollbar max-height="220px">
-              <div class="fields-box">
-                <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-                  <p>
-                    <el-icon class="icon">
-                      <SetUp />
-                    </el-icon>
-                  </p>
-                  <p>{{ field.label }}</p>
-                </div>
-              </div>
-            </el-scrollbar>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-      <div class="tips">
-        小提示：拖动字段卡片可调整顺序，点击字段可配置属性
-      </div>
+  <div class="designer-components">
+    <div class="title">
+      <h3>添加字段</h3>
+      <p>拖拽或点击</p>
     </div>
-  </el-scrollbar>
+    <div class="scroll-container">
+      <el-scrollbar>
+        <div class="components">
+          <el-collapse v-model="activeName" accordion>
+            <el-collapse-item title="基础字段" name="1">
+              <el-scrollbar max-height="220px">
+                <div class="fields-box">
+                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                    <p>
+                      <el-icon class="icon">
+                        <SetUp />
+                      </el-icon>
+                    </p>
+                    <p>{{ field.label }}</p>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </el-collapse-item>
+            <el-collapse-item title="主页字段" name="2">
+              <el-scrollbar max-height="220px">
+                <div class="fields-box">
+                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                    <p>
+                      <el-icon class="icon">
+                        <SetUp />
+                      </el-icon>
+                    </p>
+                    <p>{{ field.label }}</p>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </el-collapse-item>
+            <el-collapse-item title="表单字段" name="3">
+              <el-scrollbar max-height="220px">
+                <div class="fields-box">
+                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                    <p>
+                      <el-icon class="icon">
+                        <SetUp />
+                      </el-icon>
+                    </p>
+                    <p>{{ field.label }}</p>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </el-collapse-item>
+            <el-collapse-item title="图表字段" name="4">
+              <el-scrollbar max-height="220px">
+                <div class="fields-box">
+                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                    <p>
+                      <el-icon class="icon">
+                        <SetUp />
+                      </el-icon>
+                    </p>
+                    <p>{{ field.label }}</p>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </el-collapse-item>
+          </el-collapse>
+        </div>
+      </el-scrollbar>
+    </div>
+    <div class="tips">
+      小提示：拖动字段卡片可调整顺序，点击字段可配置属性
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -123,56 +125,63 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .designer-components {
   width: 100%;
-  height: calc(100vh - 60px);
-  padding: 22px 20px;
+  height: calc(100vh - var(--design-header));
+  padding: var(--design-aside-padding);
 
   .title {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    height: var(--design-aside-title);
 
+    p {
+      color: var(--tips-color);
+    }
   }
 
-  .components {
+  .scroll-container {
+    margin: 15px 0;
     width: 100%;
-    // height: 400px;
-    margin: 20px 0;
+    height: calc(100vh - var(--design-aside-scroll-height) - 30px - 55px);
 
-    .field {
+    .components {
       width: 100%;
-      height: 45px;
-      padding: 2px 8px;
-      background-color: #fff;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      text-align: center;
-      // line-height: 40px;
-      cursor: pointer;
 
-      p {
-        font-size: 12px;
-        height: 20px;
-        line-height: 20px;
-        text-align: start;
+      .field {
+        width: 100%;
+        height: 45px;
+        padding: 2px 8px;
+        background-color: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+
+        p {
+          font-size: 12px;
+          height: 20px;
+          line-height: 20px;
+          text-align: start;
+        }
+
+        .icon {
+          display: inline;
+          color: $vlcpColor;
+        }
+
       }
 
-      .icon {
-        display: inline;
-        color: $vlcpColor;
+      :deep(.el-scrollbar) {
+        width: 100%;
+
       }
 
-    }
-
-    :deep(.el-scrollbar) {
-      width: 100%;
-
-    }
-
-    .fields-box {
-      display: grid;
-      grid-template-columns: repeat(2, auto) !important;
-      gap: 10px;
-      width: 100%;
+      .fields-box {
+        display: grid;
+        grid-template-columns: repeat(2, auto) !important;
+        gap: 10px;
+        width: 100%;
+      }
     }
   }
 
@@ -191,6 +200,5 @@ onUnmounted(() => {
       font-size: 14px;
     }
   }
-
 }
 </style>
