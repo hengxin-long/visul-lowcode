@@ -7,9 +7,12 @@
       <el-scrollbar>
         <div class="props-container">
           <div v-if="selectCom" class="props">
-            <p>{{ selectCom?.props.label }}</p>
-            <p>{{ selectCom?.props.require }}</p>
-            <p>{{ selectCom?.props.placeholder }}</p>
+            <div class="attr" v-for="attr in attrList">
+              <p>{{ attr.label }}</p>
+              <el-input v-if="attr.type === 'input'" v-model="selectCom.props[attr.prop]" size="small"/>
+              <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small"/>
+              <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small"/>
+            </div>
           </div>
           <div v-else class="props-null">
             <p>请选中组件进行属性修改</p>
@@ -23,9 +26,15 @@
 <script setup lang="ts">
 import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { componentAttrConfig } from '@/config/componentAttrConfig';
 
 const { selectCom } = storeToRefs(useDesignStore())
+const attrList = computed(() => {
+  if (!selectCom.value) return []
+  const type = selectCom.value?.componentType
+  return componentAttrConfig[type as keyof typeof componentAttrConfig] ?? []
+})
 
 </script>
 
@@ -56,6 +65,16 @@ const { selectCom } = storeToRefs(useDesignStore())
     .props-container {
       width: 100%;
       height: 100%;
+
+      .props {
+        .attr {
+          padding: 6px 0;
+
+          p {
+            margin-bottom: 3px ;
+          }
+        }
+      }
 
       .props-null {
         display: flex;
