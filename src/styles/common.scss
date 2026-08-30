@@ -6,6 +6,11 @@
   --light-green: rgb(169, 255, 149);
   --text-light-green-color: rgb(123, 255, 94);
   --text-deep-green-color: rgb(41, 117, 24);
+  --design-aside-padding: 20px;
+  --design-header: 60px;
+  --design-aside-title: 25px;
+  --tips-color: rgb(226, 226, 226);
+  --design-aside-scroll-height: (var(--design-header) + var(--design-aside-title) + (var(--design-aside-padding) * 2));
 }
 
 // 重置样式
@@ -54,7 +59,7 @@ input[type='checkbox'] {
   padding: 0;
   outline: none;
   border: none;
-  -webkit-appearance: none;
+  // -webkit-appearance: none;
   &::placeholder {
     color: #ccc;
   }
