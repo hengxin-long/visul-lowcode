@@ -8,7 +8,7 @@
         </div>
         <div class="form-canvas" @click="handleNotSelected">
           <div ref="componet" class="form-component" v-for="com in formSchema?.schema.components"
-            :key="com.componentType" @click.stop="handleSelect(com)">
+            :key="com.id" @click.stop="handleSelect(com)">
             <!-- 动态渲染组件 -->
             <!-- 
         v-bind：绑定组件属性
@@ -33,6 +33,7 @@ import type { FormComponent } from '@/types/form';
 import { componentMap } from '@/utils/componentMap';
 import { useDesignStore } from '@/stores/design'
 import { storeToRefs } from 'pinia';
+import { ElMessage } from 'element-plus';
 
 const map = componentMap
 
@@ -43,6 +44,9 @@ const { handleSelect, handleNotSelected } = designStore
 const formName = ref('新建表单')
 
 let sortbale: Sortable
+
+// 组件的唯一id
+let id = 1
 
 onMounted(() => {
 
@@ -56,22 +60,33 @@ onMounted(() => {
     animation: 150,
     // 组件拖拽到画布上的回调
     onAdd: (evt: any) => {
+      // 拖拽的目标容器不是画布直接返回
+      if (evt.to !== canvas) return
+
       const field = ref<string>(evt.item.dataset.field)
       const newIndex = evt.newIndex
       // 反序列化添加进数组
-      formSchema.value?.schema.components.splice(newIndex, 0, JSON.parse(field.value))
+      const component = JSON.parse(field.value)
+      component.id = `${id}`
+      formSchema.value?.schema.components.splice(newIndex, 0, component)
+      // 添加完id 自增
+      id++
+      console.log('添加进数组后 ', formSchema.value.schema.components)
 
-      // 拖拽的目标容器不是画布直接返回
-      if (evt.to !== canvas) return
       // 加到components数组后移出dom元素，只留schema
       if (evt.item) evt.item.remove()
     },
     onEnd: (evt: SortableEvent) => {
-      // 从画布上移动结束后位置索引
+      evt.preventDefault()
+
       const oldIndex = evt.oldIndex as number
       const newIndex = evt.newIndex as number
-      // console.log(`在画布上元素从 ${oldIndex} 移动到 ${newIndex}`)
+      // 将原来索引位的对象取出来
       const item = formSchema.value.schema.components[newIndex]
+
+      if (!item) return ElMessage.error('数据错误')
+
+      // 交换
       formSchema.value.schema.components.splice(newIndex, 1, formSchema.value.schema.components[oldIndex] as FormComponent)
       formSchema.value.schema.components.splice(oldIndex, 1, item as FormComponent)
     },

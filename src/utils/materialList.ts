@@ -3,6 +3,7 @@ import type { FormComponent } from "@/types/form"
 export const baseFields: FormComponent[] = [
   {
     label: '密码框',
+    id: '',
     componentType: 'password',
     props: {
       label: '密码',
@@ -14,6 +15,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '输入框',
+    id: '',
     componentType: 'input',
     props: {
       label: '用户名',
@@ -27,36 +29,43 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '日期',
+    id: '',
     componentType: 'date',
     props: {}
   },
   {
     label: '数字框',
+    id: '',
     componentType: 'inputNumber',
     props: {}
   },
   {
     label: '多选框',
+    id: '',
     componentType: 'checkbox',
     props: {}
   },
   {
     label: '单选',
+    id: '',
     componentType: 'radio',
     props: {}
   },
   {
     label: '下拉框',
+    id: '',
     componentType: 'select',
     props: {}
   },
   {
     label: '评分',
+    id: '',
     componentType: 'rate',
     props: {}
   },
   {
     label: '按钮',
+    id: '',
     componentType: 'button',
     props: {}
   },

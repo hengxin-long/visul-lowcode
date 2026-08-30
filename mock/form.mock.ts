@@ -151,6 +151,7 @@ const formData = [
       components: [
         {
           label: '输入框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -172,6 +173,7 @@ const formData = [
       components: [
         {
           label: '输入框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -193,6 +195,7 @@ const formData = [
       components: [
         {
           label: '多选框',
+          id: '1',
           componentType: 'checkbox',
           props: {
             require: true
@@ -214,6 +217,7 @@ const formData = [
       components: [
         {
           label: '密码框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -235,6 +239,7 @@ const formData = [
       components: [
         {
           label: '密码框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -256,6 +261,7 @@ const formData = [
       components: [
         {
           label: '密码框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -277,6 +283,7 @@ const formData = [
       components: [
         {
           label: '搜索框',
+          id: '1',
           componentType: 'search',
           props: {
             require: true
@@ -298,6 +305,7 @@ const formData = [
       components: [
         {
           label: '搜索框',
+          id: '1',
           componentType: 'search',
           props: {
             require: true
@@ -319,6 +327,7 @@ const formData = [
       components: [
         {
           label: '密码框',
+          id: '1',
           componentType: 'password',
           props: {
             require: true
@@ -340,6 +349,7 @@ const formData = [
       components: [
         {
           label: '密码框',
+          id: '1',
           componentType: 'password',
           props: {
             require: true
@@ -361,6 +371,7 @@ const formData = [
       components: [
         {
           label: '输入框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -382,6 +393,7 @@ const formData = [
       components: [
         {
           label: '多选框',
+          id: '1',
           componentType: 'checkbox',
           props: {
             require: true
@@ -403,6 +415,7 @@ const formData = [
       components: [
         {
           label: '输入框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -424,6 +437,7 @@ const formData = [
       components: [
         {
           label: '输入框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -445,6 +459,7 @@ const formData = [
       components: [
         {
           label: '输入框',
+          id: '1',
           componentType: 'input',
           props: {
             require: true
@@ -466,6 +481,7 @@ const formData = [
       components: [
         {
           label: '日期面板',
+          id: '1',
           componentType: 'date',
           props: {
             require: true
@@ -487,6 +503,7 @@ const formData = [
       components: [
         {
           label: '日期面板',
+          id: '1',
           componentType: 'date',
           props: {
             require: false
@@ -494,194 +511,5 @@ const formData = [
         }
       ]
     }
-  },
-  {
-    id: '18',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'close',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '输入框',
-          componentType: 'input',
-          props: {
-            require: false
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '19',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'published',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '日期面板',
-          componentType: 'date',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '20',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'draft',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '输入框',
-          componentType: 'input',
-          props: {
-            require: false
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '21',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'published',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '按钮',
-          componentType: 'button',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '22',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'draft',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '按钮',
-          componentType: 'button',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '23',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'draft',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '输入框',
-          componentType: 'input',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '24',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'draft',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '输入框',
-          componentType: 'input',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '25',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'draft',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '多选框',
-          componentType: 'checkbox',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
-  {
-    id: '26',
-    formName: '报名登记表',
-    formType: '业务表单',
-    status: 'draft',
-    createTime: '2026-08-03 09:10:00',
-    updateTime: '2026-08-03 09:10:00',
-    schema: {
-      formName: '报名登记表',
-      formType: '业务表单',
-      components: [
-        {
-          label: '按钮',
-          componentType: 'button',
-          props: {
-            require: true
-          }
-        }
-      ]
-    }
-  },
+  }
 ]
