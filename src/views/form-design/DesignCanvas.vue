@@ -1,25 +1,29 @@
 <template>
-  <div class="designer-canvas">
-    <div class="title">
-      <p class="descrition">表单结构</p>
-      <h3 class="form-name">{{ formName }}</h3>
-    </div>
-    <div class="form-canvas" @click="handleNotSelected">
-      <div ref="componet" class="form-component" v-for="com in formSchema?.schema.components" :key="com.componentType"
-        @click.stop="handleSelect(com)">
-        <!-- 动态渲染组件 -->
-        <!-- 
+  <el-scrollbar>
+    <div class="canvas">
+      <div class="designer-canvas">
+        <div class="title">
+          <p class="descrition">表单结构</p>
+          <h3 class="form-name">{{ formName }}</h3>
+        </div>
+        <div class="form-canvas" @click="handleNotSelected">
+          <div ref="componet" class="form-component" v-for="com in formSchema?.schema.components"
+            :key="com.componentType" @click.stop="handleSelect(com)">
+            <!-- 动态渲染组件 -->
+            <!-- 
         v-bind：绑定组件属性
         手动双向绑定
         :model-value -> props
         @update:model-value -> function
         as keyof typeof map  告诉TS：这个字符串一定是 map 对象的合法 key，消除类型报错。
          -->
-        <component :is="map[com.componentType as keyof typeof map]" v-bind="com.props" :model-value="com.props?.vModel"
-          @update:model-value="(val: string) => com.props.vModel = val" />
+            <component :is="map[com.componentType as keyof typeof map]" v-bind="com.props"
+              :model-value="com.props?.vModel" @update:model-value="(val: string) => com.props.vModel = val" />
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">
@@ -85,6 +89,18 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
+
+:deep(.el-scrollbar) {
+  width: 100%;
+  max-height: 100%;
+}
+
+.canvas {
+  width: 100%;
+  height: calc(100vh - 60px);
+  padding: 20px 140px;
+}
+
 .designer-canvas {
   .form-name {
     margin: 3px 0 17px 0;
