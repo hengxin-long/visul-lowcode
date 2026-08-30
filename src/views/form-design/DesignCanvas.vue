@@ -46,7 +46,6 @@ let sortbale: Sortable
 
 onMounted(() => {
 
-
   const canvas = document.querySelector('.form-canvas') as HTMLElement
 
   sortbale = new Sortable(canvas, {
@@ -57,12 +56,10 @@ onMounted(() => {
     animation: 150,
     // 组件拖拽到画布上的回调
     onAdd: (evt: any) => {
-
       const field = ref<string>(evt.item.dataset.field)
-      // console.log('拿到formSchama ', field.value)
+      const newIndex = evt.newIndex
       // 反序列化添加进数组
-      formSchema.value?.schema.components.push(JSON.parse(field.value))
-      // console.log('components ', formSchema.value?.schema.components)
+      formSchema.value?.schema.components.splice(newIndex, 0, JSON.parse(field.value))
 
       // 拖拽的目标容器不是画布直接返回
       if (evt.to !== canvas) return
@@ -77,7 +74,6 @@ onMounted(() => {
       const item = formSchema.value.schema.components[newIndex]
       formSchema.value.schema.components.splice(newIndex, 1, formSchema.value.schema.components[oldIndex] as FormComponent)
       formSchema.value.schema.components.splice(oldIndex, 1, item as FormComponent)
-      // console.log(formSchema.value)
     },
   });
 })
@@ -89,7 +85,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-
 :deep(.el-scrollbar) {
   width: 100%;
   max-height: 100%;
