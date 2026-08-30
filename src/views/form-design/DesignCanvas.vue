@@ -8,7 +8,7 @@
             <h3 class="form-name">{{ formName }}</h3>
           </div>
           <div class="func">
-            <el-button @click="confirmClear">清除表单</el-button>
+            <el-button @click.stop="confirmClear">清除表单</el-button>
             <!-- 清除确认框 -->
             <el-dialog
             v-model="isClearVisible"
