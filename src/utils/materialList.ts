@@ -112,8 +112,8 @@ export const baseFields: FormComponent[] = [
       size: 'default',
       disabled: false,
       allowHalf: false,
-      lowThreshold: 2.5,
-      highThreshold: 2.5,
+      lowThreshold: 2,
+      highThreshold: 4,
       clearable: true,
       texts: [1, 2, 3, 4, 5]
     }
