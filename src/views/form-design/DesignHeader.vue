@@ -6,14 +6,31 @@
     </template>
   </el-page-header>
   <div class="operation">
-    <el-button>预览</el-button>
+    <el-button @click="openPreviewForm">预览</el-button>
     <el-button>保存</el-button>
     <el-button type="primary">发布表单</el-button>
   </div>
+  <!-- 预览窗口 -->
+  <DesignPreviewForm :isPreviewFormVisible="isPreviewFormVisible" @close="closePreviewForm" />
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import DesignPreviewForm from '@/views/form-design/DesignPreviewForm.vue';
+import { ref } from 'vue'
+
+/** 预览表单窗口状态 */
+const isPreviewFormVisible = ref(false)
+
+/** 关闭预览窗口 */
+const closePreviewForm = () => {
+  isPreviewFormVisible.value = false
+}
+
+/** 打开预览窗口 */
+const openPreviewForm = () => {
+  isPreviewFormVisible.value = true
+}
 
 const router = useRouter()
 const goBack = () => {
@@ -23,5 +40,4 @@ const goBack = () => {
 }
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
