@@ -24,22 +24,7 @@
           </div>
         </div>
         <div class="form-canvas" @click="handleNotSelected">
-          <div ref="componet" class="form-component" v-for="com in formSchema?.schema.components" :key="com.id"
-            @click.stop="handleSelect(com)">
-            <!-- 动态渲染组件 -->
-            <!-- 
-              v-bind：绑定组件属性
-              手动双向绑定
-              :model-value -> props
-              @update:model-value -> function
-              as keyof typeof map  告诉TS：这个字符串一定是 map 对象的合法 key，消除类型报错。
-            -->
-            <p v-if="com.componentType === 'input' || com.componentType === 'password'">{{ com.props.label }}</p>
-
-            <component :is="map[com.componentType as keyof typeof map]" v-bind="com.props">
-              <span v-if="com.componentType === 'button'">{{ com.props.label }}</span>
-            </component>
-          </div>
+          <Form :formSchema="formSchema"/>
         </div>
       </div>
     </div>
@@ -50,12 +35,10 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import Sortable, { type SortableEvent } from 'sortablejs'
 import type { FormComponent } from '@/types/form';
-import { componentMap } from '@/utils/componentMap';
 import { useDesignStore } from '@/stores/design'
 import { storeToRefs } from 'pinia';
 import { ElMessage } from 'element-plus';
-
-const map = componentMap
+import Form from '@/components/Form.vue';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
@@ -169,10 +152,7 @@ onUnmounted(() => {
     border: 1px solid var(--border-color);
     border-radius: 15px;
 
-    .form-component {
-      width: 100%;
-      margin: 13px 0;
-    }
+    
   }
 }
 
