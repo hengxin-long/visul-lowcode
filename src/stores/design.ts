@@ -42,6 +42,7 @@ export const useDesignStore = defineStore('design', () => {
     formSchema.value.schema.components = []
   }
 
+  
   return {
     formSchema,
     selectCom,
