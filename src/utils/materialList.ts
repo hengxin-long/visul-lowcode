@@ -40,7 +40,13 @@ export const baseFields: FormComponent[] = [
     id: '',
     componentType: 'date',
     props: {
-
+      readonly: false,
+      disabled: false,
+      size: 'default',
+      editable: true,
+      clearable: true,
+      placeholder: '日期',
+      format: 'YYYY-MM-DD'
     }
   },
   {
@@ -117,6 +123,7 @@ export const baseFields: FormComponent[] = [
     id: '',
     componentType: 'button',
     props: {
+      label: '按钮',
       type: 'default',
       size: 'default',
       color: '',
