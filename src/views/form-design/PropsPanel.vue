@@ -33,7 +33,7 @@ import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue'
 import { componentAttrConfig } from '@/config/componentAttrConfig';
-import { ComponentSize, ComponentBtnType } from '@/enums/size';
+import { ComponentSize, ComponentBtnType } from '@/enums/component';
 
 const { selectCom } = storeToRefs(useDesignStore())
 const attrList = computed(() => {
