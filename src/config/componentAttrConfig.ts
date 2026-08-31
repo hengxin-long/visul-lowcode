@@ -33,7 +33,7 @@ export const componentAttrConfig = {
     { label: '步数', prop: 'step', type: 'number' },
     { label: '数值精度', prop: 'precision', type: 'number' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
-    { label: '是否只读', prop: 'readonly ', type: 'switch' },
+    { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '是否使用控制按钮', prop: 'controls', type: 'switch' },
     { label: '内部输入文本对齐', prop: 'align', type: 'enum' }
   ],
@@ -46,7 +46,7 @@ export const componentAttrConfig = {
   ],
   checkbox: [
     { label: '选中时的值', prop: 'true-value', type: 'input' },
-    { label: '没有选中时的值', prop: 'false-value ', type: 'input' },
+    { label: '没有选中时的值', prop: 'false-value', type: 'input' },
     { label: '当前是否勾选', prop: 'checked', type: 'switch' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否显示边框', prop: 'border', type: 'switch' },
