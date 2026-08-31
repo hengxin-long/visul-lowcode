@@ -10,12 +10,7 @@
           <div class="func">
             <el-button @click.stop="confirmClear">清除表单</el-button>
             <!-- 清除确认框 -->
-            <el-dialog
-            v-model="isClearVisible"
-            title="警告"
-            width="400"
-            :before-close="closeClear"
-            >
+            <el-dialog v-model="isClearVisible" title="警告" width="400" :before-close="closeClear">
               <span>确认清除全部组件？</span>
               <template #footer>
                 <div class="dialog-footer">
@@ -33,14 +28,17 @@
             @click.stop="handleSelect(com)">
             <!-- 动态渲染组件 -->
             <!-- 
-        v-bind：绑定组件属性
-        手动双向绑定
-        :model-value -> props
-        @update:model-value -> function
-        as keyof typeof map  告诉TS：这个字符串一定是 map 对象的合法 key，消除类型报错。
-         -->
-            <component :is="map[com.componentType as keyof typeof map]" v-bind="com.props"
-              :model-value="com.props?.vModel" @update:model-value="(val: string) => com.props.vModel = val" />
+              v-bind：绑定组件属性
+              手动双向绑定
+              :model-value -> props
+              @update:model-value -> function
+              as keyof typeof map  告诉TS：这个字符串一定是 map 对象的合法 key，消除类型报错。
+            -->
+            <p v-if="com.componentType === 'input' || com.componentType === 'password'">{{ com.props.label }}</p>
+
+            <component :is="map[com.componentType as keyof typeof map]" v-bind="com.props">
+              <span v-if="com.componentType === 'button'">{{ com.props.label }}</span>
+            </component>
           </div>
         </div>
       </div>
