@@ -14,11 +14,30 @@
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-button @click="handleSize(s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
               }}</el-button>
+              <!-- 按钮类型 -->
               <div v-if="attr.type === 'btnEnum'" class="btn-type-box options-box">
                 <el-button @click="handleBtnType(b)" v-for="b in btnType" size="small">{{ b }}</el-button>
               </div>
+              <!-- 文本框类型 -->
               <div v-if="attr.type === 'inputType'" class="input-type-box options-box">
                 <el-button @click="handleInputType(i)" v-for="i in inputType" size="small">{{ i }}</el-button>
+              </div>
+              <!-- 下拉框选项 -->
+              <div v-if="attr.type === 'options'">
+                <div class="options" v-for="(option, index) in selectCom.props[attr.prop]">
+                  <div class="option">
+                    <el-button @click="delOption(index)" size="small">删除</el-button>
+                    <div class="label">
+                      <p>选项{{ Number(index) + 1 }}</p>
+                      <el-input v-model="option.label" size="small" placeholder="文本" />
+                    </div>
+                    <div class="value">
+                      <p>值{{ Number(index) + 1 }}</p>
+                      <el-input v-model="option.value" size="small" placeholder="值" />
+                    </div>
+                  </div>
+                </div>
+                <el-button @click="addOption" size="small">添加</el-button>
               </div>
             </div>
           </div>
@@ -79,9 +98,24 @@ const handleBtnType = (type: string) => {
 
 /** 文本框类型 */
 const handleInputType = (type: string) => {
-  if(!selectCom.value) return []
+  if (!selectCom.value) return []
   selectCom.value.props.type = type
   console.log(selectCom.value.props)
+}
+
+/** 下拉框添加项 */
+const addOption = () => {
+  if (!selectCom.value) return []
+  selectCom.value.props.options.push({ label: '', value: '' })
+  console.log(selectCom.value.props.options)
+}
+
+/** 下拉框删除项 */
+const delOption = (index: number | string) => {
+  console.log(typeof index)
+  if (!selectCom.value) return []
+  let i = Number(index)
+  selectCom.value.props.options.splice(i, 1)
 }
 
 </script>
@@ -130,6 +164,33 @@ const handleInputType = (type: string) => {
 
           :deep(.el-button) {
             margin: 0;
+          }
+        }
+
+        .option {
+          margin-bottom: 5px;
+          text-align: end;
+
+          :deep(.el-button) {
+            display: inline-block;
+          }
+
+          .label,
+          .value {
+            display: flex;
+            margin-bottom: 3px;
+
+            p {
+              width: 40px;
+              margin: 0;
+              text-align: center;
+            }
+          }
+
+
+          :deep(.el-input) {
+            flex: 1;
+            // width: 160px;
           }
         }
       }

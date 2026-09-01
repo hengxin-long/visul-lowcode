@@ -68,10 +68,10 @@ export const componentAttrConfig = {
   select: [
     { label: '是否多选', prop: 'multiple', type: 'switch' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
-    { label: '选项的数据源', prop: 'options', type: 'array' },
+    { label: '选项的数据源', prop: 'options', type: 'options' },
     { label: '输入框尺寸', prop: 'size', type: 'enum' },
     { label: '是否可以清空选项', prop: 'clearable', type: 'switch' },
-    { label: '占位符，默认为“Select”', prop: 'placeholder', type: 'input' },
+    { label: '占位符，默认为“下拉框”', prop: 'placeholder', type: 'input' },
   ],
   colorPicker: [
     { label: '是否禁用', prop: 'disabled', type: 'switch' },

@@ -97,7 +97,11 @@ export const baseFields: FormComponent[] = [
     props: {
       multiple: false,
       disabled: false,
-      options: ['选项1', '选项2', '选项3'],
+      options: [
+        { label: '选项1', value: '选项1' },
+        { label: '选项2', value: '选项3' },
+        { label: '选项3', value: '选项3' },
+      ],
       size: 'default',
       clearable: true,
       placeholder: '下拉框'
