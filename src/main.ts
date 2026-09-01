@@ -4,13 +4,13 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-// 导入全局样式
+// 全局样式
 import './styles/common.scss'
-// 只引入el-message组件样式，避免和定制主题色冲突
-import 'element-plus/theme-chalk/el-message.css'
 import ElementPlus from 'element-plus'
 // 中文语言包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+// 覆盖element plus组件默认样式，定制主题色
+import '@/styles/element/element-override.scss'
 
 const app = createApp(App)
 
