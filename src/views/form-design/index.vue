@@ -12,7 +12,7 @@
         <el-main @click="handleNotSelected">
           <DesignCanvas />
         </el-main>
-        <el-aside width="250px">
+        <el-aside width="280px">
           <PropsPanel />
         </el-aside>
       </el-container>
