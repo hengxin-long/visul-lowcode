@@ -24,3 +24,18 @@ export enum ComponentBtnType {
   TEXT = 'text',
   NULL = ''
 }
+
+/** 
+ * 文本框类型
+ * @enum 'text' | 'textarea' | 'number' | 'password' | 'email' | 'search' | 'tel' | 'url'
+ */
+export enum ComponentInputType {
+  TEXT = 'text',
+  TEXTAREA = 'textarea',
+  NUMBER = 'number',
+  PASSWORD = 'password',
+  EMAIL = 'email',
+  SEARCH = 'search',
+  TEL = 'tel',
+  URL = 'url'
+}

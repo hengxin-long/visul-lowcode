@@ -9,6 +9,7 @@ export const componentAttrConfig = {
   input: [
     { label: '标签文本', prop: 'label', type: 'input' },
     { label: '占位提示', prop: 'placeholder', type: 'input' },
+    {label: '文本框类型', prop: 'type', type: 'inputType'},
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '最大长度', prop: 'maxlength', type: 'number' },
@@ -19,6 +20,7 @@ export const componentAttrConfig = {
   password: [
     { label: '标签文本', prop: 'label', type: 'input' },
     { label: '占位提示', prop: 'placeholder', type: 'input' },
+    {label: '文本框类型', prop: 'type', type: 'inputType'},
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '最大长度', prop: 'maxlength', type: 'number' },

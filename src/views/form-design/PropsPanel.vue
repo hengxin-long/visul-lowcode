@@ -14,8 +14,11 @@
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-button @click="handleSize(s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
               }}</el-button>
-              <div v-if="attr.type === 'btnEnum'" class="btn-type-box">
+              <div v-if="attr.type === 'btnEnum'" class="btn-type-box options-box">
                 <el-button @click="handleBtnType(b)" v-for="b in btnType" size="small">{{ b }}</el-button>
+              </div>
+              <div v-if="attr.type === 'inputType'" class="input-type-box options-box">
+                <el-button @click="handleInputType(i)" v-for="i in inputType" size="small">{{ i }}</el-button>
               </div>
             </div>
           </div>
@@ -35,6 +38,7 @@ import { computed, ref } from 'vue'
 import { componentAttrConfig } from '@/config/componentAttrConfig';
 import { ComponentSize, ComponentBtnType } from '@/enums/component';
 import { kebabToCamel } from '@/utils/transform'
+import { ComponentInputType } from '@/enums/component';
 
 const { selectCom } = storeToRefs(useDesignStore())
 
@@ -56,6 +60,8 @@ const attrList = computed(() => {
 const size: string[] = Object.values(ComponentSize)
 /** 按钮类型枚举 */
 const btnType: string[] = Object.values(ComponentBtnType)
+/** 文本框枚举 */
+const inputType: string[] = Object.values(ComponentInputType)
 
 /** 组件大小 */
 const handleSize = (size: string) => {
@@ -67,6 +73,13 @@ const handleSize = (size: string) => {
 /** 按钮类型 */
 const handleBtnType = (type: string) => {
   if (!selectCom.value) return []
+  selectCom.value.props.type = type
+  console.log(selectCom.value.props)
+}
+
+/** 文本框类型 */
+const handleInputType = (type: string) => {
+  if(!selectCom.value) return []
   selectCom.value.props.type = type
   console.log(selectCom.value.props)
 }
@@ -110,7 +123,7 @@ const handleBtnType = (type: string) => {
           }
         }
 
-        .btn-type-box {
+        .options-box {
           display: grid;
           grid-template-columns: repeat(2, auto);
           gap: 10px;

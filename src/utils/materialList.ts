@@ -19,7 +19,7 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '输入框',
+    label: '文本',
     id: '',
     componentType: 'input',
     props: {
