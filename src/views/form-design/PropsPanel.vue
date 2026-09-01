@@ -12,15 +12,15 @@
               <el-input v-if="attr.type === 'input'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
-              <el-button @click="handleSize(s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
+              <el-button @click="setProp('size', s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
               }}</el-button>
               <!-- 按钮类型 -->
               <div v-if="attr.type === 'btnEnum'" class="btn-type-box options-box">
-                <el-button @click="handleBtnType(b)" v-for="b in btnType" size="small">{{ b }}</el-button>
+                <el-button @click="setProp('type', b)" v-for="b in btnType" size="small">{{ b }}</el-button>
               </div>
               <!-- 文本框类型 -->
               <div v-if="attr.type === 'inputType'" class="input-type-box options-box">
-                <el-button @click="handleInputType(i)" v-for="i in inputType" size="small">{{ i }}</el-button>
+                <el-button @click="setProp('type', i)" v-for="i in inputType" size="small">{{ i }}</el-button>
               </div>
               <!-- 下拉框选项 -->
               <div v-if="attr.type === 'options'">
@@ -55,10 +55,11 @@ import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue'
 import { componentAttrConfig } from '@/config/componentAttrConfig';
-import { ComponentSize, ComponentBtnType } from '@/enums/component';
+import { ComponentSize, ComponentBtnType, ComponentInputType } from '@/enums/component';
 import { kebabToCamel } from '@/utils/transform'
-import { ComponentInputType } from '@/enums/component';
+import type { ComponentProps } from '@/types/form';
 
+/** 当前选中的组件 */
 const { selectCom } = storeToRefs(useDesignStore())
 
 /** 选中当前组件就重新计算 */
@@ -82,24 +83,18 @@ const btnType: string[] = Object.values(ComponentBtnType)
 /** 文本框枚举 */
 const inputType: string[] = Object.values(ComponentInputType)
 
-/** 组件大小 */
-const handleSize = (size: string) => {
+/** 
+ * 设置组件属性
+ * 可以设置组件的大小、按钮类型、文本框类型
+ * @param key 符合 ComponentProps 类型的 key
+ * @param value 要修改的 value
+ */
+const setProp = <T extends keyof ComponentProps>(
+  key: T,
+  value: string
+) => {
   if (!selectCom.value) return []
-  selectCom.value.props.size = size
-  console.log(selectCom.value.props)
-}
-
-/** 按钮类型 */
-const handleBtnType = (type: string) => {
-  if (!selectCom.value) return []
-  selectCom.value.props.type = type
-  console.log(selectCom.value.props)
-}
-
-/** 文本框类型 */
-const handleInputType = (type: string) => {
-  if (!selectCom.value) return []
-  selectCom.value.props.type = type
+  selectCom.value.props[key] = value
   console.log(selectCom.value.props)
 }
 

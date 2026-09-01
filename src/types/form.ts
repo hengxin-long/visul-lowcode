@@ -1,3 +1,5 @@
+import {ComponentSize} from '@/enums/component'
+
 
 export interface FormComponent {
   label: string,
@@ -22,4 +24,9 @@ export interface FormItem {
   createTime: string,
   updateTime: string
   schema: FormSchema,
+}
+
+export interface ComponentProps {
+  size?: string,
+  type?: string,
 }
