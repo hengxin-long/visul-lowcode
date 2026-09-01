@@ -13,7 +13,7 @@
               <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-button @click="handleSize(s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
-                }}</el-button>
+              }}</el-button>
               <div v-if="attr.type === 'btnEnum'" class="btn-type-box">
                 <el-button @click="handleBtnType(b)" v-for="b in btnType" size="small">{{ b }}</el-button>
               </div>
@@ -34,12 +34,22 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue'
 import { componentAttrConfig } from '@/config/componentAttrConfig';
 import { ComponentSize, ComponentBtnType } from '@/enums/component';
+import { kebabToCamel } from '@/utils/transform'
 
 const { selectCom } = storeToRefs(useDesignStore())
+
+/** 选中当前组件就重新计算 */
 const attrList = computed(() => {
   if (!selectCom.value) return []
   const type = selectCom.value?.componentType
-  return componentAttrConfig[type as keyof typeof componentAttrConfig] ?? []
+  const componentAttrList = JSON.stringify(componentAttrConfig[type as keyof typeof componentAttrConfig] ?? [])
+
+  let newAttrList = JSON.parse(componentAttrList)
+
+  if (!newAttrList[0]) return []
+  kebabToCamel(newAttrList)
+
+  return newAttrList
 })
 
 /** 组件大小枚举 */
@@ -60,6 +70,7 @@ const handleBtnType = (type: string) => {
   selectCom.value.props.type = type
   console.log(selectCom.value.props)
 }
+
 </script>
 
 <style scoped lang="scss">
