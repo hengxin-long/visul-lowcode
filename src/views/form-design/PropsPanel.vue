@@ -7,6 +7,9 @@
       <el-scrollbar>
         <div class="props-container">
           <div v-if="selectCom" class="props">
+            <p>业务字段</p>
+            <!-- 如果schema为空就不渲染field -->
+            <el-input v-if="schema" v-model="schema.field" size="small" />
             <div class="attr" v-for="attr in attrList">
               <p>{{ attr.label }}</p>
               <el-input v-if="attr.type === 'input'" v-model="selectCom.props[attr.prop]" size="small" />
@@ -57,16 +60,24 @@ import { computed, ref } from 'vue'
 import { componentAttrConfig } from '@/config/componentAttrConfig';
 import { ComponentSize, ComponentBtnType, ComponentInputType } from '@/enums/component';
 import { kebabToCamel } from '@/utils/transform'
-import type { ComponentProps } from '@/types/form';
+import type { ComponentProps, FormComponent } from '@/types/form';
+
+const designStore = useDesignStore()
 
 /** 当前选中的组件 */
-const { selectCom } = storeToRefs(useDesignStore())
+const { selectCom } = storeToRefs(designStore)
+/** 拿到schema，目的是拿到field绑定 */
+const schema = ref<FormComponent>()
 
 /** 选中当前组件就重新计算 */
 const attrList = computed(() => {
   if (!selectCom.value) return []
   const type = selectCom.value?.componentType
+  // 赋值指向同一个对象，目的是拿到field属性进行双向绑定
+  schema.value = selectCom.value
+  
   const componentAttrList = JSON.stringify(componentAttrConfig[type as keyof typeof componentAttrConfig] ?? [])
+  // console.log('schema', schema.value)
 
   let newAttrList = JSON.parse(componentAttrList)
 

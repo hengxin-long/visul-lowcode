@@ -5,6 +5,7 @@ export const baseFields: FormComponent[] = [
     label: '密码框',
     id: '',
     componentType: 'password',
+    field: 'password',
     props: {
       label: '密码',
       require: true,
@@ -19,9 +20,10 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '文本',
+    label: '文本框',
     id: '',
     componentType: 'input',
+    field: 'field',
     props: {
       label: '文本框',
       require: true,
@@ -39,6 +41,7 @@ export const baseFields: FormComponent[] = [
     label: '日期',
     id: '',
     componentType: 'date',
+    field: 'date',
     props: {
       readonly: false,
       disabled: false,
@@ -53,6 +56,7 @@ export const baseFields: FormComponent[] = [
     label: '数字框',
     id: '',
     componentType: 'inputNumber',
+    field: 'number',
     props: {
       placeholder: '请输入数字',
       max: 10,
@@ -69,6 +73,7 @@ export const baseFields: FormComponent[] = [
     label: '多选框',
     id: '',
     componentType: 'checkbox',
+    field: 'checkbox',
     props: {
       trueValue: '',
       falseValue: '',
@@ -79,11 +84,12 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '单选',
+    label: '单选框',
     id: '',
     componentType: 'radio',
+    field: 'radio',
     props: {
-      value: '',
+      value: 1,
       label: '单选',
       disabled: false,
       border: true,
@@ -94,6 +100,7 @@ export const baseFields: FormComponent[] = [
     label: '下拉框',
     id: '',
     componentType: 'select',
+    field: 'select',
     props: {
       multiple: false,
       disabled: false,
@@ -111,6 +118,7 @@ export const baseFields: FormComponent[] = [
     label: '评分',
     id: '',
     componentType: 'rate',
+    field: 'rate',
     props: {
       max: 5,
       size: 'default',
@@ -126,6 +134,7 @@ export const baseFields: FormComponent[] = [
     label: '按钮',
     id: '',
     componentType: 'button',
+    field: 'button',
     props: {
       label: '按钮',
       type: 'default',

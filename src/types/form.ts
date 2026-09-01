@@ -7,6 +7,7 @@ export interface FormComponent {
   label: string,
   id: string,
   componentType: string,
+  field: string,
   props: Record<string, any>
 }
 
