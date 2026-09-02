@@ -10,8 +10,8 @@ const router = createRouter({
       redirect: '/form-list',
       children: [
         {
-          path: '/form-list',
-          component: import('@/views/form-list/index.vue'),
+          path: 'form-list',
+          component: () => import('@/views/form-list/index.vue'),
           meta: {
             title: '全部表单',
             breadcrumb: ['工作台', '全部表单']
@@ -23,7 +23,7 @@ const router = createRouter({
     {
       // id可选，新建表单不传id，编辑表单传id
       path: '/form-design/:id?',
-      component: import('@/views/form-design/index.vue'),
+      component: () => import('@/views/form-design/index.vue'),
       meta: {
         title: '新建表单',
         breadcrumb: ['工作台', '新建表单']
