@@ -129,7 +129,7 @@ const delOption = (index: number | string) => {
 <style scoped lang="scss">
 .designer-props {
   width: 100%;
-  height: calc(100vh - var(--design-header));
+  height: calc(100vh - var(--design-header) - 30px);
   padding: var(--design-aside-padding);
 
   .title {
@@ -137,7 +137,7 @@ const delOption = (index: number | string) => {
   }
 
   .scroll-container {
-    height: calc(100vh - var(--design-aside-scroll-height));
+    height: calc(100vh - var(--design-aside-scroll-height) - 30px);
     width: 100%;
 
     :deep(.el-scrollbar) {

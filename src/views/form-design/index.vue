@@ -5,15 +5,16 @@
         <DesignHeader />
       </el-header>
       <el-container>
-        <el-aside width="250px">
+        <el-aside width="250px" class="component-library">
           <DesignComponentLibrary />
         </el-aside>
         <!-- 没选中画布中的组件就赋值为空 -->
         <el-main @click="handleNotSelected">
           <DesignCanvas />
         </el-main>
-        <el-aside width="280px">
-          <PropsPanel />
+        <el-aside width="280px" class="props-panel">
+          <DesignPropToggle />
+          <!-- <PropsPanel /> -->
         </el-aside>
       </el-container>
     </el-container>
@@ -25,6 +26,7 @@ import DesignHeader from './DesignHeader.vue';
 import DesignComponentLibrary from './DesignComponentLibrary.vue';
 import PropsPanel from './PropsPanel.vue';
 import DesignCanvas from './DesignCanvas.vue';
+import DesignPropToggle from './DesignPropToggle.vue';
 import { useDesignStore } from '@/stores/design.ts';
 
 const { handleNotSelected } = useDesignStore()
@@ -40,10 +42,16 @@ const { handleNotSelected } = useDesignStore()
   border: 1px solid var(--border-color);
 }
 
-:deep(.el-aside) {
+:deep(.component-library.el-aside) {
   background-color: #fff;
   box-shadow: 1px 0 var(--border-color);
 }
+
+:deep(.props-panel.el-aside) {
+  background-color: #fff;
+  box-shadow: -1px 0 var(--border-color);
+}
+
 
 :deep(.el-main) {
   padding: 0;
