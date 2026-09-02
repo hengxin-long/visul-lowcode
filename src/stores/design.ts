@@ -11,7 +11,7 @@ export const useDesignStore = defineStore('design', () => {
     formName: '',
     formType: '',
     status: 'draft',
-    createTime: new Date().toLocaleTimeString(),
+    createTime: new Date().toISOString(),
     updateTime: '',
     schema: {
       formName: '',
