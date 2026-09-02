@@ -9,7 +9,7 @@ export const componentAttrConfig = {
   input: [
     { label: '标签文本', prop: 'label', type: 'input' },
     { label: '占位提示', prop: 'placeholder', type: 'input' },
-    {label: '文本框类型', prop: 'type', type: 'inputType'},
+    { label: '文本框类型', prop: 'type', type: 'inputType' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '最大长度', prop: 'maxlength', type: 'number' },
@@ -20,7 +20,7 @@ export const componentAttrConfig = {
   password: [
     { label: '标签文本', prop: 'label', type: 'input' },
     { label: '占位提示', prop: 'placeholder', type: 'input' },
-    {label: '文本框类型', prop: 'type', type: 'inputType'},
+    { label: '文本框类型', prop: 'type', type: 'inputType' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '最大长度', prop: 'maxlength', type: 'number' },
@@ -104,5 +104,12 @@ export const componentAttrConfig = {
     { label: '按钮是否为禁用状态', prop: 'disabled', type: 'switch' },
     { label: '是否为加载中状态', prop: 'loading', type: 'switch' },
     { label: '自定义按钮颜色', prop: 'color', type: 'input' },
+  ],
+  title: [
+    { label: '标题级别', prop: 'level', type: 'number' },
+    { label: '字体大小', prop: 'fontSize', type: 'number' },
+    { label: '字体颜色', prop: 'color', type: 'input' },
+    { label: '字体位置', prop: 'textAlign', type: 'input' },
+    { label: '字体加粗', prop: 'fontWeight', type: 'input' },
   ]
 }

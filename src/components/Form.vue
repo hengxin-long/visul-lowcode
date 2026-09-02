@@ -1,5 +1,5 @@
 <template>
-  <div ref="componet" class="form-component" v-for="(com, index) in formSchema?.schema.components" :key="com.id"
+  <div ref="componet" class="form-component" v-for="(com, index) in formSchema.schema.components" :key="com.id"
     @click.stop="isEditMode && handleSelect(com)" :class="{ 'form-component--edit': isEditMode }">
     <div class="operate" v-if="isEditMode">
       <el-icon @click.stop="handleCopy(com, index)" title="复制" :size="16">
@@ -23,6 +23,7 @@
       @update:model-value="(val: any) => tempData[com.field] = val">
       <span v-if="com.componentType === 'button'">{{ com.props.label }}</span>
     </component>
+    <FormTitle v-if="com.componentType === 'title'" :com="com" :schema="formSchema.schema" />
   </div>
   <!-- <el-button @click="print" type="primary">打印tempData</el-button> -->
 </template>
@@ -34,6 +35,7 @@ import { ref, watch } from 'vue';
 import type { FormComponent } from '@/types/form'
 import { storeToRefs } from 'pinia';
 import { DocumentCopy, Delete } from '@element-plus/icons-vue'
+import FormTitle from './form-custom/FormTitle.vue';
 
 const map = componentMap
 const designStore = useDesignStore()

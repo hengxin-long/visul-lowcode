@@ -14,7 +14,7 @@ export const useDesignStore = defineStore('design', () => {
     createTime: new Date().toISOString(),
     updateTime: '',
     schema: {
-      formName: '',
+      formName: '表单',
       formType: '',
       components: []
     }

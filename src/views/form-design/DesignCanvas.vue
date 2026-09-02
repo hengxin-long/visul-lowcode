@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="form-canvas" @click="handleNotSelected">
-          <Form :formSchema="formSchema"/>
+          <Form :formSchema="formSchema" />
         </div>
       </div>
     </div>
@@ -89,7 +89,10 @@ onMounted(() => {
       console.log('添加进数组后 ', formSchema.value.schema.components)
 
       // 加到components数组后移出dom元素，只留schema
+      // if (!(component.componentType == 'title' || component.componentType == 'subTitle')) {
+      //   console.log('不是标题，删除', component.componentType)
       if (evt.item) evt.item.remove()
+      // }
     },
     onEnd: (evt: SortableEvent) => {
       evt.preventDefault()
@@ -148,7 +151,7 @@ onUnmounted(() => {
     border: 1px solid var(--border-color);
     border-radius: 15px;
 
-    
+
   }
 }
 

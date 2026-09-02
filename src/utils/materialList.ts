@@ -151,4 +151,18 @@ export const baseFields: FormComponent[] = [
       loading: false,
     }
   },
+  {
+    label: '标题',
+    id: '',
+    componentType: 'title',
+    field: 'title',
+    props: {
+      fontSize: 20,
+      color: 'black',
+      level: 1,
+      textAlign: 'left',
+      fontWeight: '400'
+    }
+  },
+  
 ]
