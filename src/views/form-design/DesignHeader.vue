@@ -18,6 +18,11 @@
 import { useRouter } from 'vue-router';
 import DesignPreviewForm from '@/views/form-design/DesignPreviewForm.vue';
 import { ref } from 'vue'
+import { useDesignStore } from '@/stores/design';
+import { storeToRefs } from 'pinia';
+
+const designStore = useDesignStore()
+const {switchEdit, switchPreview} = designStore
 
 /** 预览表单窗口状态 */
 const isPreviewFormVisible = ref(false)
@@ -25,11 +30,13 @@ const isPreviewFormVisible = ref(false)
 /** 关闭预览窗口 */
 const closePreviewForm = () => {
   isPreviewFormVisible.value = false
+  switchEdit()
 }
 
 /** 打开预览窗口 */
 const openPreviewForm = () => {
   isPreviewFormVisible.value = true
+  switchPreview()
 }
 
 const router = useRouter()

@@ -8,7 +8,7 @@
             <h3 class="form-name">{{ formName }}</h3>
           </div>
           <div class="func">
-            <el-button @click.stop="confirmClear">清除表单</el-button>
+            <el-button @click.stop="confirmClear">重做</el-button>
             <!-- 清除确认框 -->
             <el-dialog v-model="isClearVisible" title="警告" width="400" :before-close="closeClear">
               <span>确认清除全部组件？</span>
@@ -42,12 +42,10 @@ import Form from '@/components/Form.vue';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleSelect, handleNotSelected, clearFormComponent } = designStore
+const { handleNotSelected, clearFormComponent, addId } = designStore
 
 const formName = ref('新建表单')
 let sortbale: Sortable
-// 组件的唯一id
-let id = 1
 
 /** 清除确认窗状态 */
 const isClearVisible = ref(false)
@@ -86,10 +84,8 @@ onMounted(() => {
       const newIndex = evt.newIndex
       // 反序列化添加进数组
       const component = JSON.parse(field.value)
-      component.id = `${id}`
+      component.id = `${addId()}`
       formSchema.value?.schema.components.splice(newIndex, 0, component)
-      // 添加完id 自增
-      id++
       console.log('添加进数组后 ', formSchema.value.schema.components)
 
       // 加到components数组后移出dom元素，只留schema
