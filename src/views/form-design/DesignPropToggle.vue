@@ -9,7 +9,7 @@
       <PropsPanel />
     </el-tab-pane>
     <el-tab-pane label="表单属性" name="form">
-      表单属性
+      <DesignFormPanel />
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -19,6 +19,7 @@ import { ref } from 'vue'
 
 import type { TabsPaneContext } from 'element-plus'
 import PropsPanel from './PropsPanel.vue'
+import DesignFormPanel from './DesignFormPanel.vue'
 
 const activeName = ref('field')
 
