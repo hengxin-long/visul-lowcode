@@ -21,9 +21,7 @@ request.interceptors.response.use(
   if (code === ApiCodeEnum.NOT_FOUND || code === ApiCodeEnum.BAD_REQUEST) {
     ElMessage.error(msg || "请求失败!")
   }
-  if(code === ApiCodeEnum.SUCCESS || code === ApiCodeEnum.NO_CONTENT) {
-    ElMessage.success(msg || '成功!')
-  }
+  
   return data
 })
 

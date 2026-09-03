@@ -2,7 +2,8 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { FormItem, FormComponent, FormStatus } from '@/types/form'
 import { ElMessage } from "element-plus";
-import {postFormSchema} from '@/api/form/index'
+import { postFormSchema } from '@/api/form/index'
+import { useRouter } from "vue-router";
 
 export const useDesignStore = defineStore('design', () => {
 
@@ -102,17 +103,25 @@ export const useDesignStore = defineStore('design', () => {
     delete tempData.value[com.field]
   }
 
+  const router = useRouter()
   /** 
    * 添加表单到mock
    * @param status 表单状态
    */
-  const postForm = async(status: FormStatus) => {
+  const postForm = async (status: FormStatus) => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
-      
+
     formSchema.value.status = status
     formSchema.value.updateTime = new Date().toISOString()
 
-    const res = await postFormSchema(formSchema.value)
+    try {
+      // res 此时仅仅等于后端的 data字段，拿不到code和msg
+      await postFormSchema(formSchema.value)
+      ElMessage.success('保存成功')
+      router.replace({ path: '/form-list' })
+    } catch (err) {
+      // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
+    }
   }
 
   return {
