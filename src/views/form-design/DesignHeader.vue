@@ -7,11 +7,24 @@
   </el-page-header>
   <div class="operation">
     <el-button @click="openPreviewForm">预览</el-button>
-    <el-button>保存</el-button>
+    <el-button @click="openSaveForm">保存</el-button>
     <el-button type="primary">发布表单</el-button>
   </div>
   <!-- 预览窗口 -->
   <DesignPreviewForm :isPreviewFormVisible="isPreviewFormVisible" @close="closePreviewForm" />
+  <!-- 保存窗口 -->
+  <el-dialog v-model="isSaveFormVisible" title="保存表单" width="500" :before-close="closeSaveForm">
+    <span>是否保存为草稿？</span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="closeSaveForm">取消</el-button>
+        <el-button @click="handleForm('draft')">
+          是
+        </el-button>
+        <el-button @click="handleForm('published')" type="primary">发布</el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -20,12 +33,16 @@ import DesignPreviewForm from '@/views/form-design/DesignPreviewForm.vue';
 import { ref } from 'vue'
 import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
+import type { FormStatus } from '@/types/form'
 
 const designStore = useDesignStore()
-const {switchEdit, switchPreview} = designStore
+const { switchEdit, switchPreview, postForm } = designStore
 
 /** 预览表单窗口状态 */
 const isPreviewFormVisible = ref(false)
+
+/** 保存表单弹窗状态 */
+const isSaveFormVisible = ref(false)
 
 /** 关闭预览窗口 */
 const closePreviewForm = () => {
@@ -37,6 +54,23 @@ const closePreviewForm = () => {
 const openPreviewForm = () => {
   isPreviewFormVisible.value = true
   switchPreview()
+}
+
+/** 打开保存窗口 */
+const openSaveForm = () => {
+  isSaveFormVisible.value = true
+}
+
+/** 关闭保存窗口 */
+const closeSaveForm = () => {
+  isSaveFormVisible.value = false
+}
+
+/** 处理新增表单 */
+const handleForm = (status: FormStatus) => {
+  isSaveFormVisible.value = false
+  console.log(status)
+  postForm(status)
 }
 
 const router = useRouter()

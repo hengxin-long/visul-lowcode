@@ -32,3 +32,15 @@ export function countFormByStatus() {
     method: 'GET'
   })
 }
+
+/** 
+ * 新增表单
+ * data：POST / PUT 使用，放到请求体 Body，不会显示在URL上，适合大对象、schema
+ */
+export function postFormSchema(data: FormItem) {
+  return request({
+    url: `${BASE_FORM_USL}/add`,
+    method: 'POST',
+    data
+  })
+}

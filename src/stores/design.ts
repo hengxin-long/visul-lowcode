@@ -1,21 +1,22 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { FormItem, FormComponent } from '@/types/form'
+import type { FormItem, FormComponent, FormStatus } from '@/types/form'
 import { ElMessage } from "element-plus";
+import {postFormSchema} from '@/api/form/index'
 
 export const useDesignStore = defineStore('design', () => {
 
   /** 初始化新表单 */
   const formSchema = ref<FormItem>({
-    id: '1',
-    formName: '',
-    formType: '',
+    id: '',
+    formName: '新建表单',
+    formType: '普通表单',
     status: 'draft',
     createTime: new Date().toISOString(),
     updateTime: '',
     schema: {
       formName: '表单',
-      formType: '',
+      formType: 'normal',
       components: []
     }
   })
@@ -101,6 +102,19 @@ export const useDesignStore = defineStore('design', () => {
     delete tempData.value[com.field]
   }
 
+  /** 
+   * 添加表单到mock
+   * @param status 表单状态
+   */
+  const postForm = async(status: FormStatus) => {
+    if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
+      
+    formSchema.value.status = status
+    formSchema.value.updateTime = new Date().toISOString()
+
+    const res = await postFormSchema(formSchema.value)
+  }
+
   return {
     formSchema,
     tempData,
@@ -113,7 +127,8 @@ export const useDesignStore = defineStore('design', () => {
     switchEdit,
     addId,
     handleCopy,
-    handleDelete
+    handleDelete,
+    postForm
   }
 
 })
