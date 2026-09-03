@@ -8,7 +8,7 @@
   <div class="operation">
     <el-button @click="openPreviewForm">预览</el-button>
     <el-button @click="openSaveForm">保存</el-button>
-    <el-button type="primary">发布表单</el-button>
+    <el-button @click="handleForm('published')" type="primary">发布表单</el-button>
   </div>
   <!-- 预览窗口 -->
   <DesignPreviewForm :isPreviewFormVisible="isPreviewFormVisible" @close="closePreviewForm" />
@@ -68,6 +68,9 @@ const closeSaveForm = () => {
 
 /** 处理新增表单 */
 const handleForm = (status: FormStatus) => {
+  if (status === 'published') {
+    console.log('校验画布配置是否合法  待定')
+  }
   isSaveFormVisible.value = false
   console.log(status)
   postForm(status)
