@@ -28,8 +28,56 @@ import PropsPanel from './PropsPanel.vue';
 import DesignCanvas from './DesignCanvas.vue';
 import DesignPropToggle from './DesignPropToggle.vue';
 import { useDesignStore } from '@/stores/design.ts';
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted } from 'vue';
+import { ElMessage } from 'element-plus';
+import { getFormDetailById } from '@/api/form/index.ts';
+import { storeToRefs } from 'pinia';
+import type { FormItem } from '@/types/form.ts';
 
-const { handleNotSelected } = useDesignStore()
+const designStore = useDesignStore()
+const { formSchema } = storeToRefs(designStore)
+const { handleNotSelected } = designStore
+const route = useRoute()
+const router = useRouter()
+
+/** 表单id，undefined表示新建表单，"1" 表示编辑表单 */
+const id = route.params.id as string
+
+/** 检验id */
+const checkIdValid = (id: string) => {
+  if (!id) return false
+  // 空字符串、纯空格：判定非法
+  const trimId = id.trim()
+  if (trimId === '') return false
+  // 自定义你的规则：纯数字 / uuid正则，这里示范数字id
+  return /^\d+$/.test(id)
+}
+
+/** 获取表单详情 */
+const getFormDetail = async () => {
+  const form: FormItem = await getFormDetailById(id)
+  // console.log('form: ', form)
+  // console.log(formSchema)
+  formSchema.value = form
+}
+
+// 组件挂在完执行
+onMounted(async () => {
+  console.log('表单id：', id)
+  /** 校验id是否合法 */
+  // 校验id
+  if (id !== undefined && !checkIdValid(id)) {
+    ElMessage.error('表单id非法')
+    router.replace('/form-list')
+    return
+  }
+  if (checkIdValid(id)) {
+    // id合法，get请求
+    getFormDetail()
+  }
+})
+
 </script>
 
 <style scoped lang="scss">

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import type { FormQueryParams, FormQueryStatusParams } from './types'
-import type { PageResult, CountForm } from '../common'
+import type { PageResult, CountForm, ApiResult } from '../common'
 import type { FormItem } from '@/types/form'
 
 const BASE_FORM_USL = '/mock/form'
@@ -42,5 +42,16 @@ export function postFormSchema(data: FormItem) {
     url: `${BASE_FORM_USL}/add`,
     method: 'POST',
     data
+  })
+}
+
+/** 
+ * 获取表单详情
+ * @param id 表单id
+ */
+export function getFormDetailById(id: string) {
+  return request<unknown, FormItem>({
+    url: `${BASE_FORM_USL}/${id}/detail`,
+    method: 'GET'
   })
 }

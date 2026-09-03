@@ -166,6 +166,28 @@ export default defineMock([
         msg
       }
     }
+  },
+  {
+    url: '/mock/form/:id/detail',
+    method: 'GET',
+    body({ params }) {
+      console.log('进入到get detail接口')
+      let code = ApiCodeEnum.SUCCESS
+      let msg = '获取成功！'
+      console.log('formData ', formData)
+      const form = formData.find(item => item.id === Number(params.id))
+      console.log('form：', form)
+      if(!form) {
+        code = ApiCodeEnum.BAD_REQUEST
+        msg = '获取失败！'
+      }
+
+      return {
+        code,
+        data: form,
+        msg
+      }
+    }
   }
 ])
 
