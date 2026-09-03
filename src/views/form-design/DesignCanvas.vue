@@ -5,9 +5,10 @@
         <div class="form-header">
           <div class="info">
             <p class="descrition">表单结构</p>
-            <h3 class="form-name">{{ formName }}</h3>
+            <h3 class="form-name">{{ formSchema.formName }}</h3>
           </div>
           <div class="func">
+            <el-button @click.stop="isViewVisible = true">查看schema</el-button>
             <el-button @click.stop="confirmClear">重做</el-button>
             <!-- 清除确认框 -->
             <el-dialog v-model="isClearVisible" title="警告" width="400" :before-close="closeClear">
@@ -21,6 +22,15 @@
                 </div>
               </template>
             </el-dialog>
+            <!-- 查看schema
+              <pre> 标签定义预先格式化的文本。
+              <pre> 元素中的文本以等宽字体显示，文本保留空格和换行符。文本将完全按照 HTML 源代码中所写的方式显示。
+            -->
+            <el-dialog v-model="isViewVisible" title="schema" width="500px" :before-close="closeView">
+              <div class="pre-json">
+                <pre>{{ strSchema }}</pre>
+              </div>
+            </el-dialog>
           </div>
         </div>
         <div class="form-canvas" @click="handleNotSelected">
@@ -32,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import Sortable, { type SortableEvent } from 'sortablejs'
 import type { FormComponent } from '@/types/form';
 import { useDesignStore } from '@/stores/design'
@@ -44,7 +54,6 @@ const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
 const { handleNotSelected, clearFormComponent, addId } = designStore
 
-const formName = ref('新建表单')
 let sortbale: Sortable
 
 /** 清除确认窗状态 */
@@ -60,9 +69,23 @@ const closeClear = () => {
   isClearVisible.value = false
 }
 
+/** 清空表单组件 */
 const clearForm = () => {
   closeClear()
   clearFormComponent()
+}
+
+/** 查看schema弹窗状态 */
+const isViewVisible = ref(false)
+
+/** 表单发生变化重新调用 */
+const strSchema = computed(() => {
+  return JSON.stringify(formSchema.value, null, 2)
+})
+
+/** 关闭schema弹窗 */
+const closeView = () => {
+  isViewVisible.value = false
 }
 
 onMounted(() => {
@@ -166,5 +189,23 @@ onUnmounted(() => {
   text-align: center;
   line-height: 50px;
   cursor: pointer;
+}
+
+.pre-json {
+  padding: 10px;
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+  box-shadow: 0 0 0 1px #d8d8d8;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: monospace;
+    font-size: 15px;
+    color: black;
+  }
 }
 </style>
