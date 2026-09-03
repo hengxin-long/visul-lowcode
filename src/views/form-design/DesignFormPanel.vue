@@ -23,7 +23,6 @@
             <el-input v-model="formSchema.schema.formType" size="small" placeholder="输入表单业务类型"/>
           </div>
         </div>
-        <el-button @click="view">点击查看schema</el-button>
       </el-scrollbar>
     </div>
   </div>
@@ -36,9 +35,6 @@ import { storeToRefs } from 'pinia';
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
 
-const view = () => {
-  console.log(designStore.formSchema.schema)
-}
 </script>
 
 <style scoped lang="scss">
