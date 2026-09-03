@@ -1,6 +1,7 @@
 // import { defineMock } from './base'
 import { defineMock } from 'vite-plugin-mock-dev-server'
 import { ApiCodeEnum } from '../src/enums/api'
+import { FormItem } from '../src/types/form'
 
 /** 表单唯一id */
 let id = 1
@@ -156,7 +157,7 @@ export default defineMock([
         id++
       } else {
         code = 404,
-        msg = '添加失败'
+          msg = '添加失败'
       }
 
       return {
@@ -168,7 +169,7 @@ export default defineMock([
   }
 ])
 
-const formData = [
+const formData: FormItem[] = [
   // {
   //   id: '1',
   //   formName: '客户信息收集表',
