@@ -6,22 +6,38 @@ import { postFormSchema } from '@/api/form/index'
 import { useRouter } from "vue-router";
 import { getFormDetailById } from '@/api/form/index.ts';
 
+
+const defaultTemplate: FormItem = {
+  id: '',
+  formName: '新建表单',
+  formType: '普通表单',
+  status: 'draft',
+  createTime: new Date().toISOString(),
+  updateTime: '',
+  schema: {
+    formName: '表单',
+    formType: 'normal',
+    components: []
+  }
+}
+
 export const useDesignStore = defineStore('design', () => {
 
   /** 初始化新表单 */
-  const formSchema = ref<FormItem>({
-    id: '',
-    formName: '新建表单',
-    formType: '普通表单',
-    status: 'draft',
-    createTime: new Date().toISOString(),
-    updateTime: '',
-    schema: {
-      formName: '表单',
-      formType: 'normal',
-      components: []
-    }
-  })
+  const formSchema = ref<FormItem>(JSON.parse(JSON.stringify(defaultTemplate)))
+
+  /** 重置表单 */
+  const resetFormSchema = () => {
+    formSchema.value = JSON.parse(JSON.stringify(defaultTemplate))
+  }
+
+  /** 
+   * 赋值编辑表单
+   * @param formDetail 表单详情
+   */
+  const setFormSchema = (formDetail: FormItem) => {
+    formSchema.value = JSON.parse(JSON.stringify(formDetail))
+  }
 
   /** 
  * 临时表单数据变量
@@ -37,6 +53,9 @@ export const useDesignStore = defineStore('design', () => {
 
   /** 组件唯一id */
   let id = 1
+
+  /** 表单保存状态 */
+  const isSaved = ref(false)
 
   /**
    * 处理画布选中的组件
@@ -119,6 +138,7 @@ export const useDesignStore = defineStore('design', () => {
       // res 此时仅仅等于后端的 data字段，拿不到code和msg
       await postFormSchema(formSchema.value)
       ElMessage.success('保存成功')
+      isSaved.value = true
       router.replace({ path: '/form-list' })
     } catch (err) {
       // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
@@ -152,11 +172,15 @@ export const useDesignStore = defineStore('design', () => {
     return form
   }
 
+
   return {
     formSchema,
     tempData,
     selectCom,
     isEditMode,
+    isSaved,
+    resetFormSchema,
+    setFormSchema,
     handleSelect,
     handleNotSelected,
     clearFormComponent,

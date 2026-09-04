@@ -36,6 +36,7 @@ import { storeToRefs } from 'pinia';
 import type { FormStatus } from '@/types/form'
 
 const designStore = useDesignStore()
+const { isSaved } = storeToRefs(designStore)
 const { switchEdit, switchPreview, postForm } = designStore
 
 /** 预览表单窗口状态 */
@@ -80,6 +81,7 @@ const router = useRouter()
 const goBack = () => {
   // 回到主页前做些业务逻辑
   // 比如：1.返回之前是否已保存。2.新建表单后什么都没做就返回
+  if (!isSaved.value) return openSaveForm()
   router.push('/form-list')
 }
 </script>

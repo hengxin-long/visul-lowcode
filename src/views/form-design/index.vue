@@ -29,15 +29,20 @@ import DesignCanvas from './DesignCanvas.vue';
 import DesignPropToggle from './DesignPropToggle.vue';
 import { useDesignStore } from '@/stores/design.ts';
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue'
+import type { FormItem } from '@/types/form.ts';
 
 const designStore = useDesignStore()
-const { formSchema } = storeToRefs(designStore)
-const { handleNotSelected, getFormDetail, switchEdit } = designStore
+const { formSchema, isSaved } = storeToRefs(designStore)
+const { resetFormSchema, setFormSchema, handleNotSelected, getFormDetail, switchEdit } = designStore
 const route = useRoute()
 const router = useRouter()
+
+// 原始对象用来和全局formSchema做对比
+const originSchema = ref<FormItem>()
 
 /** 表单id，undefined表示新建表单，"1" 表示编辑表单 */
 const id = route.params.id as string
@@ -52,7 +57,12 @@ const checkIdValid = (id: string) => {
   return /^\d+$/.test(id)
 }
 
-
+watch(() => formSchema.value, () => {
+  isSaved.value = JSON.stringify(originSchema.value) == JSON.stringify(formSchema.value)
+  // console.log('originSchema ', originSchema.value)
+  // console.log('formSchema ', formSchema.value)
+  console.log('isSaved', isSaved.value)
+}, { deep: true })
 
 // 组件挂在完执行
 onMounted(async () => {
@@ -68,12 +78,18 @@ onMounted(async () => {
     // id合法，get请求
     const form = getFormDetail(id)
     form.then(resolve => {
-      formSchema.value = resolve
+      setFormSchema(resolve)
+      originSchema.value = JSON.parse(JSON.stringify(resolve))
     }, reject => {
       throw new Error("获取失败！", reject);
     }).catch((e) => {
       ElMessage.error(e)
     })
+  }
+  // undefined，初始化fomrSchema
+  if (!id) {
+    resetFormSchema()
+    originSchema.value = JSON.parse(JSON.stringify(formSchema.value))
   }
   // 进入表单设计就切换为编辑模式
   switchEdit()
