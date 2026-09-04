@@ -127,7 +127,26 @@ export const useDesignStore = defineStore('design', () => {
 
   /** 获取表单详情 */
   const getFormDetail = async (id: string): Promise<FormItem> => {
-    const form: FormItem = await getFormDetailById(id)
+    const form = await getFormDetailById(id)
+    if (!form) {
+      // 后端返回空对象，代表该id不存在
+      ElMessage.warning('该表单不存在或已被删除')
+      // 跳转到表单列表页，避免停留在无效路由
+      router.replace('/form-list')
+      return {
+        id: '',
+        formName: '新建表单',
+        formType: '普通表单',
+        status: 'draft',
+        createTime: new Date().toISOString(),
+        updateTime: '',
+        schema: {
+          formName: '表单',
+          formType: 'normal',
+          components: []
+        }
+      }
+    }
     // console.log('form: ', form)
     // console.log(formSchema)
     return form
