@@ -4,6 +4,7 @@ import type { FormItem, FormComponent, FormStatus } from '@/types/form'
 import { ElMessage } from "element-plus";
 import { postFormSchema } from '@/api/form/index'
 import { useRouter } from "vue-router";
+import { getFormDetailById } from '@/api/form/index.ts';
 
 export const useDesignStore = defineStore('design', () => {
 
@@ -56,7 +57,7 @@ export const useDesignStore = defineStore('design', () => {
     formSchema.value.schema.components = []
   }
 
-  /** 切换预览模式 */
+  /** 切换预览（浏览）模式 */
   const switchPreview = () => {
     isEditMode.value = false
   }
@@ -124,6 +125,14 @@ export const useDesignStore = defineStore('design', () => {
     }
   }
 
+  /** 获取表单详情 */
+  const getFormDetail = async (id: string): Promise<FormItem> => {
+    const form: FormItem = await getFormDetailById(id)
+    // console.log('form: ', form)
+    // console.log(formSchema)
+    return form
+  }
+
   return {
     formSchema,
     tempData,
@@ -137,7 +146,8 @@ export const useDesignStore = defineStore('design', () => {
     addId,
     handleCopy,
     handleDelete,
-    postForm
+    postForm,
+    getFormDetail
   }
 
 })

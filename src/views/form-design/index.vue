@@ -31,13 +31,11 @@ import { useDesignStore } from '@/stores/design.ts';
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getFormDetailById } from '@/api/form/index.ts';
 import { storeToRefs } from 'pinia';
-import type { FormItem } from '@/types/form.ts';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleNotSelected } = designStore
+const { handleNotSelected, getFormDetail, switchEdit } = designStore
 const route = useRoute()
 const router = useRouter()
 
@@ -54,13 +52,7 @@ const checkIdValid = (id: string) => {
   return /^\d+$/.test(id)
 }
 
-/** 获取表单详情 */
-const getFormDetail = async () => {
-  const form: FormItem = await getFormDetailById(id)
-  // console.log('form: ', form)
-  // console.log(formSchema)
-  formSchema.value = form
-}
+
 
 // 组件挂在完执行
 onMounted(async () => {
@@ -74,8 +66,17 @@ onMounted(async () => {
   }
   if (checkIdValid(id)) {
     // id合法，get请求
-    getFormDetail()
+    const form = getFormDetail(id)
+    form.then(resolve => {
+      formSchema.value = resolve
+    }, reject => {
+      throw new Error("获取失败！", reject);
+    }).catch((e) => {
+      ElMessage.error(e)
+    })
   }
+  // 进入表单设计就切换为编辑模式
+  switchEdit()
 })
 
 </script>
