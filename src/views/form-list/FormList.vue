@@ -69,7 +69,7 @@
       </el-dialog>
       <!-- 浏览表单弹窗 -->
       <el-dialog v-model="isBrowseFormVisible" title="提示" width="500" :before-close="closeBrowseForm">
-        <span>表单</span>
+        <Form :formSchema="formSchema" />
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="toDesigner">编辑</el-button>
@@ -93,6 +93,8 @@ import type { FormItem } from '@/types/form'
 import { useRouter } from 'vue-router'
 import type { FormQueryParams } from '@/api/form/types'
 import type { TableInstance } from 'element-plus'
+import { useDesignStore } from '@/stores/design'
+import Form from '@/components/Form.vue'
 
 const formStore = useFormStore()
 const router = useRouter()
@@ -372,6 +374,10 @@ const handleEdit = (row: FormItem) => {
   toDesigner()
 }
 
+const designStore = useDesignStore()
+const { getFormDetail, switchPreview } = designStore
+const formSchema = ref<FormItem>()
+
 /** 
  * 浏览表单
  * @param row 单个表单实例
@@ -379,7 +385,16 @@ const handleEdit = (row: FormItem) => {
 const browseForm = (row: FormItem) => {
   isBrowseFormVisible.value = true
   toEditForm.value = row
-  console.log('浏览表单 ', row)
+  // console.log('浏览表单 ', row)
+  switchPreview()
+  getFormDetail(toEditForm.value.id).then(resolve => {
+    // console.log('resolve ', resolve)
+    formSchema.value = resolve
+  }, reject => {
+    throw new Error('获取失败！', reject)
+  }).catch((e) => {
+    ElMessage.error(e)
+  })
 }
 
 onMounted(() => {
