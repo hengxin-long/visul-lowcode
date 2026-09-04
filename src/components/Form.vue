@@ -1,5 +1,5 @@
 <template>
-  <div ref="componet" class="form-component" v-for="(com, index) in formSchema.schema.components" :key="com.id"
+  <div ref="componet" class="form-component" v-for="(com, index) in formSchema?.schema.components" :key="com.id"
     @click.stop="isEditMode && handleSelect(com)" :class="{ 'form-component--edit': isEditMode }">
     <div class="operate" v-if="isEditMode">
       <el-icon @click.stop="handleCopy(com, index)" title="复制" :size="16">
@@ -50,8 +50,11 @@ const props = defineProps(['formSchema'])
 // const tempData = ref<Record<string, any>>({})
 
 /** 深度监听，组件有变化就调用 */
-watch(() => props.formSchema.schema.components, (list) => {
-  console.log('list ', list)
+watch(() => props.formSchema, (schemaData) => {
+  console.log('props.formSchema ', props.formSchema)
+  if (!schemaData?.schema?.components) return
+  console.log('list ', schemaData)
+  const list = schemaData.schema.components
   const obj: Record<string, any> = {}
   list.forEach((item: FormComponent) => {
     obj[item.field] = item.componentType === 'inputNumber' || item.componentType === 'rate' ? 1 : ''
@@ -81,7 +84,7 @@ const print = () => {
 
 .form-component.form-component--edit:hover {
   outline: 1px solid #409eff !important;
-  
+
 }
 
 .form-component.form-component--edit:hover .operate {
