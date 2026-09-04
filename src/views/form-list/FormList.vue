@@ -81,7 +81,7 @@
         </template>
       </el-dialog>
       <!-- 导出json，设置文件名 -->
-      <el-dialog v-model="isExportForm" title="导出json表单" width="300" :before-close="closeExportForm">
+      <el-dialog class="export" v-model="isExportForm" title="导出json表单" width="300" :before-close="closeExportForm">
         <h4>设置文件名</h4>
         <el-input v-model="fileName" >
           <template #append>.json</template>
@@ -510,12 +510,12 @@ onMounted(() => {
     background-color: $vlcpColor;
   }
 
-  :deep(.el-table .el-table_1_column_2) {
+  :deep(.el-table .el-table__header tr th:nth-child(2)) {
     border-right: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
   }
 
-  :deep(.el-table .el-table_1_column_2) {
+  :deep(.el-table .el-table__row td:nth-child(2)) {
     border-right: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
   }
@@ -526,6 +526,10 @@ onMounted(() => {
 
   :deep(.el-table .ascending .sort-caret.ascending) {
     border-bottom-color: var(--sort-button-color);
+  }
+
+  :deep(.export.el-dialog .el-dialog__body .el-input .el-input-group__append) {
+    padding: 0 10px;
   }
 
 }
