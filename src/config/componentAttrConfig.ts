@@ -33,11 +33,13 @@ export const componentAttrConfig = {
     { label: '最大值', prop: 'max', type: 'number' },
     { label: '最小值', prop: 'min', type: 'number' },
     { label: '步数', prop: 'step', type: 'number' },
+    { label: '控制按钮位置', prop: 'controls-position', type: 'posiEnum' },
+    { label: '大小', prop: 'size', type: 'enum' },
     { label: '数值精度', prop: 'precision', type: 'number' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '是否使用控制按钮', prop: 'controls', type: 'switch' },
-    { label: '内部输入文本对齐', prop: 'align', type: 'enum' }
+    { label: '内部输入文本对齐', prop: 'align', type: 'positionEnum' }
   ],
   radio: [
     { label: '单选框的值', prop: 'value', type: 'input' },

@@ -64,8 +64,9 @@ export const baseFields: FormComponent[] = [
       step: 1,
       precision: 2,
       disabled: false,
+      controlsPosition: 'right',
       readonly: false,
-      controls: false,
+      controls: true,
       align: 'center'
     }
   },
@@ -92,7 +93,7 @@ export const baseFields: FormComponent[] = [
       value: 1,
       label: '单选',
       disabled: false,
-      border: true,
+      border: false,
       size: 'default'
     }
   },

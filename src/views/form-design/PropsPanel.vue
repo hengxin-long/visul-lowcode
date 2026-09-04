@@ -17,6 +17,10 @@
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-button @click="setProp('size', s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
               }}</el-button>
+              <div v-if="attr.type === 'posiEnum' && selectCom.componentType === 'inputNumber'" class="number-posi">
+                <el-button @click="numberControlPosi('')" size="small">无</el-button>
+                <el-button @click="numberControlPosi('right')" size="small">right</el-button>
+              </div>
               <!-- 按钮类型 -->
               <div v-if="attr.type === 'btnEnum'" class="btn-type-box options-box">
                 <el-button @click="setProp('type', b)" v-for="b in btnType" size="small">{{ b }}</el-button>
@@ -122,6 +126,12 @@ const delOption = (index: number | string) => {
   if (!selectCom.value) return []
   let i = Number(index)
   selectCom.value.props.options.splice(i, 1)
+}
+
+/**  */
+const numberControlPosi = (posi: string) => {
+  if (!selectCom.value) return []
+  selectCom.value.props.controlsPosition = posi
 }
 
 </script>
