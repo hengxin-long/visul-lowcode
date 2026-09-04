@@ -338,10 +338,13 @@ const handleAllRow = (selection: FormItem[]) => {
 /** 提交要删除的表单 */
 const submitDelForm = async () => {
   console.log('delForm: ', delForm.value)
-  const res = await deleteById(delForm.value)
+  try {
+    await deleteById(delForm.value)
+    ElMessage.success('删除成功！')
+  } catch (err) {
+    // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
+  }
   handleClose()
-  console.log(res)
-  ElMessage.success('删除成功')
   resetDelForm()
   formStore.countForm()
   resetCurrentPage()
