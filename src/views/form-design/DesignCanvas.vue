@@ -5,7 +5,7 @@
         <div class="form-header">
           <div class="info">
             <p class="descrition">表单结构</p>
-            <h3 class="form-name">{{ formSchema.formName }}</h3>
+            <h3 class="form-name">{{ formSchema?.formName }}</h3>
           </div>
           <div class="func">
             <el-button @click.stop="isViewVisible = true">查看schema</el-button>
