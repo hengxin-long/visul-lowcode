@@ -145,7 +145,7 @@ export default defineMock([
     /** body 属性是请求的数据体 */
     body({ body }) {
       console.log('POST请求已连接成功', body)
-      const form = body
+      const form = body as FormItem
       let code = ApiCodeEnum.SUCCESS
       let msg = '保存成功！'
       form.id = id
@@ -206,7 +206,7 @@ export default defineMock([
       }
 
       const formIndex = formData.findIndex(item => body.id === item.id)
-      formData[formIndex] = body
+      formData[formIndex] = body as FormItem
 
       return {
         code,
