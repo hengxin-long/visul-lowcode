@@ -12,7 +12,7 @@ const defaultTemplate: FormItem = {
   formName: '新建表单',
   formType: '普通表单',
   status: 'draft',
-  createTime: new Date().toISOString(),
+  createTime: new Date().toISOString().replace('T', ' ').split('.')[0] as string,
   updateTime: '',
   schema: {
     formName: '表单',
@@ -132,7 +132,7 @@ export const useDesignStore = defineStore('design', () => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
 
     formSchema.value.status = status
-    formSchema.value.updateTime = new Date().toISOString()
+    formSchema.value.updateTime = new Date().toISOString().replace('T', ' ').split('.')[0] as string
 
     try {
       // res 此时仅仅等于后端的 data字段，拿不到code和msg
@@ -151,7 +151,7 @@ export const useDesignStore = defineStore('design', () => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
 
     formSchema.value.status = status
-    formSchema.value.updateTime = new Date().toISOString()
+    formSchema.value.updateTime = new Date().toISOString().replace('T', ' ').split('.')[0] as string
     try {
       // res 此时仅仅等于后端的 data字段，拿不到code和msg
       await putFormSchema(formSchema.value)
@@ -171,19 +171,7 @@ export const useDesignStore = defineStore('design', () => {
       ElMessage.warning('该表单不存在或已被删除')
       // 跳转到表单列表页，避免停留在无效路由
       router.replace('/form-list')
-      return {
-        id: '',
-        formName: '新建表单',
-        formType: '普通表单',
-        status: 'draft',
-        createTime: new Date().toISOString(),
-        updateTime: '',
-        schema: {
-          formName: '表单',
-          formType: 'normal',
-          components: []
-        }
-      }
+      return JSON.parse(JSON.stringify(defaultTemplate))
     }
     return form
   }

@@ -419,7 +419,7 @@ const browseForm = (row: FormItem) => {
 const setFormStatus = async (status: FormStatus) => {
   if (!formSchema.value) return ElMessage.error('设置错误，没有要设置的表单！')
   formSchema.value.status = status
-  formSchema.value.updateTime = new Date().toISOString()
+  formSchema.value.updateTime = new Date().toISOString().replace('T', ' ').split('.')[0] as string
   try {
     // res 此时仅仅等于后端的 data字段，拿不到code和msg
     await putFormSchema(formSchema.value)
