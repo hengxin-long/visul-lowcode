@@ -73,6 +73,8 @@
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="toDesigner">编辑</el-button>
+            <el-button @click="setFormStatus('close')">关闭</el-button>
+            <el-button @click="setFormStatus('published')">发布</el-button>
             <el-button type="primary" @click="closeBrowseForm">确认</el-button>
           </div>
         </template>
@@ -83,13 +85,13 @@
 
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
-import { deleteById } from '@/api/form'
+import { deleteById, putFormSchema } from '@/api/form'
 import { onMounted, watch } from 'vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
-import type { FormItem } from '@/types/form'
+import type { FormItem, FormStatus } from '@/types/form'
 import { useRouter } from 'vue-router'
 import type { FormQueryParams } from '@/api/form/types'
 import type { TableInstance } from 'element-plus'
@@ -398,6 +400,23 @@ const browseForm = (row: FormItem) => {
   }).catch((e) => {
     ElMessage.error(e)
   })
+}
+
+/** 设置表单状态 */
+const setFormStatus = async (status: FormStatus) => {
+  if (!formSchema.value) return ElMessage.error('设置错误，没有要设置的表单！')
+  formSchema.value.status = status
+  formSchema.value.updateTime = new Date().toISOString()
+  try {
+    // res 此时仅仅等于后端的 data字段，拿不到code和msg
+    await putFormSchema(formSchema.value)
+    ElMessage.success('已更新')
+    designStore.isSaved = true
+  } catch (err) {
+    // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
+  }
+  closeBrowseForm()
+  getFormData()
 }
 
 onMounted(() => {
