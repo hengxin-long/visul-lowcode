@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { FormItem, FormComponent, FormStatus } from '@/types/form'
 import { ElMessage } from "element-plus";
-import { postFormSchema } from '@/api/form/index'
+import { postFormSchema, putFormSchema } from '@/api/form/index'
 import { useRouter } from "vue-router";
 import { getFormDetailById } from '@/api/form/index.ts';
 
@@ -145,6 +145,24 @@ export const useDesignStore = defineStore('design', () => {
     }
   }
 
+  /** 更新表单 */
+  const putForm = async (status: FormStatus) => {
+    console.log('更新表单')
+    if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
+
+    formSchema.value.status = status
+    formSchema.value.updateTime = new Date().toISOString()
+    try {
+      // res 此时仅仅等于后端的 data字段，拿不到code和msg
+      await putFormSchema(formSchema.value)
+      ElMessage.success('已更新')
+      isSaved.value = true
+      router.replace({ path: '/form-list' })
+    } catch (err) {
+      // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
+    }
+  }
+
   /** 获取表单详情 */
   const getFormDetail = async (id: string): Promise<FormItem> => {
     const form = await getFormDetailById(id)
@@ -167,8 +185,6 @@ export const useDesignStore = defineStore('design', () => {
         }
       }
     }
-    // console.log('form: ', form)
-    // console.log(formSchema)
     return form
   }
 
@@ -190,6 +206,7 @@ export const useDesignStore = defineStore('design', () => {
     handleCopy,
     handleDelete,
     postForm,
+    putForm,
     getFormDetail
   }
 

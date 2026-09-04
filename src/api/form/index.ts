@@ -55,3 +55,15 @@ export function getFormDetailById(id: string) {
     method: 'GET'
   })
 }
+
+/** 
+ * 更新表单
+ * @param data 修改后的表单
+ */
+export function putFormSchema(data: FormItem) {
+  return request({
+    url: `${BASE_FORM_USL}/update`,
+    method: 'PUT',
+    data
+  })
+}

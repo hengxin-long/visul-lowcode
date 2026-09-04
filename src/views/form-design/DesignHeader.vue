@@ -28,16 +28,19 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import DesignPreviewForm from '@/views/form-design/DesignPreviewForm.vue';
 import { ref } from 'vue'
 import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
 import type { FormStatus } from '@/types/form'
+import { checkIdValid } from '@/utils/verification';
 
 const designStore = useDesignStore()
 const { isSaved } = storeToRefs(designStore)
-const { switchEdit, switchPreview, postForm } = designStore
+const { switchEdit, switchPreview, postForm, putForm } = designStore
+
+const route = useRoute()
 
 /** 预览表单窗口状态 */
 const isPreviewFormVisible = ref(false)
@@ -73,8 +76,14 @@ const handleForm = (status: FormStatus) => {
     console.log('校验画布配置是否合法  待定')
   }
   isSaveFormVisible.value = false
+
+  const id = route.params.id as string
   console.log(status)
-  postForm(status)
+  if (id && checkIdValid(id)) {
+    putForm(status)
+  } else {
+    postForm(status)
+  }
 }
 
 const router = useRouter()

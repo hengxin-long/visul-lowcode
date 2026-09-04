@@ -177,7 +177,7 @@ export default defineMock([
       console.log('formData ', formData)
       const form = formData.find(item => item.id === Number(params.id))
       console.log('form：', form)
-      if(!form) {
+      if (!form) {
         code = ApiCodeEnum.BAD_REQUEST
         msg = '获取失败！'
       }
@@ -185,6 +185,32 @@ export default defineMock([
       return {
         code,
         data: form,
+        msg
+      }
+    }
+  },
+  {
+    url: '/mock/form/update',
+    method: 'PUT',
+    body({ body }) {
+      console.log("进入更新接口", body)
+      let code = ApiCodeEnum.SUCCESS
+      let msg = '已更新'
+
+      if (!body.id) {
+        return {
+          code: ApiCodeEnum.BAD_REQUEST,
+          data: null,
+          msg: '更新失败'
+        }
+      }
+
+      const formIndex = formData.findIndex(item => body.id === item.id)
+      formData[formIndex] = body
+
+      return {
+        code,
+        data: null,
         msg
       }
     }
