@@ -34,6 +34,7 @@ import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue'
 import type { FormItem } from '@/types/form.ts';
+import { checkIdValid } from '@/utils/verification.ts'
 
 const designStore = useDesignStore()
 const { formSchema, isSaved } = storeToRefs(designStore)
@@ -47,15 +48,6 @@ const originSchema = ref<FormItem>()
 /** 表单id，undefined表示新建表单，"1" 表示编辑表单 */
 const id = route.params.id as string
 
-/** 检验id */
-const checkIdValid = (id: string) => {
-  if (!id) return false
-  // 空字符串、纯空格：判定非法
-  const trimId = id.trim()
-  if (trimId === '') return false
-  // 自定义你的规则：纯数字 / uuid正则，这里示范数字id
-  return /^\d+$/.test(id)
-}
 
 watch(() => formSchema.value, () => {
   isSaved.value = JSON.stringify(originSchema.value) == JSON.stringify(formSchema.value)
