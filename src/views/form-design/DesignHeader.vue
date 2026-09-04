@@ -1,8 +1,8 @@
 <template>
   <el-page-header @back="goBack" class="back">
     <template #content>
-      <p class="text-large font-600 mr-3">表单</p>
-      <p class="save-time text-small font-400">最后保存于xxx</p>
+      <h3>表单</h3>
+      <p>最后保存于&nbsp; {{ formSchema?.updateTime }}</p>
     </template>
   </el-page-header>
   <div class="operation">
@@ -37,7 +37,7 @@ import type { FormStatus } from '@/types/form'
 import { checkIdValid } from '@/utils/verification';
 
 const designStore = useDesignStore()
-const { isSaved } = storeToRefs(designStore)
+const { isSaved, formSchema } = storeToRefs(designStore)
 const { switchEdit, switchPreview, postForm, putForm } = designStore
 
 const route = useRoute()
@@ -95,4 +95,10 @@ const goBack = () => {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.back {
+  :deep(.el-page-header__content) {
+    font-size: 13px;
+  }
+}
+</style>
