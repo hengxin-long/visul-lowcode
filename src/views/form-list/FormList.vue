@@ -68,15 +68,27 @@
         </template>
       </el-dialog>
       <!-- 浏览表单弹窗 -->
-      <el-dialog v-model="isBrowseFormVisible" title="提示" width="500" :before-close="closeBrowseForm">
+      <el-dialog v-model="isBrowseFormVisible" title="浏览表单" width="500" :before-close="closeBrowseForm">
         <Form :formSchema="formSchema" />
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="toDesigner">编辑</el-button>
             <el-button @click="setFormStatus('close')">关闭</el-button>
             <el-button @click="setFormStatus('published')">发布</el-button>
+            <el-button @click="isExportForm = true">导出</el-button>
             <el-button type="primary" @click="closeBrowseForm">确认</el-button>
           </div>
+        </template>
+      </el-dialog>
+      <!-- 导出json，设置文件名 -->
+      <el-dialog v-model="isExportForm" title="导出json表单" width="300" :before-close="closeExportForm">
+        <h4>设置文件名</h4>
+        <el-input v-model="fileName" >
+          <template #append>.json</template>
+        </el-input>
+        <template #footer>
+          <el-button @click="closeExportForm">取消</el-button>
+          <el-button @click="handleExport">确定</el-button>
         </template>
       </el-dialog>
     </div>
@@ -97,6 +109,7 @@ import type { FormQueryParams } from '@/api/form/types'
 import type { TableInstance } from 'element-plus'
 import { useDesignStore } from '@/stores/design'
 import Form from '@/components/Form.vue'
+import { exportSchema } from '@/utils/transform'
 
 const formStore = useFormStore()
 const router = useRouter()
@@ -419,6 +432,29 @@ const setFormStatus = async (status: FormStatus) => {
   getFormData()
 }
 
+
+const illegalReg = /[\\\/:*?"<>|]/
+
+const isExportForm = ref<boolean>(false)
+
+const fileName = ref<string>('')
+
+const closeExportForm = () => {
+  isExportForm.value = false
+}
+
+const handleExport = () => {
+  if (!formSchema.value) return
+  if (!fileName.value.trim()) return ElMessage.warning('文件名不能为空！')
+  if (!illegalReg.test(fileName.value)) {
+    exportSchema(formSchema.value, fileName.value)
+    closeExportForm()
+    closeBrowseForm()
+  } else {
+    return ElMessage.warning('文件名不合法！')
+  }
+}
+
 onMounted(() => {
   getFormData()
 })
@@ -472,6 +508,11 @@ onMounted(() => {
   :deep(.el-table .el-table__header tr th) {
     color: #fff;
     background-color: $vlcpColor;
+  }
+
+  :deep(.el-table .el-table_1_column_2) {
+    border-right: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
   }
 
   :deep(.el-table .el-table_1_column_2) {

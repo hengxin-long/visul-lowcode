@@ -1,3 +1,4 @@
+import type { FormItem } from "@/types/form"
 
 /** 
  * 变量名格式转换
@@ -35,4 +36,20 @@ export const kebabToCamel = (attrList: any) => {
     // 赋值，引用的还是newAttrList指向的对象的地址
     attr.prop = prop as string
   }
+}
+
+/** 导出json工具 */
+export const exportSchema = (data: FormItem, fileName: string) => {
+  const blob = new Blob(
+    [JSON.stringify(data, null, 2)],
+    {
+      type: 'application/json'
+    })
+
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = `${fileName}.json`
+  a.click()
+  URL.revokeObjectURL(url)
 }
