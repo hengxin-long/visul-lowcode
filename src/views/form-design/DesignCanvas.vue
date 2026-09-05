@@ -109,7 +109,9 @@ onMounted(() => {
       const newIndex = evt.newIndex
       // 反序列化添加进数组
       const component = JSON.parse(field)
-      component.id = `${addId()}`
+      let id = addId()
+      component.id = `${id}`
+      component.field = component.field + id
 
       // 加到components数组后移除dom元素，只留schema
       if (evt.item) evt.item.remove()
