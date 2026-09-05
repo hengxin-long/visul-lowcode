@@ -94,13 +94,13 @@ onMounted(() => {
   for (let fields of fieldSet) {
     sortbale.push(new Sortable(fields, {
       group: {
-        name: 'shared', // 组名
+        name: 'canvas', // 组名
         pull: 'clone', // 克隆
         put: false, // 是否可放入
       },
       sort: false, // 列表内是否可排序
       animation: 150, // 动画
-      ghostClass: 'form-canvas',
+      // ghostClass: 'form-canvas',
     }));
   }
 })
@@ -111,14 +111,6 @@ onUnmounted(() => {
     fields?.destroy()
   }
 })
-
-// group: {
-//     name: "shared",        // 分组名称
-//     pull: true,           // 是否可以从此列表拖拽出元素 (true/false/function/"clone")
-//     put: true,            // 是否可以放入元素到此列表 (true/false/function/array)
-//     revertClone: false    // 克隆模式下是否还原克隆元素
-// }
-
 
 </script>
 

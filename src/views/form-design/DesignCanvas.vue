@@ -94,42 +94,46 @@ onMounted(() => {
 
   sortbale = new Sortable(canvas, {
     group: {
-      name: 'form',
-      put: true
+      name: 'canvas',
+      put: true // 是否可放入
     },
     animation: 150,
-    // 组件拖拽到画布上的回调
+    preventOnFilter: true, // 触发过滤器时是否阻止默认事件
+    // 组件拖拽到画布上时触发
     onAdd: (evt: any) => {
+      evt.preventDefault()
       // 拖拽的目标容器不是画布直接返回
       if (evt.to !== canvas) return
 
-      const field = ref<string>(evt.item.dataset.field)
+      const field = evt.item.dataset.field
       const newIndex = evt.newIndex
       // 反序列化添加进数组
-      const component = JSON.parse(field.value)
+      const component = JSON.parse(field)
       component.id = `${addId()}`
-      formSchema.value?.schema.components.splice(newIndex, 0, component)
-      console.log('添加进数组后 ', formSchema.value.schema.components)
 
-      // 加到components数组后移出dom元素，只留schema
-      // if (!(component.componentType == 'title' || component.componentType == 'subTitle')) {
-      //   console.log('不是标题，删除', component.componentType)
+      // 加到components数组后移除dom元素，只留schema
       if (evt.item) evt.item.remove()
-      // }
+
+      formSchema.value?.schema.components.splice(newIndex, 0, component)
+
     },
-    onEnd: (evt: SortableEvent) => {
+    // 画布内组件移动时触发
+    onUpdate: (evt: SortableEvent) => {
       evt.preventDefault()
+
+      // 只处理【画布已有组件拖拽】，排除左侧新增
+      if (evt.from !== evt.to) return
 
       const oldIndex = evt.oldIndex as number
       const newIndex = evt.newIndex as number
-      // 将原来索引位的对象取出来
-      const item = formSchema.value.schema.components[newIndex]
 
-      if (!item) return ElMessage.error('数据错误')
-
-      // 交换
-      formSchema.value.schema.components.splice(newIndex, 1, formSchema.value.schema.components[oldIndex] as FormComponent)
-      formSchema.value.schema.components.splice(oldIndex, 1, item as FormComponent)
+      const list = formSchema.value.schema.components
+      
+      // 将移动的的对象取出来
+      const moveItem = list.splice(oldIndex, 1)[0]
+      if (!moveItem) return
+      // 插入到新索引上
+      list.splice(newIndex, 0, moveItem)
     },
   });
 })
