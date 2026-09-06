@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="layout" v-loading="appStore.globalLoading" element-loading-text="页面加载中...">
     <el-container>
       <el-aside width="200px" class="aside">
         <div class="menu">
@@ -69,11 +69,9 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import { Edit, Document, CirclePlus, House } from '@element-plus/icons-vue';
-import { ref } from 'vue'
+import { useAppStore } from '@/stores/app';
 
-const menu = document.querySelector('.menu')
-const height = window.outerHeight
-console.log('height ', height)
+const appStore = useAppStore()
 </script>
 
 <style scoped lang="scss">

@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table ref="formTableRef" :data="viewFormData" style="width: 100%" max-height="320" :border="false"
+      <el-table v-loading="loading" element-loading-text="表单加载中..." :data="viewFormData" style="width: 100%" max-height="320" :border="false"
         empty-text="暂无数据" :default-sort="{ prop: 'updateTime', order: 'descending' }" @select="handleSingleRow"
         @select-all="handleAllRow">
         <el-table-column type="selection" width="40" />
@@ -114,7 +114,7 @@ import { exportSchema } from '@/utils/transform'
 const formStore = useFormStore()
 const router = useRouter()
 /** 表单列表和总数 */
-const { formData, total } = storeToRefs(formStore)
+const { formData, total, loading } = storeToRefs(formStore)
 /** 视图数据 */
 const viewFormData = ref<FormItem[]>([])
 /** 视图总页数，随viewFormData动态改变 */
@@ -170,6 +170,7 @@ watch(() => [formData.value, total.value], () => {
 
 /** 获取表单列表 */
 const getFormData = () => {
+  loading.value = true
   console.info('page: ', queryParams.value.page, ' pageSize: ', queryParams.value.pageSize)
   formStore.getData(queryParams.value)
   console.log('formData ', formData)

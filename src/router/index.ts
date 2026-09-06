@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layouts/index.vue'
+import { useAppStore } from '@/stores/app'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,19 @@ const router = createRouter({
       }
     }
   ],
+})
+
+/** 设置路由守卫 */
+/** 路由跳转前开启loading效果 */
+router.beforeEach((to, from) => {
+  const appStore = useAppStore()
+  appStore.setGlobalLoading(true)
+})
+
+/** 路由跳转后关闭loading效果 */
+router.afterEach(() => {
+  const appStore = useAppStore()
+  appStore.setGlobalLoading(false)
 })
 
 export default router
