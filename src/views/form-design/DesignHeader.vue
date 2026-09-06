@@ -1,5 +1,5 @@
 <template>
-  <el-page-header @back="goBack" class="back">
+  <el-page-header @back="verifySave" class="back">
     <template #content>
       <h3>表单</h3>
       <p>最后保存于&nbsp; {{ formSchema?.updateTime }}</p>
@@ -7,7 +7,7 @@
   </el-page-header>
   <div class="operation">
     <el-button @click="openPreviewForm">预览</el-button>
-    <el-button @click="openSaveForm">保存</el-button>
+    <el-button @click="() => { openSaveForm(); showSave(false) }">保存</el-button>
     <el-button @click="handleForm('published')" type="primary">发布表单</el-button>
   </div>
   <!-- 预览窗口 -->
@@ -18,6 +18,7 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="closeSaveForm">取消</el-button>
+        <el-button v-if="isShowSave" @click="noSave">不保存</el-button>
         <el-button @click="handleForm('draft')">
           是
         </el-button>
@@ -35,6 +36,7 @@ import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
 import type { FormStatus } from '@/types/form'
 import { checkIdValid } from '@/utils/verification';
+import { ElMessage } from 'element-plus';
 
 const designStore = useDesignStore()
 const { isSaved, formSchema } = storeToRefs(designStore)
@@ -47,6 +49,9 @@ const isPreviewFormVisible = ref(false)
 
 /** 保存表单弹窗状态 */
 const isSaveFormVisible = ref(false)
+
+/** 是否显示不保存按钮，用于返回和保存按钮弹窗显示的功能范围 */
+const isShowSave = ref(true)
 
 /** 关闭预览窗口 */
 const closePreviewForm = () => {
@@ -86,11 +91,29 @@ const handleForm = (status: FormStatus) => {
   }
 }
 
-const router = useRouter()
-const goBack = () => {
+/** 控制不保存按钮是否显示 */
+const showSave = (bool: boolean) => {
+  isShowSave.value = bool
+}
+
+/** 验证是否已保存 */
+const verifySave = () => {
   // 回到主页前做些业务逻辑
-  // 比如：1.返回之前是否已保存。2.新建表单后什么都没做就返回
+  // 1.返回之前是否已保存。2.新建表单后什么都没做就返回
+  showSave(true)
   if (!isSaved.value) return openSaveForm()
+  goBack()
+}
+
+/** 不保存 */
+const noSave = () => {
+  closeSaveForm()
+  goBack()
+}
+
+const router = useRouter()
+/** 返回form-list */
+const goBack = () => {
   router.push('/form-list')
 }
 </script>
