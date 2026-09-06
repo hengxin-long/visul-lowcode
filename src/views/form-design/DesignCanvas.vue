@@ -8,6 +8,7 @@
             <h3 class="form-name">{{ formSchema?.formName }}</h3>
           </div>
           <div class="func">
+            <!-- <el-button @click="viewForm">查看form</el-button> -->
             <el-button @click.stop="isViewVisible = true">查看schema</el-button>
             <el-button @click.stop="confirmClear">重做</el-button>
             <!-- 清除确认框 -->
@@ -99,7 +100,11 @@ onMounted(() => {
     },
     animation: 150,
     preventOnFilter: true, // 触发过滤器时是否阻止默认事件
-    // 组件拖拽到画布上时触发
+
+    // 阻止Sortable自己移动DOM，只保留拖拽事件监听
+    setData() {},
+
+    /** 组件拖拽到画布上时触发 */
     onAdd: (evt: any) => {
       evt.preventDefault()
       // 拖拽的目标容器不是画布直接返回
@@ -119,12 +124,13 @@ onMounted(() => {
       formSchema.value?.schema.components.splice(newIndex, 0, component)
 
     },
-    // 画布内组件移动时触发
+
+    /** 画布内组件移动时触发 */
     onUpdate: (evt: SortableEvent) => {
       evt.preventDefault()
 
-      // 只处理【画布已有组件拖拽】，排除左侧新增
-      if (evt.from !== evt.to) return
+      // 只处理画布已有组件拖拽，排除左侧新增
+      // if (evt.from !== evt.to) return
 
       const oldIndex = evt.oldIndex as number
       const newIndex = evt.newIndex as number
@@ -139,6 +145,10 @@ onMounted(() => {
     },
   });
 })
+
+// const viewForm = () => {
+//   console.log(formSchema.value)
+// }
 
 onUnmounted(() => {
   sortbale?.destroy()
