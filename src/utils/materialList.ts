@@ -58,13 +58,12 @@ export const baseFields: FormComponent[] = [
     componentType: 'inputNumber',
     field: 'number',
     props: {
-      placeholder: '请输入数字',
       max: 10,
       min: 0,
       step: 1,
       precision: 2,
       disabled: false,
-      controlsPosition: 'right',
+      controlsPosition: '',
       readonly: false,
       controls: true,
       align: 'center'
@@ -78,6 +77,7 @@ export const baseFields: FormComponent[] = [
     props: {
       trueValue: '',
       falseValue: '',
+      label: '多选',
       checked: false,
       disabled: false,
       border: false,
@@ -107,7 +107,7 @@ export const baseFields: FormComponent[] = [
       disabled: false,
       options: [
         { label: '选项1', value: '选项1' },
-        { label: '选项2', value: '选项3' },
+        { label: '选项2', value: '选项2' },
         { label: '选项3', value: '选项3' },
       ],
       size: 'default',
@@ -128,7 +128,9 @@ export const baseFields: FormComponent[] = [
       lowThreshold: 2,
       highThreshold: 4,
       clearable: true,
-      texts: [1, 2, 3, 4, 5]
+      showText: false,
+      textColor: 'balck',
+      texts: ['one', 'two', 'three', 'four', 'five']
     }
   },
   {

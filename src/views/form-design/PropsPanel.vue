@@ -13,7 +13,8 @@
             <div class="attr" v-for="attr in attrList">
               <p>{{ attr.label }}</p>
               <el-input v-if="attr.type === 'input'" v-model="selectCom.props[attr.prop]" size="small" />
-              <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small" v-bind="attr?.limit"/>
+              <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small"
+                v-bind="attr?.limit" />
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-button @click="setProp('size', s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
               }}</el-button>
@@ -46,6 +47,10 @@
                 </div>
                 <el-button @click="addOption" size="small">添加</el-button>
               </div>
+              <!-- 评分辅助文字数组 -->
+              <div class="rate-text-array" v-if="attr.type === 'array' || attr.prop === 'texts'">
+                <el-input v-model="selectCom.props[attr.prop][index - 1]" v-for="index in selectCom.props?.max" size="small" />
+              </div>
             </div>
           </div>
           <div v-else class="props-null">
@@ -65,6 +70,7 @@ import { componentAttrConfig } from '@/config/componentAttrConfig';
 import { ComponentSize, ComponentBtnType, ComponentInputType } from '@/enums/component';
 import { kebabToCamel } from '@/utils/transform'
 import type { ComponentProps, FormComponent } from '@/types/form';
+const check = ref(true)
 
 const designStore = useDesignStore()
 
@@ -79,7 +85,7 @@ const attrList = computed(() => {
   const type = selectCom.value?.componentType
   // 赋值指向同一个对象，目的是拿到field属性进行双向绑定
   schema.value = selectCom.value
-  
+
   const componentAttrList = JSON.stringify(componentAttrConfig[type as keyof typeof componentAttrConfig] ?? [])
   // console.log('schema', schema.value)
 
@@ -170,6 +176,12 @@ const numberControlPosi = (posi: string) => {
 
           p {
             margin-bottom: 3px;
+          }
+
+          .rate-text-array {
+            display: grid;
+            gap: 8px;
+            grid-template-columns: repeat(3, auto);
           }
         }
 
