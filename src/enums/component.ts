@@ -39,3 +39,15 @@ export enum ComponentInputType {
   TEL = 'tel',
   URL = 'url'
 }
+
+/** 表单类型 */
+export const FormTypeOptions = [
+  {
+    label: '普通填报表单',
+    value: '普通填报表单'
+  },
+  {
+    label: '收集问卷表单',
+    value: '收集问卷表单'
+  }
+]

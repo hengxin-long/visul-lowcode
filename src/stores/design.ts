@@ -10,7 +10,7 @@ import { getFormDetailById } from '@/api/form/index.ts';
 const defaultTemplate: FormItem = {
   id: '',
   formName: '新建表单',
-  formType: '普通表单',
+  formType: '普通填报表单',
   status: 'draft',
   createTime: new Date().toISOString().replace('T', ' ').split('.')[0] as string,
   updateTime: '',
