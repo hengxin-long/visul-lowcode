@@ -6,13 +6,13 @@
    或者，is 也可以直接绑定到组件的定义。
     -->
   <component :is="tag" :style="styleObj">
-    {{ schema.formName }}
+    {{ text }}
   </component>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { FormComponent, FormSchema } from '@/types/form';
+import type { FormComponent } from '@/types/form';
 
 /** 
  * 接收父组件传递的参数
@@ -23,11 +23,11 @@ import type { FormComponent, FormSchema } from '@/types/form';
  */
 const props = defineProps<{
   com: FormComponent,
-  schema: FormSchema
 }>()
 
 /** 拼接标题标签（h1 h2 h3...） */
 const tag = computed(() => `h${props.com.props?.level}`)
+const text = computed(() => props.com.props?.innerText)
 /** 
  * 给html原生标签添加样式
  * 有变化就更新

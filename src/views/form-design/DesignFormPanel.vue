@@ -16,10 +16,10 @@
               <el-option v-for="item in formTypeOptions" :key="item.value" :label="item.label" :value="item.value" size="small" />
             </el-select>
           </div>
-          <div class="prop">
+          <!-- <div class="prop">
             <p>表单标题</p>
             <el-input v-model="formSchema.schema.formName" size="small" placeholder="输入表单标题" />
-          </div>
+          </div> -->
           <div class="prop">
             <p>表单内部类型（业务类型）</p>
             <el-input v-model="formSchema.schema.formType" size="small" placeholder="输入表单业务类型" />
