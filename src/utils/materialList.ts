@@ -2,21 +2,16 @@ import type { FormComponent } from "@/types/form"
 
 export const baseFields: FormComponent[] = [
   {
-    label: '密码框',
+    label: '标题',
     id: '',
-    componentType: 'password',
-    field: 'password',
+    componentType: 'title',
+    field: 'title',
     props: {
-      label: '密码',
-      require: true,
-      tyep: 'password',
-      placeholder: '请输入密码',
-      disabled: false,
-      clearable: true,
-      readonly: false,
-      maxlength: 30,
-      minlength: 0,
-      size: 'default'
+      fontSize: 20,
+      color: 'black',
+      level: 1,
+      textAlign: 'left',
+      fontWeight: '400'
     }
   },
   {
@@ -38,21 +33,6 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '日期',
-    id: '',
-    componentType: 'date',
-    field: 'date',
-    props: {
-      readonly: false,
-      disabled: false,
-      size: 'default',
-      editable: true,
-      clearable: true,
-      placeholder: '日期',
-      format: 'YYYY-MM-DD'
-    }
-  },
-  {
     label: '数字框',
     id: '',
     componentType: 'inputNumber',
@@ -70,18 +50,18 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '多选框',
+    label: '日期',
     id: '',
-    componentType: 'checkbox',
-    field: 'checkbox',
+    componentType: 'date',
+    field: 'date',
     props: {
-      trueValue: '',
-      falseValue: '',
-      label: '多选',
-      checked: false,
+      readonly: false,
       disabled: false,
-      border: false,
-      size: 'default'
+      size: 'default',
+      editable: true,
+      clearable: true,
+      placeholder: '日期',
+      format: 'YYYY-MM-DD'
     }
   },
   {
@@ -92,6 +72,21 @@ export const baseFields: FormComponent[] = [
     props: {
       value: 1,
       label: '单选',
+      disabled: false,
+      border: false,
+      size: 'default'
+    }
+  },
+  {
+    label: '多选框',
+    id: '',
+    componentType: 'checkbox',
+    field: 'checkbox',
+    props: {
+      trueValue: '',
+      falseValue: '',
+      label: '多选',
+      checked: false,
       disabled: false,
       border: false,
       size: 'default'
@@ -116,24 +111,6 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '评分',
-    id: '',
-    componentType: 'rate',
-    field: 'rate',
-    props: {
-      max: 5,
-      size: 'default',
-      disabled: false,
-      allowHalf: false,
-      lowThreshold: 2,
-      highThreshold: 4,
-      clearable: true,
-      showText: false,
-      textColor: 'balck',
-      texts: ['one', 'two', 'three', 'four', 'five']
-    }
-  },
-  {
     label: '按钮',
     id: '',
     componentType: 'button',
@@ -155,17 +132,21 @@ export const baseFields: FormComponent[] = [
     }
   },
   {
-    label: '标题',
+    label: '评分',
     id: '',
-    componentType: 'title',
-    field: 'title',
+    componentType: 'rate',
+    field: 'rate',
     props: {
-      fontSize: 20,
-      color: 'black',
-      level: 1,
-      textAlign: 'left',
-      fontWeight: '400'
+      max: 5,
+      size: 'default',
+      disabled: false,
+      allowHalf: false,
+      lowThreshold: 2,
+      highThreshold: 4,
+      clearable: true,
+      showText: false,
+      textColor: 'balck',
+      texts: ['one', 'two', 'three', 'four', 'five']
     }
   },
-  
 ]
