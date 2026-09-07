@@ -25,9 +25,9 @@
       </div>
     </div>
     <div class="form-table">
-      <el-table v-loading="loading" element-loading-text="表单加载中..." :data="viewFormData" style="width: 100%" max-height="320" :border="false"
-        empty-text="暂无数据" :default-sort="{ prop: 'updateTime', order: 'descending' }" @select="handleSingleRow"
-        @select-all="handleAllRow">
+      <el-table v-loading="loading" element-loading-text="表单加载中..." :data="viewFormData" style="width: 100%"
+        max-height="320" :border="false" empty-text="暂无数据" :default-sort="{ prop: 'updateTime', order: 'descending' }"
+        @select="handleSingleRow" @select-all="handleAllRow">
         <el-table-column type="selection" width="40" />
         <el-table-column prop="formName" label="表单名称" min-width="230">
           <!-- 定义插槽实现指定单元格触发点击事件 -->
@@ -83,7 +83,7 @@
       <!-- 导出json，设置文件名 -->
       <el-dialog class="export" v-model="isExportForm" title="导出json表单" width="300" :before-close="closeExportForm">
         <h4>设置文件名</h4>
-        <el-input v-model="fileName" >
+        <el-input v-model="fileName">
           <template #append>.json</template>
         </el-input>
         <template #footer>
@@ -110,6 +110,7 @@ import type { TableInstance } from 'element-plus'
 import { useDesignStore } from '@/stores/design'
 import Form from '@/components/Form.vue'
 import { exportSchema } from '@/utils/transform'
+import { FormTypeOptions } from '@/enums/component'
 
 const formStore = useFormStore()
 const router = useRouter()
@@ -141,16 +142,7 @@ const formType = ref('')
 /** 状态分类 */
 const { all, published, draft, close } = storeToRefs(formStore)
 /** 表单类型选项 */
-const formTypeOptions = [
-  {
-    label: '业务表单',
-    value: '业务表单'
-  },
-  {
-    label: '调查表单',
-    value: '调查表单'
-  }
-]
+const formTypeOptions = FormTypeOptions
 /** 表单查询参数 */
 const queryParams = ref<FormQueryParams>({
   /** 当前页，默认值1 */
