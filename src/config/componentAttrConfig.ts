@@ -31,7 +31,6 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '输入框尺寸', prop: 'size', type: 'enum' }
   ],
   inputNumber: [
-    { label: '占位提示', prop: 'placeholder', type: 'input' },
     { label: '最大值', prop: 'max', type: 'number' },
     { label: '最小值', prop: 'min', type: 'number' },
     { label: '步数', prop: 'step', type: 'number' },
@@ -53,6 +52,7 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
   checkbox: [
     { label: '选中时的值', prop: 'true-value', type: 'input' },
     { label: '没有选中时的值', prop: 'false-value', type: 'input' },
+    { label: '多选标签', prop: 'label', type: 'input' },
     { label: '当前是否勾选', prop: 'checked', type: 'switch' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否显示边框', prop: 'border', type: 'switch' },
@@ -66,6 +66,7 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '低分和中等分数的界限值， 值本身被划分在低分中', prop: 'low-threshold', type: 'number', limit: { min: 0 } },
     { label: '高分和中等分数的界限值， 值本身被划分在高分中', prop: 'high-threshold', type: 'number', limit: { min: 0 } },
     { label: '是否可以重置值为0', prop: 'clearable', type: 'switch' },
+    { label: '是否显示辅助文字', prop: 'show-text', type: 'switch' },
     { label: '辅助文字的颜色', prop: 'text-color', type: 'input' },
     { label: '辅助文字数组', prop: 'texts', type: 'array' },
   ],
