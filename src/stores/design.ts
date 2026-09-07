@@ -5,6 +5,8 @@ import { ElMessage } from "element-plus";
 import { postFormSchema, putFormSchema } from '@/api/form/index'
 import { useRouter } from "vue-router";
 import { getFormDetailById } from '@/api/form/index.ts';
+import { getLocalDateTime } from '@/utils/transform'
+
 
 
 const defaultTemplate: FormItem = {
@@ -12,7 +14,7 @@ const defaultTemplate: FormItem = {
   formName: '新建表单',
   formType: '普通填报表单',
   status: 'draft',
-  createTime: new Date().toISOString().replace('T', ' ').split('.')[0] as string,
+  createTime: getLocalDateTime(),
   updateTime: '',
   schema: {
     formName: '表单',
@@ -20,6 +22,8 @@ const defaultTemplate: FormItem = {
     components: []
   }
 }
+
+
 
 export const useDesignStore = defineStore('design', () => {
 
@@ -132,7 +136,7 @@ export const useDesignStore = defineStore('design', () => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
 
     formSchema.value.status = status
-    formSchema.value.updateTime = new Date().toISOString().replace('T', ' ').split('.')[0] as string
+    formSchema.value.updateTime = getLocalDateTime()
 
     try {
       // res 此时仅仅等于后端的 data字段，拿不到code和msg
@@ -151,7 +155,7 @@ export const useDesignStore = defineStore('design', () => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
 
     formSchema.value.status = status
-    formSchema.value.updateTime = new Date().toISOString().replace('T', ' ').split('.')[0] as string
+    formSchema.value.updateTime = getLocalDateTime()
     try {
       // res 此时仅仅等于后端的 data字段，拿不到code和msg
       await putFormSchema(formSchema.value)

@@ -53,3 +53,13 @@ export const exportSchema = (data: FormItem, fileName: string) => {
   a.click()
   URL.revokeObjectURL(url)
 }
+
+/** 将格林威治时间转换为北京时间 */
+export const getLocalDateTime = () => {
+  const date = new Date()
+  // 
+  const offset = 8 * 60 * 60 * 1000
+  //  getTime() 方法返回一个时间的格林威治时间毫秒数值。
+  const local = new Date(date.getTime() + offset)
+  return local.toISOString().replace('T', ' ').split('.')[0] as string
+}

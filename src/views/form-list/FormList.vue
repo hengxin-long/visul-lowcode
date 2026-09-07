@@ -111,6 +111,7 @@ import { useDesignStore } from '@/stores/design'
 import Form from '@/components/Form.vue'
 import { exportSchema } from '@/utils/transform'
 import { FormTypeOptions } from '@/enums/component'
+import { getLocalDateTime } from '@/utils/transform'
 
 const formStore = useFormStore()
 const router = useRouter()
@@ -412,7 +413,7 @@ const browseForm = (row: FormItem) => {
 const setFormStatus = async (status: FormStatus) => {
   if (!formSchema.value) return ElMessage.error('设置错误，没有要设置的表单！')
   formSchema.value.status = status
-  formSchema.value.updateTime = new Date().toISOString().replace('T', ' ').split('.')[0] as string
+  formSchema.value.updateTime = getLocalDateTime()
   try {
     // res 此时仅仅等于后端的 data字段，拿不到code和msg
     await putFormSchema(formSchema.value)
