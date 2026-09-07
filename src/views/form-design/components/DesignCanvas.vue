@@ -45,10 +45,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import Sortable, { type SortableEvent } from 'sortablejs'
-import type { FormComponent } from '@/types/form';
 import { useDesignStore } from '@/stores/design'
 import { storeToRefs } from 'pinia';
-import { ElMessage } from 'element-plus';
 import Form from '@/components/Form.vue';
 
 const designStore = useDesignStore()

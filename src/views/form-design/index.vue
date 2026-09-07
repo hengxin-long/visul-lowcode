@@ -14,7 +14,6 @@
         </el-main>
         <el-aside width="280px" class="props-panel">
           <DesignPropToggle />
-          <!-- <PropsPanel /> -->
         </el-aside>
       </el-container>
     </el-container>
@@ -22,11 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import DesignHeader from './DesignHeader.vue';
-import DesignComponentLibrary from './DesignComponentLibrary.vue';
-import PropsPanel from './PropsPanel.vue';
-import DesignCanvas from './DesignCanvas.vue';
-import DesignPropToggle from './DesignPropToggle.vue';
+import DesignHeader from './components/DesignHeader.vue';
+import DesignComponentLibrary from './components/DesignComponentLibrary.vue';
+import DesignCanvas from './components/DesignCanvas.vue';
+import DesignPropToggle from './components/DesignPropToggle.vue';
 import { useDesignStore } from '@/stores/design.ts';
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, watch } from 'vue';

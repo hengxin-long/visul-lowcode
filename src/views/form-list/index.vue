@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import CountCard from './CountCard.vue';
-import FormList from './FormList.vue';
+import CountCard from './components/FormCountCard.vue';
+import FormList from './components/FormList.vue';
 import {ref} from 'vue'
 
 

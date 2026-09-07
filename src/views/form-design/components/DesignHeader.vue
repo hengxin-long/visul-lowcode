@@ -30,13 +30,12 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
-import DesignPreviewForm from '@/views/form-design/DesignPreviewForm.vue';
+import DesignPreviewForm from './DesignPreviewForm.vue';
 import { ref } from 'vue'
 import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
 import type { FormStatus } from '@/types/form'
 import { checkIdValid } from '@/utils/verification';
-import { ElMessage } from 'element-plus';
 
 const designStore = useDesignStore()
 const { isSaved, formSchema } = storeToRefs(designStore)

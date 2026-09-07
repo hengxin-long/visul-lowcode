@@ -33,12 +33,11 @@
       <FormTitle v-if="com.componentType === 'title'" :com="com" />
     </div>
   </div>
-  <!-- <el-button @click="print" type="primary">打印tempData</el-button> -->
 </template>
 
 <script setup lang="ts">
 import { useDesignStore } from '@/stores/design';
-import { componentMap } from '@/utils/componentMap';
+import { componentMap } from '@/config/componentMap.ts';
 import { ref, watch } from 'vue';
 import type { FormComponent } from '@/types/form'
 import { storeToRefs } from 'pinia';
@@ -69,10 +68,6 @@ watch(() => props.formSchema, (schemaData) => {
   })
   tempData.value = obj
 }, { deep: true, immediate: true })
-
-const print = () => {
-  console.log(tempData.value)
-}
 
 </script>
 

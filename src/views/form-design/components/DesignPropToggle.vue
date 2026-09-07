@@ -6,7 +6,7 @@
     @tab-click="handleClick"
   >
     <el-tab-pane label="字段属性" name="field">
-      <PropsPanel />
+      <DesignPropsPanel />
     </el-tab-pane>
     <el-tab-pane label="表单属性" name="form">
       <DesignFormPanel />
@@ -18,7 +18,7 @@
 import { ref } from 'vue'
 
 import type { TabsPaneContext } from 'element-plus'
-import PropsPanel from './PropsPanel.vue'
+import DesignPropsPanel from './DesignPropsPanel.vue'
 import DesignFormPanel from './DesignFormPanel.vue'
 
 const activeName = ref('field')

@@ -63,9 +63,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import Sortable from 'sortablejs'
-import { baseFields } from '@/utils/materialList';
+import { baseFields } from '@/config/materialList';
 import type { FormComponent } from '@/types/form'
-import { SetUp } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus';
 
 const activeName = ref('1')
@@ -86,7 +85,6 @@ onMounted(() => {
       },
       sort: false, // 列表内是否可排序
       animation: 150, // 动画
-      // ghostClass: 'form-canvas',
     }));
   }
 })
