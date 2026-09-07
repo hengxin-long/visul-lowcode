@@ -17,18 +17,8 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '最大长度', prop: 'maxlength', type: 'number', limit: { min: 0 } },
     { label: '最小长度', prop: 'minlength', type: 'number', limit: { min: 0 } },
     { label: '是否显示清除按钮', prop: 'clearable', type: 'switch' },
-    { label: '输入框尺寸', prop: 'size', type: 'enum' }
-  ],
-  password: [
-    { label: '标签文本', prop: 'label', type: 'input' },
-    { label: '占位提示', prop: 'placeholder', type: 'input' },
-    { label: '文本框类型', prop: 'type', type: 'inputType' },
-    { label: '是否禁用', prop: 'disabled', type: 'switch' },
-    { label: '是否只读', prop: 'readonly', type: 'switch' },
-    { label: '最大长度', prop: 'maxlength', type: 'number', limit: { min: 0 } },
-    { label: '最小长度', prop: 'minlength', type: 'number', limit: { min: 0 } },
-    { label: '是否显示清除按钮', prop: 'clearable', type: 'switch' },
-    { label: '输入框尺寸', prop: 'size', type: 'enum' }
+    { label: '输入框尺寸', prop: 'size', type: 'enum' },
+    { label: '宽度，输入带后缀%或px的数', prop: 'width', type: 'input' }
   ],
   inputNumber: [
     { label: '最大值', prop: 'max', type: 'number' },
@@ -40,7 +30,7 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '是否使用控制按钮', prop: 'controls', type: 'switch' },
-    { label: '内部输入文本对齐', prop: 'align', type: 'positionEnum' }
+    { label: '内部输入文本对齐', prop: 'align', type: 'positionEnum' },
   ],
   radio: [
     { label: '单选框的值', prop: 'value', type: 'input' },
@@ -77,6 +67,7 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '输入框尺寸', prop: 'size', type: 'enum' },
     { label: '是否可以清空选项', prop: 'clearable', type: 'switch' },
     { label: '占位符，默认为“下拉框”', prop: 'placeholder', type: 'input' },
+    { label: '宽度，输入带后缀%或px的数', prop: 'width', type: 'input' }
   ],
   colorPicker: [
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
@@ -94,6 +85,7 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '是否显示清除按钮', prop: 'clearable', type: 'switch' },
     { label: '非范围选择时的占位内容', prop: 'placeholder', type: 'input' },
     { label: '显示在输入框中的格式', prop: 'format', type: 'input' }, // YYYY-MM-DD
+    { label: '宽度，输入带后缀%或px的数', prop: 'width', type: 'input' }
   ],
   button: [
     { label: '按钮名', prop: 'label', type: 'input' },
@@ -109,9 +101,11 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: '按钮是否为禁用状态', prop: 'disabled', type: 'switch' },
     { label: '是否为加载中状态', prop: 'loading', type: 'switch' },
     { label: '自定义按钮颜色', prop: 'color', type: 'input' },
+    { label: '宽度，输入带后缀%或px的数', prop: 'width', type: 'input' }
   ],
   title: [
     { label: '标题级别', prop: 'level', type: 'number', limit: { min: 1, max: 6 } },
+    { label: '标题内容', prop: 'innerText' , type: 'input' },
     { label: '字体大小', prop: 'fontSize', type: 'number', limit: { min: 0 } },
     { label: '字体颜色', prop: 'color', type: 'input' },
     { label: '字体位置', prop: 'textAlign', type: 'input' },
