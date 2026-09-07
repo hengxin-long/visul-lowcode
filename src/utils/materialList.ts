@@ -3,6 +3,7 @@ import type { FormComponent } from "@/types/form"
 export const baseFields: FormComponent[] = [
   {
     label: '标题',
+    icon: 'SetUp',
     id: '',
     componentType: 'title',
     field: 'title',
@@ -16,6 +17,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '文本框',
+    icon: 'Document',
     id: '',
     componentType: 'input',
     field: 'field',
@@ -34,6 +36,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '数字框',
+    icon: 'Coin',
     id: '',
     componentType: 'inputNumber',
     field: 'number',
@@ -51,6 +54,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '日期',
+    icon: 'MostlyCloudy',
     id: '',
     componentType: 'date',
     field: 'date',
@@ -66,6 +70,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '单选框',
+    icon: 'Open',
     id: '',
     componentType: 'radio',
     field: 'radio',
@@ -79,6 +84,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '多选框',
+    icon: 'Select',
     id: '',
     componentType: 'checkbox',
     field: 'checkbox',
@@ -94,6 +100,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '下拉框',
+    icon: 'Tickets',
     id: '',
     componentType: 'select',
     field: 'select',
@@ -112,6 +119,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '按钮',
+    icon: 'Pointer',
     id: '',
     componentType: 'button',
     field: 'button',
@@ -133,6 +141,7 @@ export const baseFields: FormComponent[] = [
   },
   {
     label: '评分',
+    icon: 'Star',
     id: '',
     componentType: 'rate',
     field: 'rate',

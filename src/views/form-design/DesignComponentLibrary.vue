@@ -14,7 +14,7 @@
                   <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
-                        <SetUp />
+                        <component :is="field.icon" />
                       </el-icon>
                     </p>
                     <p>{{ field.label }}</p>
@@ -28,7 +28,7 @@
                   <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
-                        <SetUp />
+                        <component :is="field.icon" />
                       </el-icon>
                     </p>
                     <p>{{ field.label }}</p>
@@ -42,21 +42,7 @@
                   <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
-                        <SetUp />
-                      </el-icon>
-                    </p>
-                    <p>{{ field.label }}</p>
-                  </div>
-                </div>
-              </el-scrollbar>
-            </el-collapse-item>
-            <el-collapse-item title="图表字段" name="4">
-              <el-scrollbar max-height="220px">
-                <div class="fields-box">
-                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-                    <p>
-                      <el-icon class="icon">
-                        <SetUp />
+                        <component :is="field.icon" />
                       </el-icon>
                     </p>
                     <p>{{ field.label }}</p>

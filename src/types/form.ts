@@ -4,6 +4,7 @@ export type FormStatus = 'draft' | 'published' | 'close'
 
 /** 表单组件 */
 export interface FormComponent {
+  icon?: string,
   label: string, // 组件标签
   id: string, // 组件唯一id
   componentType: string, // 组件类型
