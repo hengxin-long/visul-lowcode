@@ -2,18 +2,20 @@
 export interface PropObj {
   label: string,
   prop: string,
-  type: string
+  type: string,
+  /** 生成属性控件的限制属性 */
+  limit?: Record<string, any>
 }
 
-export const componentAttrConfig = {
+export const componentAttrConfig: Record<string, PropObj[]> = {
   input: [
     { label: '标签文本', prop: 'label', type: 'input' },
     { label: '占位提示', prop: 'placeholder', type: 'input' },
     { label: '文本框类型', prop: 'type', type: 'inputType' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
-    { label: '最大长度', prop: 'maxlength', type: 'number' },
-    { label: '最小长度', prop: 'minlength', type: 'number' },
+    { label: '最大长度', prop: 'maxlength', type: 'number', limit: { min: 0 } },
+    { label: '最小长度', prop: 'minlength', type: 'number', limit: { min: 0 } },
     { label: '是否显示清除按钮', prop: 'clearable', type: 'switch' },
     { label: '输入框尺寸', prop: 'size', type: 'enum' }
   ],
@@ -23,8 +25,8 @@ export const componentAttrConfig = {
     { label: '文本框类型', prop: 'type', type: 'inputType' },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
-    { label: '最大长度', prop: 'maxlength', type: 'number' },
-    { label: '最小长度', prop: 'minlength', type: 'number' },
+    { label: '最大长度', prop: 'maxlength', type: 'number', limit: { min: 0 } },
+    { label: '最小长度', prop: 'minlength', type: 'number', limit: { min: 0 } },
     { label: '是否显示清除按钮', prop: 'clearable', type: 'switch' },
     { label: '输入框尺寸', prop: 'size', type: 'enum' }
   ],
@@ -35,7 +37,7 @@ export const componentAttrConfig = {
     { label: '步数', prop: 'step', type: 'number' },
     { label: '控制按钮位置', prop: 'controls-position', type: 'posiEnum' },
     { label: '大小', prop: 'size', type: 'enum' },
-    { label: '数值精度', prop: 'precision', type: 'number' },
+    { label: '数值精度', prop: 'precision', type: 'number', limit: { min: 0, max: 100 } },
     { label: '是否禁用', prop: 'disabled', type: 'switch' },
     { label: '是否只读', prop: 'readonly', type: 'switch' },
     { label: '是否使用控制按钮', prop: 'controls', type: 'switch' },
@@ -57,12 +59,12 @@ export const componentAttrConfig = {
     { label: 'Checkbox 的尺寸', prop: 'size', type: 'enum' },
   ],
   rate: [
-    { label: '最大分值', prop: 'max', type: 'number' }, // default: 5
+    { label: '最大分值', prop: 'max', type: 'number', limit: { min: 1 } }, // default: 5
     { label: '尺寸', prop: 'size', type: 'enum' },
     { label: '是否为只读', prop: 'disabled', type: 'switch' },
     { label: '是否允许半选', prop: 'allow-half', type: 'switch' },
-    { label: '低分和中等分数的界限值， 值本身被划分在低分中', prop: 'low-threshold', type: 'number' },
-    { label: '高分和中等分数的界限值， 值本身被划分在高分中', prop: 'high-threshold', type: 'number' },
+    { label: '低分和中等分数的界限值， 值本身被划分在低分中', prop: 'low-threshold', type: 'number', limit: { min: 0 } },
+    { label: '高分和中等分数的界限值， 值本身被划分在高分中', prop: 'high-threshold', type: 'number', limit: { min: 0 } },
     { label: '是否可以重置值为0', prop: 'clearable', type: 'switch' },
     { label: '辅助文字的颜色', prop: 'text-color', type: 'input' },
     { label: '辅助文字数组', prop: 'texts', type: 'array' },
@@ -108,8 +110,8 @@ export const componentAttrConfig = {
     { label: '自定义按钮颜色', prop: 'color', type: 'input' },
   ],
   title: [
-    { label: '标题级别', prop: 'level', type: 'number' },
-    { label: '字体大小', prop: 'fontSize', type: 'number' },
+    { label: '标题级别', prop: 'level', type: 'number', limit: { min: 1, max: 6 } },
+    { label: '字体大小', prop: 'fontSize', type: 'number', limit: { min: 0 } },
     { label: '字体颜色', prop: 'color', type: 'input' },
     { label: '字体位置', prop: 'textAlign', type: 'input' },
     { label: '字体加粗', prop: 'fontWeight', type: 'input' },

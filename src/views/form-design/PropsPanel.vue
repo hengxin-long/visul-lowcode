@@ -13,7 +13,7 @@
             <div class="attr" v-for="attr in attrList">
               <p>{{ attr.label }}</p>
               <el-input v-if="attr.type === 'input'" v-model="selectCom.props[attr.prop]" size="small" />
-              <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small" />
+              <el-inputNumber v-if="attr.type === 'number'" v-model="selectCom.props[attr.prop]" size="small" v-bind="attr?.limit"/>
               <el-switch v-if="attr.type === 'switch'" v-model="selectCom.props[attr.prop]" size="small" />
               <el-button @click="setProp('size', s)" v-if="attr.type === 'enum'" v-for="s in size" size="small">{{ s
               }}</el-button>
