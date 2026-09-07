@@ -8,11 +8,12 @@ export const baseFields: FormComponent[] = [
     componentType: 'title',
     field: 'title',
     props: {
+      innerText: '标题',
       fontSize: 20,
       color: 'black',
       level: 1,
       textAlign: 'left',
-      fontWeight: '400'
+      fontWeight: '400',
     }
   },
   {
@@ -22,6 +23,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'input',
     field: 'field',
     props: {
+      align: 'left',
       label: '文本框',
       require: true,
       type: 'text',
@@ -31,7 +33,8 @@ export const baseFields: FormComponent[] = [
       readonly: false,
       maxlength: 30,
       minlength: 0,
-      size: 'default'
+      size: 'default',
+      width: '100%'
     }
   },
   {
@@ -41,6 +44,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'inputNumber',
     field: 'number',
     props: {
+      align: 'left',
       max: 10,
       min: 0,
       step: 1,
@@ -49,7 +53,6 @@ export const baseFields: FormComponent[] = [
       controlsPosition: '',
       readonly: false,
       controls: true,
-      align: 'center'
     }
   },
   {
@@ -59,13 +62,15 @@ export const baseFields: FormComponent[] = [
     componentType: 'date',
     field: 'date',
     props: {
+      align: 'left',
       readonly: false,
       disabled: false,
       size: 'default',
       editable: true,
       clearable: true,
       placeholder: '日期',
-      format: 'YYYY-MM-DD'
+      format: 'YYYY-MM-DD',
+      width: '100%'
     }
   },
   {
@@ -75,6 +80,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'radio',
     field: 'radio',
     props: {
+      align: 'left',
       value: 1,
       label: '单选',
       disabled: false,
@@ -89,6 +95,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'checkbox',
     field: 'checkbox',
     props: {
+      align: 'left',
       trueValue: '',
       falseValue: '',
       label: '多选',
@@ -105,6 +112,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'select',
     field: 'select',
     props: {
+      align: 'left',
       multiple: false,
       disabled: false,
       options: [
@@ -114,7 +122,8 @@ export const baseFields: FormComponent[] = [
       ],
       size: 'default',
       clearable: true,
-      placeholder: '下拉框'
+      placeholder: '下拉框',
+      width: '100%'
     }
   },
   {
@@ -124,6 +133,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'button',
     field: 'button',
     props: {
+      align: 'left',
       label: '按钮',
       type: 'default',
       size: 'default',
@@ -137,6 +147,7 @@ export const baseFields: FormComponent[] = [
       dashed: false,
       disabled: false,
       loading: false,
+      width: '100%'
     }
   },
   {
@@ -146,6 +157,7 @@ export const baseFields: FormComponent[] = [
     componentType: 'rate',
     field: 'rate',
     props: {
+      align: 'left',
       max: 5,
       size: 'default',
       disabled: false,

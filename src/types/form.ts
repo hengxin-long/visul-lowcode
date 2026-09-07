@@ -9,6 +9,7 @@ export interface FormComponent {
   id: string, // 组件唯一id
   componentType: string, // 组件类型
   field: string, // 组件业务字段
+  align?: string,
   props: Record<string, any> // 组件属性
 }
 

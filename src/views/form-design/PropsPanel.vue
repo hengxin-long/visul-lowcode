@@ -10,6 +10,9 @@
             <p>业务字段</p>
             <!-- 如果schema为空就不渲染field -->
             <el-input v-if="schema" v-model="schema.field" size="small" />
+            <p>组件对齐</p>
+            <el-button @click="handleAlign(align)" v-for="align in alignKey" :key="align" size="small">{{ align }}</el-button>
+
             <div class="attr" v-for="attr in attrList">
               <p>{{ attr.label }}</p>
               <el-input v-if="attr.type === 'input'" v-model="selectCom.props[attr.prop]" size="small" />
@@ -134,12 +137,27 @@ const delOption = (index: number | string) => {
   selectCom.value.props.options.splice(i, 1)
 }
 
-/**  */
+/** 数字框控制按钮位置 */
 const numberControlPosi = (posi: string) => {
   if (!selectCom.value) return []
   selectCom.value.props.controlsPosition = posi
 }
 
+/** 组件位置映射 */
+const alignMap = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end'
+}
+
+/** 获取key */
+const alignKey = Object.keys(alignMap)
+
+/** 绑定align */
+const handleAlign = (align: string) => {
+  if (!selectCom.value) return []
+  selectCom.value.props.align = alignMap[align as keyof typeof alignMap]
+}
 </script>
 
 <style scoped lang="scss">
