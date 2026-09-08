@@ -106,9 +106,8 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
   title: [
     { label: '标题级别', prop: 'level', type: 'number', limit: { min: 1, max: 6 } },
     { label: '标题内容', prop: 'innerText' , type: 'input' },
-    { label: '字体大小', prop: 'fontSize', type: 'number', limit: { min: 0 } },
     { label: '字体颜色', prop: 'color', type: 'input' },
     { label: '字体位置', prop: 'textAlign', type: 'input' },
-    { label: '字体加粗', prop: 'fontWeight', type: 'input' },
+    { label: '字体加粗（400不加粗 700加粗）', prop: 'fontWeight', type: 'input' },
   ]
 }

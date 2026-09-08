@@ -9,7 +9,6 @@ export const baseFields: FormComponent[] = [
     field: 'title',
     props: {
       innerText: '标题',
-      fontSize: 20,
       color: 'black',
       level: 1,
       textAlign: 'left',

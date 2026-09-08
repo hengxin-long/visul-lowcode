@@ -33,7 +33,6 @@ const text = computed(() => props.com.props?.innerText)
  * 有变化就更新
  */
 const styleObj = computed(() => ({
-  fontSize: props.com.props?.fontSize,
   color: props.com.props?.color,
   textAlign: props.com.props?.textAlign,
   fontWeight: props.com.props?.fontWeight,
