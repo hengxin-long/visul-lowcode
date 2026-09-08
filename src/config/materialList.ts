@@ -81,7 +81,7 @@ export const baseFields: FormComponent[] = [
     props: {
       align: "left",
       value: 1,
-      label: "单选",
+      label: "单选框",
       disabled: false,
       border: false,
       size: "default",
@@ -95,9 +95,7 @@ export const baseFields: FormComponent[] = [
     field: "checkbox",
     props: {
       align: "left",
-      trueValue: "真",
-      falseValue: "假",
-      label: "多选",
+      label: "多选框",
       checked: false,
       disabled: false,
       border: false,
@@ -177,7 +175,6 @@ export const baseFields: FormComponent[] = [
       color: "",
       plain: false,
       text: false,
-      bg: false,
       link: false,
       round: false,
       circle: false,
