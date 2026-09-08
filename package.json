@@ -27,6 +27,7 @@
     "@vue/tsconfig": "^0.9.1",
     "mockjs": "^1.1.0",
     "npm-run-all2": "^9.0.2",
+    "prettier": "^3.9.6",
     "sass": "^1.103.0",
     "typescript": "~6.0.0",
     "unplugin-auto-import": "^21.1.0",
@@ -39,5 +40,11 @@
   },
   "engines": {
     "node": "^22.18.0 || >=24.12.0"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 2,
+    "singleAttributePerLine": true,
+    "vueIndentScriptAndStyle": true
   }
 }
