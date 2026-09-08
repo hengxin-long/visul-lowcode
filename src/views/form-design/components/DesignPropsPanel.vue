@@ -9,7 +9,7 @@
           <div v-if="selectCom" class="props">
             <p>业务字段</p>
             <!-- 如果schema为空就不渲染field -->
-            <el-input v-if="schema" v-model="schema.field" size="small" />
+            <el-input v-model="selectCom.field" size="small" />
             <p>组件对齐</p>
             <el-button @click="handleAlign(align)" v-for="align in alignKey" :key="align" size="small">{{ align }}</el-button>
 
@@ -79,6 +79,7 @@ const designStore = useDesignStore()
 
 /** 当前选中的组件 */
 const { selectCom } = storeToRefs(designStore)
+
 /** 拿到schema，目的是拿到field绑定 */
 const schema = ref<FormComponent>()
 
@@ -86,11 +87,8 @@ const schema = ref<FormComponent>()
 const attrList = computed(() => {
   if (!selectCom.value) return []
   const type = selectCom.value?.componentType
-  // 赋值指向同一个对象，目的是拿到field属性进行双向绑定
-  schema.value = selectCom.value
 
   const componentAttrList = JSON.stringify(componentAttrConfig[type as keyof typeof componentAttrConfig] ?? [])
-  // console.log('schema', schema.value)
 
   let newAttrList = JSON.parse(componentAttrList)
 

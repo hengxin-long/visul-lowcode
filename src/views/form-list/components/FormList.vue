@@ -397,10 +397,8 @@ const formSchema = ref<FormItem>()
 const browseForm = (row: FormItem) => {
   isBrowseFormVisible.value = true
   toEditForm.value = row
-  // console.log('浏览表单 ', row)
   switchPreview()
   getFormDetail(toEditForm.value.id).then(resolve => {
-    // console.log('resolve ', resolve)
     formSchema.value = resolve
   }, reject => {
     throw new Error('获取失败！', reject)
@@ -415,7 +413,6 @@ const setFormStatus = async (status: FormStatus) => {
   formSchema.value.status = status
   formSchema.value.updateTime = getLocalDateTime()
   try {
-    // res 此时仅仅等于后端的 data字段，拿不到code和msg
     await putFormSchema(formSchema.value)
     ElMessage.success('已更新')
     designStore.isSaved = true
@@ -426,17 +423,21 @@ const setFormStatus = async (status: FormStatus) => {
   getFormData()
 }
 
-
+/** 校验文件名是否合法 */
 const illegalReg = /[\\\/:*?"<>|]/
 
+/** 导出窗口状态 */
 const isExportForm = ref<boolean>(false)
 
+/** 导出的文件名 */
 const fileName = ref<string>('')
 
+/** 关闭导出窗口 */
 const closeExportForm = () => {
   isExportForm.value = false
 }
 
+/** 导出json */
 const handleExport = () => {
   if (!formSchema.value) return
   if (!fileName.value.trim()) return ElMessage.warning('文件名不能为空！')

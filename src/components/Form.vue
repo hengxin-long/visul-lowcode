@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { useDesignStore } from '@/stores/design';
 import { componentMap } from '@/config/componentMap.ts';
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
 import type { FormComponent } from '@/types/form'
 import { storeToRefs } from 'pinia';
 import { DocumentCopy, Delete } from '@element-plus/icons-vue'

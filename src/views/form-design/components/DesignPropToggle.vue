@@ -3,7 +3,6 @@
     v-model="activeName"
     type="card"
     class=""
-    @tab-click="handleClick"
   >
     <el-tab-pane label="字段属性" name="field">
       <DesignPropsPanel />
@@ -17,24 +16,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import type { TabsPaneContext } from 'element-plus'
 import DesignPropsPanel from './DesignPropsPanel.vue'
 import DesignFormPanel from './DesignFormPanel.vue'
 
 const activeName = ref('field')
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
-}
 </script>
 
 <style scoped lang="scss">
-/* .demo-tabs > .el-tabs__content {
-  padding: 32px;
-  color: #6b778c;
-  font-size: 32px;
-  font-weight: 600;
-} */
+
 :deep(.el-tabs__header) {
   height: 30px;
   margin: 0;
