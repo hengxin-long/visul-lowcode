@@ -103,44 +103,6 @@ export const baseFields: FormComponent[] = [
     },
   },
   {
-    label: "多选框组",
-    icon: "Select",
-    id: "",
-    componentType: "checkboxGroup",
-    field: "checkboxGroup",
-    props: {
-      align: "left",
-      min: 0,
-      max: 2,
-      type: 'checkbox',
-      disabled: false,
-      size: 'default',
-      options: [
-        { label: "多选框1", value: "值1" },
-        { label: "多选框2", value: "值2" },
-      ],
-    },
-  },
-  {
-    label: "单选框组",
-    icon: "Open",
-    id: "",
-    componentType: "radioGroup",
-    field: "radioGroup",
-    props: {
-      align: "left",
-      disabled: false,
-      size: 'default',
-      type: 'radio',
-      textColor: 'black',
-      fill: '#22a02d',
-      options: [
-        { label: "单选框1", value: "值1" },
-        { label: "单选框2", value: "值2" },
-      ],
-    },
-  },
-  {
     label: "下拉框",
     icon: "Tickets",
     id: "",
@@ -202,6 +164,62 @@ export const baseFields: FormComponent[] = [
       showText: false,
       textColor: "balck",
       texts: ["one", "two", "three", "four", "five"],
+    },
+  },
+];
+
+export const compositeFields: FormComponent[] = [
+  {
+    label: "单选框组",
+    icon: "Open",
+    id: "",
+    componentType: "radioGroup",
+    field: "radioGroup",
+    props: {
+      align: "left",
+      disabled: false,
+      size: "default",
+      type: "radio",
+      textColor: "black",
+      fill: "#22a02d",
+      options: [
+        { label: "单选框1", value: "值1" },
+        { label: "单选框2", value: "值2" },
+      ],
+    },
+  },
+  {
+    label: "多选框组",
+    icon: "Select",
+    id: "",
+    componentType: "checkboxGroup",
+    field: "checkboxGroup",
+    props: {
+      align: "left",
+      min: 0,
+      max: 2,
+      type: "checkbox",
+      disabled: false,
+      size: "default",
+      options: [
+        { label: "多选框1", value: "值1" },
+        { label: "多选框2", value: "值2" },
+      ],
+    },
+  },
+  {
+    label: "颜色选择器",
+    icon: "Select",
+    id: "",
+    componentType: "colorPicker",
+    field: "colorPicker",
+    props: {
+      align: "left",
+      disabled: false,
+      size: "default",
+      clearable: false,
+      showAlpha: false,
+      predefine: []
     },
   },
 ];

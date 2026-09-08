@@ -11,7 +11,7 @@
             <el-collapse-item title="基础字段" name="1">
               <el-scrollbar max-height="220px">
                 <div class="fields-box">
-                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                  <div v-for="field in base" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
                         <component :is="field.icon" />
@@ -22,10 +22,10 @@
                 </div>
               </el-scrollbar>
             </el-collapse-item>
-            <el-collapse-item title="主页字段" name="2">
+            <el-collapse-item title="复合字段" name="2">
               <el-scrollbar max-height="220px">
                 <div class="fields-box">
-                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                  <div v-for="field in composite" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
                         <component :is="field.icon" />
@@ -39,7 +39,7 @@
             <el-collapse-item title="表单字段" name="3">
               <el-scrollbar max-height="220px">
                 <div class="fields-box">
-                  <div v-for="field in fields" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                  <div v-for="field in base" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
                         <component :is="field.icon" />
@@ -63,12 +63,16 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import Sortable from 'sortablejs'
-import { baseFields } from '@/config/materialList';
+import { baseFields, compositeFields } from '@/config/materialList';
 import type { FormComponent } from '@/types/form'
 import { ElMessage } from 'element-plus';
 
 const activeName = ref('1')
-const fields = ref<FormComponent[]>(baseFields)
+/** 基础字段 */
+const base = ref<FormComponent[]>(baseFields)
+/** 复合字段 */
+const composite = ref<FormComponent[]>(compositeFields)
+
 let sortbale: Sortable[] = []
 
 onMounted(() => {

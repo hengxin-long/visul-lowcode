@@ -81,7 +81,6 @@ export const componentAttrConfig: Record<string, PropObj[]> = {
     { label: "文本框可输入", prop: "clearable", type: "switch" },
     { label: "尺寸", prop: "size", type: "enum" },
     { label: "是否支持透明度选择", prop: "show-alpha", type: "switch" },
-    { label: "ColorPicker下拉框的类名", prop: "popper-class", type: "input" },
     { label: "预定义颜色", prop: "predefine", type: "array" },
   ],
   date: [

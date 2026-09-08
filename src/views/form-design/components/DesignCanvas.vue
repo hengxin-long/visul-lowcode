@@ -128,7 +128,7 @@ onMounted(() => {
       evt.preventDefault()
 
       // 只处理画布已有组件拖拽，排除左侧新增
-      // if (evt.from !== evt.to) return
+      if (evt.from !== evt.to) return
 
       const oldIndex = evt.oldIndex as number
       const newIndex = evt.newIndex as number
