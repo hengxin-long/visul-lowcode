@@ -37,7 +37,7 @@
       <p v-if="com.componentType === 'input' || com.componentType === 'password'">{{ com.props.label }}</p>
       <component
         :is="map[com.componentType as keyof typeof map]"
-        v-bind="{ ...com.props }"
+        v-bind="com.props"
         :model-value="tempData[com.field]"
         @update:model-value="(val: any) => (tempData[com.field] = val)"
       >
@@ -75,7 +75,11 @@
       const list = schemaData.schema.components;
       const obj: Record<string, any> = {};
       list.forEach((item: FormComponent) => {
-        obj[item.field] = item.componentType === "inputNumber" || item.componentType === "rate" ? 1 : "";
+        if (item.componentType === 'checkboxGroup') {
+          obj[item.field] = []
+        } else {
+          obj[item.field] = item.componentType === "inputNumber" || item.componentType === "rate" ? 1 : "";
+        }
       });
       tempData.value = obj;
     },
