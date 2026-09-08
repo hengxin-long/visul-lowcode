@@ -29,7 +29,6 @@ defineOptions({ name: 'CountCard' })
 
 const formStore = useFormStore()
 const { all, published } = storeToRefs(formStore)
-console.log('all', all)
 const { countForm } = formStore
 
 const cardData = ref<Card<Ref>[]>([

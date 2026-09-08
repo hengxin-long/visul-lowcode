@@ -255,7 +255,6 @@
     loading.value = true;
     console.info("page: ", queryParams.value.page, " pageSize: ", queryParams.value.pageSize);
     formStore.getData(queryParams.value);
-    console.log("formData ", formData);
   };
 
   /** 重置当前页 */
@@ -299,7 +298,6 @@
   /** 关闭确认删除弹窗 */
   const handleClose = () => {
     isDelDialogVisible.value = false;
-    console.log("formTableRef ", formTableRef.value);
     // 清除选中的复选框
     formTableRef.value?.clearSelection();
     resetDelForm();
@@ -309,7 +307,6 @@
   const showDelDialog = () => {
     if (delForm.value === "") return ElMessage.error("请选择要删除的表单");
     isDelDialogVisible.value = true;
-    console.log("delForm ", delForm.value);
   };
 
   /**
@@ -319,12 +316,10 @@
   const handleDelete = (row: any) => {
     delForm.value = row.id;
     showDelDialog();
-    console.log("row.id ", row.id);
   };
 
   /** 表单名称或id搜索表单 */
   const handleSearch = () => {
-    console.log("keyword ", queryParams.value.keywords);
     resetCurrentPage();
     getFormData();
   };
@@ -334,7 +329,6 @@
    * @param value 表单类型
    */
   const handleSelectFormType = (value: string) => {
-    console.log("formType ", formType.value);
     viewFormData.value = formData.value.filter((item) => value === item.formType);
     viewTotal.value = viewFormData.value.length;
     // formType.value = ''
@@ -407,7 +401,6 @@
     for (let item of selection) {
       delForm.value += `${item.id},`;
     }
-    console.log("选中表单后的delForm", delForm.value);
   };
 
   /**
@@ -415,7 +408,6 @@
    * @param selection 选择的项
    */
   const handleSingleRow = (selection: FormItem[]) => {
-    console.log("单行数据", selection);
     delForm.value = "";
     addIdToDelForm(selection);
   };
@@ -425,7 +417,6 @@
    * @param selection 选择的项
    */
   const handleAllRow = (selection: FormItem[]) => {
-    console.log("全选数据", selection);
     if (selection.length === 0) {
       delForm.value = "";
       return;
@@ -435,7 +426,6 @@
 
   /** 提交要删除的表单 */
   const submitDelForm = async () => {
-    console.log("delForm: ", delForm.value);
     try {
       await deleteById(delForm.value);
       ElMessage.success("删除成功！");
@@ -470,7 +460,6 @@
    * @param row 单个表单实例
    */
   const handleEdit = (row: FormItem) => {
-    console.log("编辑的row：", row);
     toEditForm.value = row;
     toDesigner();
   };

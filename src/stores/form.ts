@@ -30,7 +30,7 @@ export const useFormStore = defineStore('form', () => {
       const res = await getFormList(params)
       formData.value = res.fdata
       total.value = res.ftotal
-      console.info('store res: ', res)
+      // console.info('store res: ', res)
     } catch (error) {
       console.error(error)
     } finally {

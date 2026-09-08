@@ -10,13 +10,13 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(res => {
-  console.info('请求拦截config ', res)
+  // console.info('请求拦截config ', res)
   return res
 })
 
 request.interceptors.response.use(
   (response: AxiosResponse<ApiResult>): AxiosResponse | any => {
-  console.info('响应拦截config ', response)
+  // console.info('响应拦截config ', response)
   const {code, data, msg} = response.data as ApiResult
   if (code === ApiCodeEnum.NOT_FOUND || code === ApiCodeEnum.BAD_REQUEST) {
     ElMessage.error(msg || "请求失败!")
