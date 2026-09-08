@@ -42,6 +42,7 @@
         @update:model-value="(val: any) => (tempData[com.field] = val)"
       >
         <span v-if="com.componentType === 'button'">{{ com.props.label }}</span>
+        <span v-if="com.componentType === 'checkbox'">{{ com.props.label }}</span>
       </component>
       <FormTitle
         v-if="com.componentType === 'title'"
