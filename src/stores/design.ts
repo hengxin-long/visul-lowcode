@@ -7,8 +7,7 @@ import { useRouter } from "vue-router";
 import { getFormDetailById } from '@/api/form/index.ts';
 import { getLocalDateTime } from '@/utils/transform'
 
-
-
+/** 初始表单模板 */
 const defaultTemplate: FormItem = {
   id: '',
   formName: '新建表单',
@@ -22,8 +21,6 @@ const defaultTemplate: FormItem = {
     components: []
   }
 }
-
-
 
 export const useDesignStore = defineStore('design', () => {
 
@@ -53,13 +50,13 @@ export const useDesignStore = defineStore('design', () => {
   const selectCom = ref<FormComponent | null>(null)
 
   /**  true = 画布编辑模式, false = 预览模式 */
-  const isEditMode = ref(true)
+  const isEditMode = ref<boolean>(true)
 
   /** 组件唯一id */
   let id = 1
 
   /** 表单保存状态 */
-  const isSaved = ref(false)
+  const isSaved = ref<boolean>(false)
 
   /**
    * 处理画布选中的组件
@@ -101,7 +98,6 @@ export const useDesignStore = defineStore('design', () => {
    * @param index 目标组件索引
    */
   const handleCopy = (com: FormComponent, index: number | string) => {
-    // console.log('复制到index索引下', com, index)
     let newId = addId()
     let newField = com.field + '_copy' + newId
     // 深拷贝对象
@@ -129,37 +125,20 @@ export const useDesignStore = defineStore('design', () => {
 
   const router = useRouter()
   /** 
-   * 添加表单到mock
+   * 添加或更新表单到mock
+   * @param type 处理类型
    * @param status 表单状态
+   * @param succMessage 成功的消息
    */
-  const postForm = async (status: FormStatus) => {
+  const pushForm = async (type: string, status: FormStatus, succMessage: string) => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
 
     formSchema.value.status = status
     formSchema.value.updateTime = getLocalDateTime()
 
     try {
-      // res 此时仅仅等于后端的 data字段，拿不到code和msg
-      await postFormSchema(formSchema.value)
-      ElMessage.success('保存成功')
-      isSaved.value = true
-      router.replace({ path: '/form-list' })
-    } catch (err) {
-      // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
-    }
-  }
-
-  /** 更新表单 */
-  const putForm = async (status: FormStatus) => {
-    console.log('更新表单')
-    if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
-
-    formSchema.value.status = status
-    formSchema.value.updateTime = getLocalDateTime()
-    try {
-      // res 此时仅仅等于后端的 data字段，拿不到code和msg
-      await putFormSchema(formSchema.value)
-      ElMessage.success('已更新')
+      type === 'post' ? await postFormSchema(formSchema.value) : await putFormSchema(formSchema.value)
+      ElMessage.success(succMessage)
       isSaved.value = true
       router.replace({ path: '/form-list' })
     } catch (err) {
@@ -197,8 +176,7 @@ export const useDesignStore = defineStore('design', () => {
     addId,
     handleCopy,
     handleDelete,
-    postForm,
-    putForm,
+    pushForm,
     getFormDetail
   }
 
