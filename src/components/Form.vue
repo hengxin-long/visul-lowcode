@@ -1,108 +1,118 @@
 <template>
-  <div ref="componet" class="form-component" v-for="(com, index) in formSchema?.schema.components" :key="com.id"
-    @click.stop="isEditMode && handleSelect(com)" :class="{ 'form-component--edit': isEditMode }" :style="{
+  <div
+    class="form-component"
+    v-for="(com, index) in formSchema?.schema.components"
+    :key="com.id"
+    @click.stop="isEditMode && handleSelect(com)"
+    :class="{ 'form-component--edit': isEditMode }"
+    :style="{
       display: 'flex',
       justifyContent: com.props.align,
-    }">
-
-    <div class="operate" v-if="isEditMode">
-      <el-icon @click.stop="handleCopy(com, index)" title="复制" :size="16">
+    }"
+  >
+    <div
+      class="operate"
+      v-if="isEditMode"
+    >
+      <el-icon
+        @click.stop="handleCopy(com, index)"
+        title="复制"
+        :size="16"
+      >
         <DocumentCopy />
       </el-icon>
-      <el-icon @click.stop="handleDelete(com)" title="删除" :size="16">
+      <el-icon
+        @click.stop="handleDelete(com)"
+        title="删除"
+        :size="16"
+      >
         <Delete />
       </el-icon>
     </div>
-    <div class="inner-item" :style="{ width: com.props?.width }">
+    <div
+      class="inner-item"
+      :style="{ width: com.props?.width }"
+    >
       <!-- 动态渲染组件 -->
-      <!-- 
-              v-bind：绑定组件属性
-              手动双向绑定
-              :model-value -> props
-              @update:model-value -> function
-              as keyof typeof map  告诉TS：这个字符串一定是 map 对象的合法 key，消除类型报错。
-            -->
-
       <p v-if="com.componentType === 'input' || com.componentType === 'password'">{{ com.props.label }}</p>
-
-      <component :is="map[com.componentType as keyof typeof map]" v-bind="{
-        ...com.props,
-      }" :model-value="tempData[com.field]" @update:model-value="(val: any) => tempData[com.field] = val">
+      <component
+        :is="map[com.componentType as keyof typeof map]"
+        v-bind="{ ...com.props }"
+        :model-value="tempData[com.field]"
+        @update:model-value="(val: any) => (tempData[com.field] = val)"
+      >
         <span v-if="com.componentType === 'button'">{{ com.props.label }}</span>
       </component>
-      <FormTitle v-if="com.componentType === 'title'" :com="com" />
+      <FormTitle
+        v-if="com.componentType === 'title'"
+        :com="com"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useDesignStore } from '@/stores/design';
-import { componentMap } from '@/config/componentMap.ts';
-import { watch } from 'vue';
-import type { FormComponent } from '@/types/form'
-import { storeToRefs } from 'pinia';
-import { DocumentCopy, Delete } from '@element-plus/icons-vue'
-import FormTitle from './form-custom/FormTitle.vue';
+  import { useDesignStore } from "@/stores/design";
+  import { componentMap } from "@/config/componentMap.ts";
+  import { watch } from "vue";
+  import type { FormComponent } from "@/types/form";
+  import { storeToRefs } from "pinia";
+  import { DocumentCopy, Delete } from "@element-plus/icons-vue";
+  import FormTitle from "./form-custom/FormTitle.vue";
 
-const map = componentMap
-const designStore = useDesignStore()
-const { handleSelect, handleCopy, handleDelete } = designStore
-const { isEditMode, tempData } = storeToRefs(designStore)
-const props = defineProps(['formSchema'])
+  const map = componentMap;
+  const designStore = useDesignStore();
+  const { handleSelect, handleCopy, handleDelete } = designStore;
+  const { isEditMode, tempData } = storeToRefs(designStore);
+  const props = defineProps(["formSchema"]);
 
-/** 
- * 临时表单数据变量
- * 用于预览表单测试用，将临时数据和表单schema分开
- */
-// const tempData = ref<Record<string, any>>({})
+  /** 深度监听，组件有变化就调用 */
+  watch(
+    () => props.formSchema,
+    (schemaData) => {
+      if (!schemaData?.schema?.components) return;
 
-/** 深度监听，组件有变化就调用 */
-watch(() => props.formSchema, (schemaData) => {
-  console.log('props.formSchema ', props.formSchema)
-  if (!schemaData?.schema?.components) return
-  console.log('list ', schemaData)
-  const list = schemaData.schema.components
-  const obj: Record<string, any> = {}
-  list.forEach((item: FormComponent) => {
-    obj[item.field] = item.componentType === 'inputNumber' || item.componentType === 'rate' ? 1 : ''
-  })
-  tempData.value = obj
-}, { deep: true, immediate: true })
-
+      const list = schemaData.schema.components;
+      const obj: Record<string, any> = {};
+      list.forEach((item: FormComponent) => {
+        obj[item.field] = item.componentType === "inputNumber" || item.componentType === "rate" ? 1 : "";
+      });
+      tempData.value = obj;
+    },
+    { deep: true, immediate: true },
+  );
 </script>
 
 <style scoped lang="scss">
-.form-component {
-  position: relative;
-  width: 100%;
-  padding: 10px 0 10px 0;
+  .form-component {
+    position: relative;
+    width: 100%;
+    padding: 10px 0 10px 0;
 
-  .operate {
-    display: none;
-    position: absolute;
-    z-index: 999;
-    top: 0;
-    right: 0;
-  }
+    .operate {
+      display: none;
+      position: absolute;
+      z-index: 999;
+      top: 0;
+      right: 0;
+    }
 
-  .inner-item {
-
-    :deep(.el-input),
-    :deep(.el-date-picker),
-    :deep(.el-number-input),
-    :deep(.el-select),
-    :deep(.el-button) {
-      width: 100% !important;
+    .inner-item {
+      :deep(.el-input),
+      :deep(.el-date-picker),
+      :deep(.el-number-input),
+      :deep(.el-select),
+      :deep(.el-button) {
+        width: 100% !important;
+      }
     }
   }
-}
 
-.form-component.form-component--edit:hover {
-  outline: 1px solid #409eff !important;
+  .form-component.form-component--edit:hover {
+    outline: 1px solid #409eff !important;
+  }
 
-}
-
-.form-component.form-component--edit:hover .operate {
-  display: block;
-}
+  .form-component.form-component--edit:hover .operate {
+    display: block;
+  }
 </style>
