@@ -9,7 +9,9 @@ import {
   ElSelect,
   ElColorPicker,
   ElRate,
-  ElButton
+  ElButton,
+  ElCheckboxGroup,
+  ElRadioGroup
  } from "element-plus";
 
 //  组件映射表
@@ -24,5 +26,7 @@ export const componentMap = {
   select: ElSelect,
   colorPicker: ElColorPicker,
   rate: ElRate,
-  button: ElButton
+  button: ElButton,
+  checkboxGroup: ElCheckboxGroup,
+  radioGroup: ElRadioGroup
 }

@@ -6,9 +6,15 @@
     <div class="scroll-container">
       <el-scrollbar>
         <div class="props-container">
-          <div v-if="selectCom" class="props">
+          <div
+            v-if="selectCom"
+            class="props"
+          >
             <p>业务字段</p>
-            <el-input v-model="selectCom.field" size="small" />
+            <el-input
+              v-model="selectCom.field"
+              size="small"
+            />
             <p>组件对齐</p>
             <el-button
               @click="handleAlign(align)"
@@ -18,7 +24,10 @@
               >{{ align }}</el-button
             >
 
-            <div class="attr" v-for="attr in attrList">
+            <div
+              class="attr"
+              v-for="attr in attrList"
+            >
               <p>{{ attr.label }}</p>
               <!-- 输入框控件 -->
               <el-input
@@ -133,6 +142,19 @@
                   size="small"
                 />
               </div>
+              <!-- 多选框和单选框类型 -->
+              <div
+                v-if="attr.type === 'groupEnum'"
+                class="group-type-enum"
+              >
+                <el-button
+                  v-if="allowType = selectCom.componentType === 'checkboxGroup' ? checkboxAllowType : radioAllowType"
+                  v-for="t in allowType"
+                  size="small"
+                  @click="setProp('type', t)"
+                  >{{ t }}</el-button
+                >
+              </div>
             </div>
           </div>
           <div
@@ -156,6 +178,13 @@
   import { kebabToCamel } from "@/utils/transform";
   import type { ComponentProps, FormComponent } from "@/types/form";
   const check = ref(true);
+
+  /** 允许的子组件类型 */
+  const allowType = ref();
+  /** 复选框组允许的子组件类型 */
+  const checkboxAllowType = ["checkbox", "button"];
+  /** 单选框组允许的子组件类型 */
+  const radioAllowType = ["radio", "button"];
 
   const designStore = useDesignStore();
 
