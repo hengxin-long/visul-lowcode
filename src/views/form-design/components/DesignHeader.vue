@@ -35,11 +35,10 @@ import { ref } from 'vue'
 import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
 import type { FormStatus } from '@/types/form'
-import { checkIdValid } from '@/utils/verification';
 
 const designStore = useDesignStore()
 const { isSaved, formSchema } = storeToRefs(designStore)
-const { switchEdit, switchPreview, postForm, putForm } = designStore
+const { switchEdit, switchPreview, pushForm } = designStore
 
 const route = useRoute()
 
@@ -82,11 +81,11 @@ const handleForm = (status: FormStatus) => {
   isSaveFormVisible.value = false
 
   const id = route.params.id as string
-  console.log(status)
-  if (id && checkIdValid(id)) {
-    putForm(status)
+  // 有id 更新，id为空串 添加
+  if (id) {
+    pushForm('put', status, '已更新')
   } else {
-    postForm(status)
+    pushForm('post', status, '保存成功')
   }
 }
 

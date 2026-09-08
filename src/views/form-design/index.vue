@@ -32,7 +32,6 @@ import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue'
 import type { FormItem } from '@/types/form.ts';
-import { checkIdValid } from '@/utils/verification.ts'
 
 const designStore = useDesignStore()
 const { formSchema, isSaved } = storeToRefs(designStore)
@@ -46,26 +45,20 @@ const originSchema = ref<FormItem>()
 /** 表单id，undefined表示新建表单，"1" 表示编辑表单 */
 const id = route.params.id as string
 
-
+/** 监听表单修改状态 */
 watch(() => formSchema.value, () => {
   isSaved.value = JSON.stringify(originSchema.value) == JSON.stringify(formSchema.value)
-  // console.log('originSchema ', originSchema.value)
-  // console.log('formSchema ', formSchema.value)
-  console.log('isSaved', isSaved.value)
 }, { deep: true })
 
 // 组件挂在完执行
 onMounted(async () => {
-  console.log('表单id：', id)
-  /** 校验id是否合法 */
-  // 校验id
-  if (id !== undefined && !checkIdValid(id)) {
-    ElMessage.error('表单id非法')
-    router.replace('/form-list')
-    return
-  }
-  if (checkIdValid(id)) {
-    // id合法，get请求
+
+  // undefined，初始化fomrSchema
+  if (!id) {
+    resetFormSchema()
+    originSchema.value = JSON.parse(JSON.stringify(formSchema.value))
+  // 不是 undefined 走else
+  } else {
     const form = getFormDetail(id)
     form.then(resolve => {
       setFormSchema(resolve)
@@ -75,11 +68,6 @@ onMounted(async () => {
     }).catch((e) => {
       ElMessage.error(e)
     })
-  }
-  // undefined，初始化fomrSchema
-  if (!id) {
-    resetFormSchema()
-    originSchema.value = JSON.parse(JSON.stringify(formSchema.value))
   }
   // 进入表单设计就切换为编辑模式
   switchEdit()

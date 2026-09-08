@@ -19,7 +19,7 @@
           <el-icon class="icon-search">
             <Search />
           </el-icon>
-          <el-input v-model="queryParams.keywords" class="search" type="search" placeholder="搜索表单名称或id" />
+          <el-input v-model="queryParams.keywords" class="search" type="search" placeholder="搜索表单名称" />
         </div>
         <el-button @click="handleSearch" type="primary">搜索</el-button>
       </div>

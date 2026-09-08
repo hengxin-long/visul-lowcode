@@ -3,8 +3,15 @@ import { defineMock } from 'vite-plugin-mock-dev-server'
 import { ApiCodeEnum } from '../src/enums/api'
 import { FormItem } from '../src/types/form'
 
-/** 表单唯一id */
-let id = 1
+/** 时间戳 + 随机数 生成表单唯一id */
+function generateUniqueID(): string {
+  const time = Date.now().toString(36)
+  console.log(time)
+  const rand = Math.random() * 100
+  console.log(rand)
+  const id  = time + rand.toFixed(0)
+  return id
+}
 
 export default defineMock([
   {
@@ -31,12 +38,9 @@ export default defineMock([
       let code = ApiCodeEnum.SUCCESS
       let msg = '数据获取成功'
 
-      console.log('进入mock函数', typeof currentPage, typeof pageSize)
-
       // 按状态筛选
       if (formStatus !== 'all') {
         statusData = formData.filter(item => formStatus === item.status)
-        console.info('statusData ', statusData.length)
         ftotal = statusData.length
       } else {
         statusData = formData
@@ -47,7 +51,7 @@ export default defineMock([
       if (keywords?.trim()) {
         const kw = keywords.toLowerCase()
         statusData = statusData.filter((data) => {
-          return data.id === kw || data.formName.toLowerCase().includes(kw)
+          return data.formName.toLowerCase().includes(kw)
         })
         ftotal = statusData.length
       }
@@ -97,7 +101,6 @@ export default defineMock([
       } else {
         indexes = [params.id]
       }
-      console.log('indexes: ', indexes)
 
       // 筛选
       for (let id of indexes) {
@@ -126,11 +129,9 @@ export default defineMock([
       // 按状态筛选
       for (let s of status) {
         let c = formData.filter(item => s === item.status).length
-        console.log('length', c)
         count[s] = c
       }
       count.all = formData.length
-      console.log(count)
 
       return {
         code: ApiCodeEnum.SUCCESS,
@@ -144,20 +145,18 @@ export default defineMock([
     method: 'POST',
     /** body 属性是请求的数据体 */
     body({ body }) {
-      console.log('POST请求已连接成功', body)
       const form = body as FormItem
       let code = ApiCodeEnum.SUCCESS
       let msg = '保存成功！'
-      form.id = id
 
+      form.id = generateUniqueID()
       let isDuplicate = formData.findIndex(item => item.id === form.id)
-      console.log(isDuplicate)
+
       if (isDuplicate === -1) {
         formData.push(form)
-        id++
       } else {
         code = 404,
-          msg = '添加失败'
+          msg = '添加失败！请重试'
       }
 
       return {
@@ -171,15 +170,13 @@ export default defineMock([
     url: '/mock/form/:id/detail',
     method: 'GET',
     body({ params }) {
-      console.log('进入到get detail接口')
       let code = ApiCodeEnum.SUCCESS
       let msg = '获取成功！'
-      console.log('formData ', formData)
-      const form = formData.find(item => item.id === Number(params.id))
-      console.log('form：', form)
+      const form = formData.find(item => item.id === params.id)
+
       if (!form) {
         code = ApiCodeEnum.BAD_REQUEST
-        msg = '获取失败！'
+        msg = '获取失败！请重试'
       }
 
       return {
