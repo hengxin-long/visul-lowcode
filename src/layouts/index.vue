@@ -3,7 +3,10 @@
     <el-container>
       <el-aside width="200px" class="aside">
         <div class="menu">
-          <div class="logo">Visul LowCode</div>
+          <div class="logo" @click="$router.push('/form-list')">
+            <img src="@/assets/images/logo.png" alt="logo">
+            <span>VISUL LOWCODE</span>
+          </div>
           <el-scrollbar>
             <el-menu :router="true" :default-active="$route.path">
               <el-menu-item-group title="工作台">
@@ -99,12 +102,23 @@ const appStore = useAppStore()
     height: 70px;
     text-align: center;
     line-height: 70px;
-    font-size: 20px;
+    cursor: pointer;
+    
+    font-size: 17px;
     color: #fff;
     font-weight: 700;
     background-color: $vlcpColor;
     box-shadow: 1px 0 $cardShadowColor;
     z-index: 999;
+
+    img {
+      width: 25px;
+    }
+
+    span {
+      vertical-align: middle;
+      margin-left: 5px;
+    }
   }
 
   .logo::after {
