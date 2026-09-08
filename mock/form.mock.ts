@@ -5,11 +5,10 @@ import { FormItem } from '../src/types/form'
 
 /** 时间戳 + 随机数 生成表单唯一id */
 function generateUniqueID(): string {
+  // 转成 36 进制字符串
   const time = Date.now().toString(36)
-  console.log(time)
   const rand = Math.random() * 100
-  console.log(rand)
-  const id  = time + rand.toFixed(0)
+  const id = time + rand.toFixed(0)
   return id
 }
 
@@ -190,7 +189,6 @@ export default defineMock([
     url: '/mock/form/update',
     method: 'PUT',
     body({ body }) {
-      console.log("进入更新接口", body)
       let code = ApiCodeEnum.SUCCESS
       let msg = '已更新'
 
@@ -215,5 +213,205 @@ export default defineMock([
 ])
 
 const formData: FormItem[] = [
-  
+  {
+    id: "mtsaxdcy48",
+    formName: "新建表单",
+    formType: "普通填报表单",
+    status: "draft",
+    createTime: "2026-09-08 14:34:37",
+    updateTime: "2026-09-08 14:42:15",
+    schema: {
+      formName: "表单",
+      formType: "normal",
+      components: [
+        {
+          label: "标题",
+          icon: "SetUp",
+          id: "18",
+          componentType: "title",
+          field: "title18",
+          props: {
+            innerText: "标题",
+            fontSize: 20,
+            color: "black",
+            level: 1,
+            textAlign: "left",
+            fontWeight: "400"
+          }
+        },
+        {
+          label: "文本框",
+          icon: "Document",
+          id: "19",
+          componentType: "input",
+          field: "field19",
+          props: {
+            align: "left",
+            label: "文本框",
+            require: true,
+            type: "text",
+            placeholder: "请输入文本",
+            clearable: true,
+            disabled: false,
+            readonly: false,
+            maxlength: 30,
+            minlength: 0,
+            size: "default",
+            width: "100%"
+          }
+        },
+        {
+          label: "文本框",
+          icon: "Document",
+          id: "20",
+          componentType: "input",
+          field: "field20",
+          props: {
+            align: "left",
+            label: "文本框",
+            require: true,
+            type: "password",
+            placeholder: "请输入文本",
+            clearable: true,
+            disabled: false,
+            readonly: false,
+            maxlength: 30,
+            minlength: 0,
+            size: "default",
+            width: "100%"
+          }
+        }
+      ]
+    }
+  },
+  {
+    id: "mtsbdu3m18",
+    formName: "登录表单",
+    formType: "普通填报表单",
+    status: "published",
+    createTime: "2026-09-08 14:47:59",
+    updateTime: "2026-09-08 14:54:32",
+    schema: {
+      formName: "表单",
+      formType: "login",
+      components: [
+        {
+          label: "标题",
+          icon: "SetUp",
+          id: "5",
+          componentType: "title",
+          field: "title5",
+          props: {
+            innerText: "欢迎登录",
+            fontSize: 20,
+            color: "black",
+            level: 2,
+            textAlign: "left",
+            fontWeight: "400",
+            align: "center"
+          }
+        },
+        {
+          label: "文本框",
+          icon: "Document",
+          id: "6",
+          componentType: "input",
+          field: "field6",
+          props: {
+            align: "left",
+            label: "用户名",
+            require: true,
+            type: "text",
+            placeholder: "请输入用户名",
+            clearable: true,
+            disabled: false,
+            readonly: false,
+            maxlength: 30,
+            minlength: 0,
+            size: "default",
+            width: "100%"
+          }
+        },
+        {
+          label: "文本框",
+          icon: "Document",
+          id: "7",
+          componentType: "input",
+          field: "field7",
+          props: {
+            align: "left",
+            label: "密码",
+            require: true,
+            type: "password",
+            placeholder: "请输入密码",
+            clearable: true,
+            disabled: false,
+            readonly: false,
+            maxlength: 30,
+            minlength: 0,
+            size: "default",
+            width: "100%"
+          }
+        },
+        {
+          label: "下拉框",
+          icon: "Tickets",
+          id: "9",
+          componentType: "select",
+          field: "select9",
+          props: {
+            align: "left",
+            multiple: false,
+            disabled: false,
+            options: [
+              {
+                label: "成都",
+                value: "成都"
+              },
+              {
+                label: "上海",
+                value: "上海"
+              },
+              {
+                label: "北京",
+                value: "北京"
+              },
+              {
+                label: "深圳",
+                value: "深圳"
+              }
+            ],
+            size: "default",
+            clearable: true,
+            placeholder: "选择城市",
+            width: "100%"
+          }
+        },
+        {
+          label: "按钮",
+          icon: "Pointer",
+          id: "8",
+          componentType: "button",
+          field: "button8",
+          props: {
+            align: "left",
+            label: "登录/注册",
+            type: "primary",
+            size: "default",
+            color: "",
+            plain: false,
+            text: false,
+            bg: false,
+            link: false,
+            round: false,
+            circle: false,
+            dashed: false,
+            disabled: false,
+            loading: false,
+            width: "100%"
+          }
+        }
+      ]
+    }
+  }
 ]
