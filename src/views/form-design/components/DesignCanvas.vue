@@ -52,7 +52,7 @@ import { nextTick } from 'vue';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleNotSelected, clearFormComponent, addId } = designStore
+const { handleNotSelected, clearFormComponent, handleAddToCanvas } = designStore
 
 let sortbale: Sortable
 
@@ -108,19 +108,15 @@ const createSortable = () => {
       // 拖拽的目标容器不是画布直接返回
       if (evt.to !== canvas) return
 
-      const field = evt.item.dataset.field
       const newIndex = evt.newIndex
-      // 反序列化添加进数组
-      const component = JSON.parse(field)
-      let id = addId()
-      component.id = `${id}`
-      component.field = component.field + id
+      const fieldStr = evt.item.dataset.field
+      // 转换
+      const component = handleAddToCanvas(fieldStr)
 
       // 加到components数组后移除dom元素，只留schema
       if (evt.item) evt.item.remove()
 
       formSchema.value?.schema.components.splice(newIndex, 0, component)
-
     },
 
     /** 画布内组件移动时触发 */

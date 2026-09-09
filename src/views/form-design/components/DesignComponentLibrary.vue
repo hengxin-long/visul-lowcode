@@ -64,7 +64,7 @@ const composite = ref<FormComponent[]>(compositeFields)
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { addId } = designStore
+const { handleAddToCanvas } = designStore
 
 let sortbale: Sortable[] = []
 
@@ -92,17 +92,13 @@ const clickAddToCanvas = (evt: PointerEvent) => {
 
   // 从点击的目标，向上找最近的 .field 元素
   const targetFieldDom = target.closest('.field') as HTMLElement | null
-  // 类型守卫判断，缩小类型
   if (!targetFieldDom || !(targetFieldDom instanceof HTMLElement)) return
 
   const fieldStr = targetFieldDom.dataset.field
   if (!fieldStr) return
-
-  const com = JSON.parse(fieldStr)
-  const id = addId()
-  com.id = `${id}`
-  com.field = com.field + id
-  formSchema.value.schema.components.push(com)
+  // 转换
+  const component = handleAddToCanvas(fieldStr)
+  formSchema.value.schema.components.push(component)
 }
 
 onMounted(async () => {
