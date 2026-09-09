@@ -1,42 +1,107 @@
-# visual-lowcode
+# 可视化低代码配置平台 v1.0
 
-This template should help get you started developing with Vue 3 in Vite.
+## 项目简介
 
-## Recommended IDE Setup
+轻量化可视化低代码配置平台，一期实现可视化表单搭建、基础管理与导出能力。通过拖拽方式快速构建业务表单，支持导出 JSON Schema 供外部系统渲染使用，同时预留后续组件、图表、页面扩展能力。
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 项目功能
 
-## Recommended Browser Setup
+### 表单设计器
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- 三栏布局：左侧物料库 → 中间画布 → 右侧属性面板
+- 拖拽搭建：物料库组件点击或拖拽到画布，画布内拖拽排序
+- 属性编辑：选中组件后右侧面板修改属性，实时生效
+- 组件操作：选中、复制、删除、查看 Schema
+- 状态管理：保存草稿 / 发布（草稿可多次编辑，发布后对外生效）
+- 实时预览：弹窗预览表单效果
 
-## Type Support for `.vue` Imports in TS
+### 全部表单页
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- 全部表单 / 已发布 /草稿/已关闭 Tab 切换
+- 筛选：表单编号、表单名称模糊搜索、表单类型
+- 分页展示，默认按更新时间倒序
+- 操作：新增、编辑、单条/批量删除、浏览预览
 
-## Customize configuration
+### 表单导出
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- 导出 JSON Schema 配置文件，外部系统读取后配合渲染组件使用
 
-## Project Setup
+### 基础物料组件
 
-```sh
+| 组件    | 类型标识            |
+| ----- | --------------- |
+| 标题    | `title`         |
+| 文本框   | `input`         |
+| 数字框   | `inputNumber`   |
+| 日期    | `date`          |
+| 单选框   | `radio`         |
+| 多选框   | `checkbox`      |
+| 下拉框   | `select`        |
+| 单选框组  | `radioGroup`    |
+| 多选框组  | `checkboxGroup` |
+| 按钮    | `button`        |
+| 评分    | `rate`          |
+| 颜色选择器 | `colorPicker`   |
+
+## 技术栈
+
+| 技术           | 用途      |
+| ------------ | ------- |
+| Vue 3        | 前端框架    |
+| Vue Router   | 路由管理    |
+| Pinia        | 状态管理    |
+| Element Plus | UI 组件库  |
+| Vite         | 构建工具    |
+| Sortable.js  | 拖拽排序    |
+| Axios        | HTTP 请求 |
+| Mock.js      | 接口 Mock |
+| SCSS         | 样式预处理   |
+| TypeScript   | 类型安全    |
+
+## 项目预览
+
+![部表单](D:\VUE\visual-lowcode\public\全部表单页.png)
+
+![建表单](D:\VUE\visual-lowcode\public\新建表单页.png)
+
+![览表](D:\VUE\visual-lowcode\public\浏览表单.png)
+
+## 快速开始
+
+### 环境要求
+
+- Node.js >= 22.18.0
+
+### 安装与运行
+
+```bash
+# 安装依赖
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# 启动开发服务器（含 Mock 接口）
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# 构建生产版本
 npm run build
+
+# 预览生产构建
+npm run preview
 ```
+
+## 提交规范
+
+遵循 Conventional Commits 规范，格式：
+
+```
+<type>(<scope>): <subject>
+```
+
+**类型**：`feat` | `fix` | `docs` | `style` | `refactor` | `perf` | `test` | `chore`
+
+**示例**：
+
+- `feat(canvas): 实现sortable组件拖拽排序`
+- `feat(form): 新增表单保存导出功能`
+- `fix(schema): 修复组件属性回写丢失问题`
+- `refactor: 抽离schema解析公共工具函数`
+
