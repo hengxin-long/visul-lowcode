@@ -159,6 +159,18 @@ export const useDesignStore = defineStore('design', () => {
     return form
   }
 
+  /** 
+   * 处理添加的组件
+   * @param fieldStr 字符串字段
+   */
+  const handleAddToCanvas = (fieldStr: string): FormComponent => {
+    const component = JSON.parse(fieldStr)
+    const id = addId()
+    component.id = `${id}`
+    component.field = component.field + id
+    return component
+  }
+
 
   return {
     formSchema,
@@ -177,7 +189,8 @@ export const useDesignStore = defineStore('design', () => {
     handleCopy,
     handleDelete,
     pushForm,
-    getFormDetail
+    getFormDetail,
+    handleAddToCanvas
   }
 
 })
