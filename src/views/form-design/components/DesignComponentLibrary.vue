@@ -36,20 +36,6 @@
                 </div>
               </el-scrollbar>
             </el-collapse-item>
-            <el-collapse-item title="表单字段" name="3">
-              <el-scrollbar max-height="220px">
-                <div class="fields-box">
-                  <div v-for="field in base" class="field" :key="field.label" :data-field="JSON.stringify(field)">
-                    <p>
-                      <el-icon class="icon">
-                        <component :is="field.icon" />
-                      </el-icon>
-                    </p>
-                    <p>{{ field.label }}</p>
-                  </div>
-                </div>
-              </el-scrollbar>
-            </el-collapse-item>
           </el-collapse>
         </div>
       </el-scrollbar>
@@ -66,6 +52,7 @@ import Sortable from 'sortablejs'
 import { baseFields, compositeFields } from '@/config/materialList';
 import type { FormComponent } from '@/types/form'
 import { ElMessage } from 'element-plus';
+import { nextTick } from 'vue';
 
 const activeName = ref('1')
 /** 基础字段 */
@@ -75,7 +62,7 @@ const composite = ref<FormComponent[]>(compositeFields)
 
 let sortbale: Sortable[] = []
 
-onMounted(() => {
+const createSortable = () => {
   const fieldSet = document.querySelectorAll('.fields-box') as NodeListOf<HTMLElement>
 
   if (!fieldSet[0]) return ElMessage.error('加载错误')
@@ -91,6 +78,12 @@ onMounted(() => {
       animation: 150, // 动画
     }));
   }
+}
+
+onMounted(async () => {
+  // 等待获取到最新dom在创建sortable
+  await nextTick()
+  createSortable()
 })
 
 onUnmounted(() => {

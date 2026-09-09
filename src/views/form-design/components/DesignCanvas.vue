@@ -48,6 +48,7 @@ import Sortable, { type SortableEvent } from 'sortablejs'
 import { useDesignStore } from '@/stores/design'
 import { storeToRefs } from 'pinia';
 import Form from '@/components/Form.vue';
+import { nextTick } from 'vue';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
@@ -87,8 +88,7 @@ const closeView = () => {
   isViewVisible.value = false
 }
 
-onMounted(() => {
-
+const createSortable = () => {
   const canvas = document.querySelector('.form-canvas') as HTMLElement
 
   sortbale = new Sortable(canvas, {
@@ -142,11 +142,13 @@ onMounted(() => {
       list.splice(newIndex, 0, moveItem)
     },
   });
-})
+}
 
-// const viewForm = () => {
-//   console.log(formSchema.value)
-// }
+onMounted(async () => {
+  // 等待dom更新完再创建sortable
+  await nextTick()
+  createSortable()
+})
 
 onUnmounted(() => {
   sortbale?.destroy()
