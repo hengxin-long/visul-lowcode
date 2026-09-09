@@ -10,7 +10,7 @@
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item title="基础字段" name="1">
               <el-scrollbar max-height="220px">
-                <div class="fields-box">
+                <div class="fields-box" @click="clickAddToCanvas">
                   <div v-for="field in base" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
@@ -24,7 +24,7 @@
             </el-collapse-item>
             <el-collapse-item title="复合字段" name="2">
               <el-scrollbar max-height="220px">
-                <div class="fields-box">
+                <div class="fields-box" @click="clickAddToCanvas">
                   <div v-for="field in composite" class="field" :key="field.label" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
@@ -53,12 +53,18 @@ import { baseFields, compositeFields } from '@/config/materialList';
 import type { FormComponent } from '@/types/form'
 import { ElMessage } from 'element-plus';
 import { nextTick } from 'vue';
+import { useDesignStore } from '@/stores/design';
+import { storeToRefs } from 'pinia';
 
 const activeName = ref('1')
 /** 基础字段 */
 const base = ref<FormComponent[]>(baseFields)
 /** 复合字段 */
 const composite = ref<FormComponent[]>(compositeFields)
+
+const designStore = useDesignStore()
+const { formSchema } = storeToRefs(designStore)
+const { addId } = designStore
 
 let sortbale: Sortable[] = []
 
@@ -78,6 +84,25 @@ const createSortable = () => {
       animation: 150, // 动画
     }));
   }
+}
+
+const clickAddToCanvas = (evt: PointerEvent) => {
+  const target = evt.target as HTMLElement | null
+  if (!target) return
+
+  // 从点击的目标，向上找最近的 .field 元素
+  const targetFieldDom = target.closest('.field') as HTMLElement | null
+  // 类型守卫判断，缩小类型
+  if (!targetFieldDom || !(targetFieldDom instanceof HTMLElement)) return
+
+  const fieldStr = targetFieldDom.dataset.field
+  if (!fieldStr) return
+
+  const com = JSON.parse(fieldStr)
+  const id = addId()
+  com.id = `${id}`
+  com.field = com.field + id
+  formSchema.value.schema.components.push(com)
 }
 
 onMounted(async () => {
