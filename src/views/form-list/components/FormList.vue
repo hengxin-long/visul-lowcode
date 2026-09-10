@@ -82,9 +82,17 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" min-width="120" />
-        <el-table-column prop="createTime" label="创建时间" min-width="180"
-        />
+        <el-table-column prop="status" label="状态" min-width="120">
+          <template #default="{ row }">
+            <div class="row-box">
+              <div class="status-box" :style=" `background-color: ${getStatusInfo(row.status)?.bgColor};`">
+                <div class="circle" :style=" `background-color: ${getStatusInfo(row.status)?.circleCol};`"></div>
+                <p>{{ getStatusInfo(row.status)?.meaning }}</p>
+              </div>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" min-width="180"/>
         <el-table-column
           prop="updateTime"
           sortable
@@ -198,6 +206,7 @@
   import { exportSchema } from "@/utils/transform";
   import { FormTypeOptions } from "@/enums/component";
   import { getLocalDateTime } from "@/utils/transform";
+  import { statusMap } from '@/config/statusMap'
 
   const formStore = useFormStore();
   const router = useRouter();
@@ -533,6 +542,10 @@
     }
   };
 
+  const getStatusInfo = (status: string | number) => {
+    return statusMap[status as keyof typeof statusMap]
+  }
+
   onMounted(() => {
     getFormData();
   });
@@ -607,6 +620,35 @@
 
     :deep(.export.el-dialog .el-dialog__body .el-input .el-input-group__append) {
       padding: 0 10px;
+    }
+
+    .row-box {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .status-box {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0 5px;
+      width: 70px;
+      height: 21px;
+      font-size: 12px;
+      background-color: #5CD945FF;
+      border-radius: 5px;
+      text-align: center;
+      line-height: 21px;
+
+      .circle {
+        width: 10px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #7CFF5EFF;
+        margin-right:5px;
+      }
     }
   }
 
