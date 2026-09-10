@@ -413,5 +413,185 @@ const formData: FormItem[] = [
         }
       ]
     }
+  },
+  {
+  id: "mtsgxkdy67",
+  formName: "游戏收集问卷",
+  formType: "收集问卷表单",
+  status: "close",
+  createTime: "2026-09-10 23:03:09",
+  updateTime: "2026-09-10 23:11:23",
+  schema: {
+    formName: "表单",
+    formType: "normal",
+    components: [
+      {
+        label: "标题",
+        icon: "SetUp",
+        id: "1",
+        componentType: "title",
+        field: "title1",
+        props: {
+          innerText: "游戏收集问卷",
+          color: "black",
+          level: 2,
+          textAlign: "left",
+          fontWeight: "400",
+          align: "center"
+        }
+      },
+      {
+        label: "标题",
+        icon: "SetUp",
+        id: "2",
+        componentType: "title",
+        field: "title2",
+        props: {
+          innerText: "本收集问卷只做调查研究，不会做任何非法的事情",
+          color: "black",
+          level: 4,
+          textAlign: "left",
+          fontWeight: "400",
+          align: "center"
+        }
+      },
+      {
+        label: "标题",
+        icon: "SetUp",
+        id: "8",
+        componentType: "title",
+        field: "title8",
+        props: {
+          innerText: "性别",
+          color: "black",
+          level: 4,
+          textAlign: "left",
+          fontWeight: "400"
+        }
+      },
+      {
+        label: "单选框组",
+        icon: "Open",
+        id: "3",
+        componentType: "radioGroup",
+        field: "radioGroup3",
+        props: {
+          align: "left",
+          disabled: false,
+          size: "default",
+          type: "radio",
+          textColor: "black",
+          fill: "#22a02d",
+          options: [
+            {
+              label: "男",
+              value: "man"
+            },
+            {
+              label: "女",
+              value: "woman"
+            }
+          ]
+        }
+      },
+      {
+        label: "标题",
+        icon: "SetUp",
+        id: "5",
+        componentType: "title",
+        field: "title5",
+        props: {
+          innerText: "年龄（岁）",
+          color: "black",
+          level: 4,
+          textAlign: "left",
+          fontWeight: "400"
+        }
+      },
+      {
+        label: "数字框",
+        icon: "Coin",
+        id: "4",
+        componentType: "inputNumber",
+        field: "number4",
+        props: {
+          align: "flex-start",
+          max: 100,
+          min: 16,
+          step: 1,
+          precision: 0,
+          disabled: false,
+          controlsPosition: "",
+          readonly: false,
+          controls: true
+        }
+      },
+      {
+        label: "下拉框",
+        icon: "Tickets",
+        id: "6",
+        componentType: "select",
+        field: "select6",
+        props: {
+          align: "left",
+          multiple: true,
+          disabled: false,
+          options: [
+            {
+              label: "王者荣耀",
+              value: "wangzhe"
+            },
+            {
+              label: "和平精英",
+              value: "heping"
+            },
+            {
+              label: "我的世界",
+              value: "mc"
+            },
+            {
+              label: "原神",
+              value: "yuanshen"
+            },
+            {
+              label: "三角洲",
+              value: "san"
+            },
+            {
+              label: "瓦罗兰特（瓦）",
+              value: "wa"
+            }
+          ],
+          size: "default",
+          clearable: true,
+          placeholder: "选择喜欢的游戏（可多选）",
+          width: "100%"
+        }
+      },
+      {
+        label: "按钮",
+        icon: "Pointer",
+        id: "7",
+        componentType: "button",
+        field: "button7",
+        props: {
+          align: "flex-end",
+          label: "提交",
+          type: "primary",
+          size: "default",
+          color: "skyblue",
+          plain: false,
+          text: false,
+          link: false,
+          round: false,
+          circle: false,
+          dashed: false,
+          disabled: false,
+          loading: false,
+          width: "20%"
+        }
+      }
+    ]
   }
+}
 ]
