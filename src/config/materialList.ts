@@ -209,7 +209,7 @@ export const compositeFields: FormComponent[] = [
   },
   {
     label: "颜色选择器",
-    icon: "Select",
+    icon: "Brush",
     id: "",
     componentType: "colorPicker",
     field: "colorPicker",

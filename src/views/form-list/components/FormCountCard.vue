@@ -8,7 +8,7 @@
         </div>
         <div class="iconfont" :style="`background-color: ${item.iconBackgroundColor}`">
           <el-icon :size="22" :style="`color: ${item.iconColor}`">
-            <MessageBox />
+            <component :is="item.icon"/>
           </el-icon>
         </div>
       </div>
@@ -35,7 +35,7 @@ const cardData = ref<Card<Ref>[]>([
   {
     title: '全部',
     count: all,
-    icon: '',
+    icon: 'MessageBox',
     backgroundColor: '',
     iconColor: '#4BED4BFF',
     iconBackgroundColor: '#B5FFB5FF'
@@ -43,7 +43,7 @@ const cardData = ref<Card<Ref>[]>([
   {
     title: '已发布',
     count: published,
-    icon: '',
+    icon: 'Finished',
     backgroundColor: '',
     iconColor: '#5AD2F0FF',
     iconBackgroundColor: '#BDF0FDFF'
@@ -51,7 +51,7 @@ const cardData = ref<Card<Ref>[]>([
   {
     title: '本月收集',
     count: ref(3785),
-    icon: '',
+    icon: 'Collection',
     backgroundColor: '',
     iconColor: '#FAAF47FF',
     iconBackgroundColor: '#FFD59BFF'
@@ -59,7 +59,7 @@ const cardData = ref<Card<Ref>[]>([
   {
     title: '待处理数据',
     count: ref(186),
-    icon: '',
+    icon: 'Loading',
     backgroundColor: '',
     iconColor: '#DB5FFDFF',
     iconBackgroundColor: '#F1C0FFFF'
