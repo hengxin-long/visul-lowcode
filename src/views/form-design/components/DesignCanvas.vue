@@ -8,7 +8,6 @@
             <h3 class="form-name">{{ formSchema?.formName }}</h3>
           </div>
           <div class="func">
-            <!-- <el-button @click="viewForm">查看form</el-button> -->
             <el-button @click.stop="isViewVisible = true">查看schema</el-button>
             <el-button @click.stop="confirmClear">重做</el-button>
             <!-- 清除确认框 -->
@@ -78,7 +77,7 @@ const clearForm = () => {
 /** 查看schema弹窗状态 */
 const isViewVisible = ref(false)
 
-/** 表单发生变化重新调用 */
+/** 表单发生变化重新调用，用于查看schema */
 const strSchema = computed(() => {
   return JSON.stringify(formSchema.value, null, 2)
 })
@@ -88,6 +87,7 @@ const closeView = () => {
   isViewVisible.value = false
 }
 
+/** 创建sortable实例 */
 const createSortable = () => {
   const canvas = document.querySelector('.form-canvas') as HTMLElement
 
@@ -98,9 +98,6 @@ const createSortable = () => {
     },
     animation: 150,
     preventOnFilter: true, // 触发过滤器时是否阻止默认事件
-
-    // 阻止Sortable自己移动DOM，只保留拖拽事件监听
-    setData() {},
 
     /** 组件拖拽到画布上时触发 */
     onAdd: (evt: any) => {

@@ -68,6 +68,7 @@ const { handleAddToCanvas } = designStore
 
 let sortbale: Sortable[] = []
 
+/** 创建sortable实例 */
 const createSortable = () => {
   const fieldSet = document.querySelectorAll('.fields-box') as NodeListOf<HTMLElement>
 
@@ -86,6 +87,10 @@ const createSortable = () => {
   }
 }
 
+/** 
+ * 点击添加到画布上
+ * @param evt 点击事件
+ */
 const clickAddToCanvas = (evt: PointerEvent) => {
   const target = evt.target as HTMLElement | null
   if (!target) return
