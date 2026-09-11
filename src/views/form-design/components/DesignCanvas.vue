@@ -110,7 +110,7 @@ const createSortable = () => {
       // 转换
       const component = handleAddToCanvas(fieldStr)
 
-      // 加到components数组后移除dom元素，只留schema
+      // 拿到组件schema后立刻移除dom元素，只留schema
       if (evt.item) evt.item.remove()
 
       formSchema.value?.schema.components.splice(newIndex, 0, component)
