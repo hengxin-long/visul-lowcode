@@ -10,8 +10,19 @@
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item title="基础字段" name="1">
               <el-scrollbar max-height="220px">
-                <div class="fields-box" @click="clickAddToCanvas">
-                  <div v-for="field in base" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                <VueDraggable
+                  v-model="base"
+                  :group="{
+                    name: 'canvas',
+                    pull: 'clone',
+                    put: false,
+                  }"
+                  :sort="false",
+                  :animation="150"
+                  class="fields-box"
+                  @click="clickAddToCanvas"
+                >
+                  <div v-for="field in base" class="field" :key="field.componentType" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
                         <component :is="field.icon" />
@@ -19,13 +30,24 @@
                     </p>
                     <p>{{ field.label }}</p>
                   </div>
-                </div>
+                </VueDraggable>
               </el-scrollbar>
             </el-collapse-item>
             <el-collapse-item title="复合字段" name="2">
               <el-scrollbar max-height="220px">
-                <div class="fields-box" @click="clickAddToCanvas">
-                  <div v-for="field in composite" class="field" :key="field.label" :data-field="JSON.stringify(field)">
+                <VueDraggable
+                  v-model="composite"
+                  :group="{
+                    name: 'canvas',
+                    pull: 'clone',
+                    put: false,
+                  }"
+                  :sort="false",
+                  :animation="150"
+                  class="fields-box"
+                  @click="clickAddToCanvas"
+                >
+                  <div v-for="field in composite" class="field" :key="field.componentType" :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
                         <component :is="field.icon" />
@@ -33,7 +55,7 @@
                     </p>
                     <p>{{ field.label }}</p>
                   </div>
-                </div>
+                </VueDraggable>
               </el-scrollbar>
             </el-collapse-item>
           </el-collapse>
@@ -47,14 +69,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
-import Sortable from 'sortablejs'
+import { ref } from 'vue';
 import { baseFields, compositeFields } from '@/config/materialList';
 import type { FormComponent } from '@/types/form'
-import { ElMessage } from 'element-plus';
-import { nextTick } from 'vue';
 import { useDesignStore } from '@/stores/design';
 import { storeToRefs } from 'pinia';
+import { VueDraggable } from 'vue-draggable-plus';
 
 const activeName = ref('1')
 /** 基础字段 */
@@ -65,27 +85,6 @@ const composite = ref<FormComponent[]>(compositeFields)
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
 const { handleAddToCanvas } = designStore
-
-let sortbale: Sortable[] = []
-
-/** 创建sortable实例 */
-const createSortable = () => {
-  const fieldSet = document.querySelectorAll('.fields-box') as NodeListOf<HTMLElement>
-
-  if (!fieldSet[0]) return ElMessage.error('加载错误')
-
-  for (let fields of fieldSet) {
-    sortbale.push(new Sortable(fields, {
-      group: {
-        name: 'canvas', // 组名
-        pull: 'clone', // 克隆
-        put: false, // 是否可放入
-      },
-      sort: false, // 列表内是否可排序
-      animation: 150, // 动画
-    }));
-  }
-}
 
 /** 
  * 点击添加到画布上
@@ -105,20 +104,6 @@ const clickAddToCanvas = (evt: PointerEvent) => {
   const component = handleAddToCanvas(fieldStr)
   formSchema.value.schema.components.push(component)
 }
-
-onMounted(async () => {
-  // 等待获取到最新dom在创建sortable
-  await nextTick()
-  createSortable()
-})
-
-onUnmounted(() => {
-  // 卸载组件完组件销毁事件
-  for (let fields of sortbale) {
-    fields?.destroy()
-  }
-})
-
 </script>
 
 <style scoped lang="scss">
@@ -177,7 +162,7 @@ onUnmounted(() => {
 
       .fields-box {
         display: grid;
-        grid-template-columns: repeat(2, auto) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 10px;
         width: 100%;
       }

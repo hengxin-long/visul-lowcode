@@ -33,27 +33,37 @@
             </el-dialog>
           </div>
         </div>
-        <div class="form-canvas" @click="handleNotSelected">
+        <VueDraggable
+          v-model="formSchema.schema.components"
+          :group="{
+            name: 'canvas',
+            put: true,
+          }"
+          disabled
+          :animation="150"
+          ghostClass="ghost"
+          @add="onAdd"
+          class="form-canvas"
+          @click="handleNotSelected"
+        >
           <Form :formSchema="formSchema" />
-        </div>
+        </VueDraggable>
       </div>
     </div>
   </el-scrollbar>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import Sortable, { type SortableEvent } from 'sortablejs'
+import { computed, ref } from 'vue';
 import { useDesignStore } from '@/stores/design'
 import { storeToRefs } from 'pinia';
 import Form from '@/components/Form.vue';
-import { nextTick } from 'vue';
+import { VueDraggable } from 'vue-draggable-plus';
+import { ElMessage } from 'element-plus';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleNotSelected, clearFormComponent, handleAddToCanvas } = designStore
-
-let sortbale: Sortable
+const { handleNotSelected, clearFormComponent, getComponentId } = designStore
 
 /** 清除确认窗状态 */
 const isClearVisible = ref(false)
@@ -87,66 +97,15 @@ const closeView = () => {
   isViewVisible.value = false
 }
 
-/** 创建sortable实例 */
-const createSortable = () => {
-  const canvas = document.querySelector('.form-canvas') as HTMLElement
-
-  sortbale = new Sortable(canvas, {
-    group: {
-      name: 'canvas',
-      put: true // 是否可放入
-    },
-    animation: 150,
-    preventOnFilter: true, // 触发过滤器时是否阻止默认事件
-
-    /** 组件拖拽到画布上时触发 */
-    onAdd: (evt: any) => {
-      evt.preventDefault()
-      // 拖拽的目标容器不是画布直接返回
-      if (evt.to !== canvas) return
-
-      const newIndex = evt.newIndex
-      const fieldStr = evt.item.dataset.field
-      // 转换
-      const component = handleAddToCanvas(fieldStr)
-
-      // 拿到组件schema后立刻移除dom元素，只留schema
-      if (evt.item) evt.item.remove()
-
-      formSchema.value?.schema.components.splice(newIndex, 0, component)
-    },
-
-    /** 画布内组件移动时触发 */
-    onUpdate: (evt: SortableEvent) => {
-      evt.preventDefault()
-
-      // 只处理画布已有组件拖拽，排除左侧新增
-      if (evt.from !== evt.to) return
-
-      const oldIndex = evt.oldIndex as number
-      const newIndex = evt.newIndex as number
-
-      const list = formSchema.value.schema.components
-      
-      // 将移动的的对象取出来
-      const moveItem = list.splice(oldIndex, 1)[0]
-      if (!moveItem) return
-      // 插入到新索引上
-      list.splice(newIndex, 0, moveItem)
-    },
-  });
+/** 组件添加到画布上的回调 */
+const onAdd = (e: any) => {
+  // 将克隆的实例设置id和字段在自动添加到components
+  const component = e?.clonedData
+  if (!component) return ElMessage.error('添加组件错误')
+  const id = getComponentId()
+  component.id = `${id}`
+  component.field = component.field + '_' + id
 }
-
-onMounted(async () => {
-  // 等待dom更新完再创建sortable
-  await nextTick()
-  createSortable()
-})
-
-onUnmounted(() => {
-  sortbale?.destroy()
-})
-
 </script>
 
 <style scoped lang="scss">
@@ -183,8 +142,13 @@ onUnmounted(() => {
     border: 1px solid var(--border-color);
     border-radius: 15px;
 
-
   }
+
+  .form-canvas .draggable-canvas {
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+    }
 }
 
 .field {
