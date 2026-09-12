@@ -1,4 +1,4 @@
-# 可视化低代码配置平台 v1.0
+# 可视化低代码配置平台 v1.1.0
 
 ## 项目简介
 
@@ -45,18 +45,18 @@
 
 ## 技术栈
 
-| 技术           | 用途      |
-| ------------ | ------- |
-| Vue 3        | 前端框架    |
-| Vue Router   | 路由管理    |
-| Pinia        | 状态管理    |
-| Element Plus | UI 组件库  |
-| Vite         | 构建工具    |
-| Sortable.js  | 拖拽排序    |
-| Axios        | HTTP 请求 |
-| Mock.js      | 接口 Mock |
-| SCSS         | 样式预处理   |
-| TypeScript   | 类型安全    |
+| 技术               | 用途       |
+| ------------------ | ---------- |
+| Vue 3              | 前端框架   |
+| Vue Router         | 路由管理   |
+| Pinia              | 状态管理   |
+| Element Plus       | UI 组件库  |
+| Vite               | 构建工具   |
+| Vue-Draggable-Plus | 拖拽排序   |
+| Axios              | HTTP 请求  |
+| Mock.js            | 接口 Mock  |
+| SCSS               | 样式预处理 |
+| TypeScript         | 类型安全   |
 
 ## 项目预览
 
@@ -104,4 +104,23 @@ npm run preview
 - `feat(form): 新增表单保存导出功能`
 - `fix(schema): 修复组件属性回写丢失问题`
 - `refactor: 抽离schema解析公共工具函数`
+
+
+
+
+## 更新日志
+### v1.1.0（Bug修复版本）
+> 主要改动：移除原生 Sortable.js，升级拖拽库为 `vue‑draggable‑plus`，修复画布模块多个核心问题
+
+####  Bug修复
+1. **【核心修复】画布多次交叉拖拽排序，Schema数组数据正确，但页面DOM视图偶现错乱**
+    - 根因：原生 Sortable.js 会直接永久修改真实DOM，DOM改动先于数据更新，和Vue3 diff最长递增子序列(LIS)节点复用逻辑产生冲突；前期`nextTick`、数组副本优化仅能降低复现概率，无法彻底解决。
+    - 解决方案：替换为`vue‑draggable‑plus`。拖拽仅做临时镜像预览，松手撤销Sort对列表DOM的改动；只更新响应式数组，页面DOM完全由formSchema数据驱动，从根源消除数据‑视图不一致。
+
+2. **UI样式修复**
+    - 修复物料区grid布局，统一基础字段、复合字段卡片宽度；
+
+#### 依赖变更
+- 移除：`sortablejs`
+- 新增：`vue‑draggable‑plus`
 
