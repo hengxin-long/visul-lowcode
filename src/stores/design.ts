@@ -52,11 +52,16 @@ export const useDesignStore = defineStore('design', () => {
   /**  true = 画布编辑模式, false = 预览模式 */
   const isEditMode = ref<boolean>(true)
 
-  /** 组件唯一id */
-  let id = 1
-
   /** 表单保存状态 */
   const isSaved = ref<boolean>(false)
+
+  /** 获取组件唯一id */
+  const getComponentId = (): string => {
+    const time = Date.now().toString(30)
+    const rand = Math.random() * 100
+    const id = time + rand.toFixed(0)
+    return id
+  }
 
   /**
    * 处理画布选中的组件
@@ -87,18 +92,13 @@ export const useDesignStore = defineStore('design', () => {
     isEditMode.value = true
   }
 
-  /** 自增组件唯一id */
-  const addId = () => {
-    return id++
-  }
-
   /**
    * 组件复制
    * @param com 复制的目标组件
    * @param index 目标组件索引
    */
   const handleCopy = (com: FormComponent, index: number | string) => {
-    let newId = addId()
+    let newId = getComponentId()
     let newField = com.field + '_copy' + newId
     // 深拷贝对象
     const jsonCom = JSON.stringify(com)
@@ -165,9 +165,9 @@ export const useDesignStore = defineStore('design', () => {
    */
   const handleAddToCanvas = (fieldStr: string): FormComponent => {
     const component = JSON.parse(fieldStr)
-    const id = addId()
+    const id = getComponentId()
     component.id = `${id}`
-    component.field = component.field + id
+    component.field = component.field + '_' + id
     return component
   }
 
@@ -185,12 +185,12 @@ export const useDesignStore = defineStore('design', () => {
     clearFormComponent,
     switchPreview,
     switchEdit,
-    addId,
     handleCopy,
     handleDelete,
     pushForm,
     getFormDetail,
-    handleAddToCanvas
+    handleAddToCanvas,
+    getComponentId
   }
 
 })

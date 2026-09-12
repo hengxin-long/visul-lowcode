@@ -227,7 +227,7 @@ const formData: FormItem[] = [
         {
           label: "标题",
           icon: "SetUp",
-          id: "18",
+          id: "2lo9sdbng10",
           componentType: "title",
           field: "title18",
           props: {
@@ -242,7 +242,7 @@ const formData: FormItem[] = [
         {
           label: "文本框",
           icon: "Document",
-          id: "19",
+          id: "2lo9sdceh0",
           componentType: "input",
           field: "field19",
           props: {
@@ -263,7 +263,7 @@ const formData: FormItem[] = [
         {
           label: "文本框",
           icon: "Document",
-          id: "20",
+          id: "2lo9sdcn32",
           componentType: "input",
           field: "field20",
           props: {
@@ -298,7 +298,7 @@ const formData: FormItem[] = [
         {
           label: "标题",
           icon: "SetUp",
-          id: "5",
+          id: "2lo9sdctf32",
           componentType: "title",
           field: "title5",
           props: {
@@ -314,7 +314,7 @@ const formData: FormItem[] = [
         {
           label: "文本框",
           icon: "Document",
-          id: "6",
+          id: "2lo9sdd8197",
           componentType: "input",
           field: "field6",
           props: {
@@ -335,7 +335,7 @@ const formData: FormItem[] = [
         {
           label: "文本框",
           icon: "Document",
-          id: "7",
+          id: "2lo9sddfn31",
           componentType: "input",
           field: "field7",
           props: {
@@ -356,7 +356,7 @@ const formData: FormItem[] = [
         {
           label: "下拉框",
           icon: "Tickets",
-          id: "9",
+          id: "2lo9shel081",
           componentType: "select",
           field: "select9",
           props: {
@@ -390,7 +390,7 @@ const formData: FormItem[] = [
         {
           label: "按钮",
           icon: "Pointer",
-          id: "8",
+          id: "2lo9shet624",
           componentType: "button",
           field: "button8",
           props: {
@@ -428,7 +428,7 @@ const formData: FormItem[] = [
       {
         label: "标题",
         icon: "SetUp",
-        id: "1",
+        id: "2lo9shfec48",
         componentType: "title",
         field: "title1",
         props: {
@@ -443,7 +443,7 @@ const formData: FormItem[] = [
       {
         label: "标题",
         icon: "SetUp",
-        id: "2",
+        id: "2lo9shfp349",
         componentType: "title",
         field: "title2",
         props: {
@@ -458,7 +458,7 @@ const formData: FormItem[] = [
       {
         label: "标题",
         icon: "SetUp",
-        id: "8",
+        id: "2lo9shg3384",
         componentType: "title",
         field: "title8",
         props: {
@@ -472,7 +472,7 @@ const formData: FormItem[] = [
       {
         label: "单选框组",
         icon: "Open",
-        id: "3",
+        id: "2lo9shg9742",
         componentType: "radioGroup",
         field: "radioGroup3",
         props: {
@@ -497,7 +497,7 @@ const formData: FormItem[] = [
       {
         label: "标题",
         icon: "SetUp",
-        id: "5",
+        id: "2lo9shgod93",
         componentType: "title",
         field: "title5",
         props: {
@@ -511,7 +511,7 @@ const formData: FormItem[] = [
       {
         label: "数字框",
         icon: "Coin",
-        id: "4",
+        id: "2lo9shh1487",
         componentType: "inputNumber",
         field: "number4",
         props: {
@@ -529,7 +529,7 @@ const formData: FormItem[] = [
       {
         label: "下拉框",
         icon: "Tickets",
-        id: "6",
+        id: "2lo9shh8g32",
         componentType: "select",
         field: "select6",
         props: {
@@ -571,7 +571,7 @@ const formData: FormItem[] = [
       {
         label: "按钮",
         icon: "Pointer",
-        id: "7",
+        id: "2lo9smsg692",
         componentType: "button",
         field: "button7",
         props: {
