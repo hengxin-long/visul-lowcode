@@ -39,11 +39,11 @@
             name: 'canvas',
             put: true,
           }"
+          class="form-canvas"
+          ghostClass="ghost"
           disabled
           :animation="150"
-          ghostClass="ghost"
           @add="onAdd"
-          class="form-canvas"
           @click="handleNotSelected"
         >
           <Form :formSchema="formSchema" />
