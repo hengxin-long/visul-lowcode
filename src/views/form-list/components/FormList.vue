@@ -84,10 +84,10 @@
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="120">
           <template #default="{ row }">
-            <div class="row-box">
-              <div class="status-box" :style=" `background-color: ${getStatusInfo(row.status)?.bgColor};`">
-                <div class="circle" :style=" `background-color: ${getStatusInfo(row.status)?.circleCol};`"></div>
-                <p>{{ getStatusInfo(row.status)?.meaning }}</p>
+            <div class="row-box" v-if="statusInfo = getStatusInfo(row.status)">
+              <div class="status-box" :style=" `background-color: ${statusInfo?.bgColor};`">
+                <div class="circle" :style=" `background-color: ${statusInfo?.circleCol};`"></div>
+                <p>{{ statusInfo?.meaning }}</p>
               </div>
             </div>
           </template>
@@ -542,6 +542,10 @@
     }
   };
 
+  /** 状态信息 */
+  const statusInfo = ref()
+
+  /** 获取表单状态信息 */
   const getStatusInfo = (status: string | number) => {
     return statusMap[status as keyof typeof statusMap]
   }
