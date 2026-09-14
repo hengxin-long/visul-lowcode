@@ -36,3 +36,12 @@ export interface ComponentProps {
   size?: string,
   type?: string,
 }
+
+/** 组件属性对象 */
+export interface PropObj {
+  label: string;
+  prop: string;
+  type: string;
+  /** 生成属性控件的限制属性 */
+  limit?: Record<string, any>;
+}
