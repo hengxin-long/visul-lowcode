@@ -61,11 +61,13 @@
   import { DocumentCopy, Delete } from "@element-plus/icons-vue";
   import FormTitle from "./form-custom/FormTitle.vue";
 
+  /** ElementPlus组价映射 */
   const map = componentMap;
+  
+  const props = defineProps(["formSchema"]);
   const designStore = useDesignStore();
   const { handleSelect, handleCopy, handleDelete } = designStore;
   const { isEditMode, tempData } = storeToRefs(designStore);
-  const props = defineProps(["formSchema"]);
 
   /** 深度监听，组件有变化就调用 */
   watch(
