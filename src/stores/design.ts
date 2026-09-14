@@ -99,7 +99,8 @@ export const useDesignStore = defineStore('design', () => {
    */
   const handleCopy = (com: FormComponent, index: number | string) => {
     let newId = getComponentId()
-    let newField = com.field + '_copy' + newId
+    const field = com.field.split('_')[0]
+    let newField = field + '_copy' + '_' + newId
     // 深拷贝对象
     const jsonCom = JSON.stringify(com)
     const newCom = JSON.parse(jsonCom)
