@@ -8,10 +8,14 @@
       <el-scrollbar>
         <div class="components">
           <el-collapse v-model="activeName" accordion>
-            <el-collapse-item title="基础字段" name="1">
+            <el-collapse-item 
+              v-for="comGroup in componentGroupArr" 
+              :key="comGroup.name" 
+              :title="comGroup.title" 
+              :name="comGroup.name">
               <el-scrollbar max-height="220px">
                 <VueDraggable
-                  v-model="base"
+                  v-model="comGroup.group"
                   :group="{
                     name: 'canvas',
                     pull: 'clone',
@@ -22,32 +26,10 @@
                   class="fields-box"
                   @click="clickAddToCanvas"
                 >
-                  <div v-for="field in base" class="field" :key="field.componentType" :data-field="JSON.stringify(field)">
-                    <p>
-                      <el-icon class="icon">
-                        <component :is="field.icon" />
-                      </el-icon>
-                    </p>
-                    <p>{{ field.label }}</p>
-                  </div>
-                </VueDraggable>
-              </el-scrollbar>
-            </el-collapse-item>
-            <el-collapse-item title="复合字段" name="2">
-              <el-scrollbar max-height="220px">
-                <VueDraggable
-                  v-model="composite"
-                  :group="{
-                    name: 'canvas',
-                    pull: 'clone',
-                    put: false,
-                  }"
-                  :sort="false",
-                  :animation="150"
-                  class="fields-box"
-                  @click="clickAddToCanvas"
-                >
-                  <div v-for="field in composite" class="field" :key="field.componentType" :data-field="JSON.stringify(field)">
+                  <div 
+                    v-for="field in comGroup.group" 
+                    class="field" :key="field.componentType" 
+                    :data-field="JSON.stringify(field)">
                     <p>
                       <el-icon class="icon">
                         <component :is="field.icon" />
@@ -81,6 +63,20 @@ const activeName = ref('1')
 const base = ref<FormComponent[]>(baseFields)
 /** 复合字段 */
 const composite = ref<FormComponent[]>(compositeFields)
+
+/** 字段组数组 */
+const componentGroupArr = [
+  {
+    title: '基础字段',
+    name: '1',
+    group: base.value
+  },
+  {
+    title: '复合字段',
+    name: '2',
+    group: composite.value
+  },
+]
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
