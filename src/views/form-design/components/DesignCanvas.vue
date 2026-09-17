@@ -44,6 +44,7 @@
           disabled
           :animation="150"
           @add="onAdd"
+          @update="onUpdate"
           @click="handleNotSelected"
         >
           <Form :formSchema="formSchema" />
@@ -111,6 +112,13 @@ const onAdd = (e: any) => {
   component.id = `${id}`
   component.field = component.field + '_' + id
 
+  activeSelectCom(component)
+}
+
+/** 列表内排序发生变化时调用 */
+const onUpdate = (e: any) => {
+  const component = e?.clonedData
+  if (!component) return ElMessage.error('添加组件错误')
   activeSelectCom(component)
 }
 </script>
