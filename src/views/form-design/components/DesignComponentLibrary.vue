@@ -80,7 +80,7 @@ const componentGroupArr = [
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleAddToCanvas, setCurrentActiveId, handleSelect } = designStore
+const { handleAddToCanvas, activeSelectCom } = designStore
 
 /** 
  * 点击添加到画布上
@@ -100,8 +100,7 @@ const clickAddToCanvas = (evt: PointerEvent) => {
   const component = handleAddToCanvas(fieldStr)
   formSchema.value.schema.components.push(component)
 
-  setCurrentActiveId(component.id)
-  handleSelect(component)
+  activeSelectCom(component)
 }
 </script>
 

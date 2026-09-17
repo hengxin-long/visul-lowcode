@@ -183,6 +183,15 @@ export const useDesignStore = defineStore('design', () => {
     currentActiveId.value = activeId
   }
 
+  /** 
+   * 给选中的组件添加active 
+   * @param com 组件实例
+   */
+  const activeSelectCom = (com: FormComponent) => {
+    setCurrentActiveId(com.id)
+    handleSelect(com)
+  }
+
   return {
     formSchema,
     tempData,
@@ -203,7 +212,8 @@ export const useDesignStore = defineStore('design', () => {
     getFormDetail,
     handleAddToCanvas,
     getComponentId,
-    setCurrentActiveId
+    setCurrentActiveId,
+    activeSelectCom
   }
 
 })

@@ -67,8 +67,7 @@ const {
   handleNotSelected, 
   clearFormComponent, 
   getComponentId, 
-  handleSelect, 
-  setCurrentActiveId
+  activeSelectCom
  } = designStore
 
 /** 清除确认窗状态 */
@@ -112,8 +111,7 @@ const onAdd = (e: any) => {
   component.id = `${id}`
   component.field = component.field + '_' + id
 
-  setCurrentActiveId(component.id)
-  handleSelect(component)
+  activeSelectCom(component)
 }
 </script>
 

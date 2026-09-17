@@ -71,8 +71,16 @@
   
   const props = defineProps(["formSchema"]);
   const designStore = useDesignStore();
-  const { handleSelect, handleCopy, handleDelete, setCurrentActiveId } = designStore;
-  const { isEditMode, tempData, currentActiveId } = storeToRefs(designStore);
+  const { 
+    handleCopy,
+    handleDelete, 
+    activeSelectCom
+  } = designStore;
+  const {
+    isEditMode,
+    tempData,
+    currentActiveId
+  } = storeToRefs(designStore);
 
   /** 深度监听，组件有变化就调用 */
   watch(
@@ -94,14 +102,7 @@
     { deep: true, immediate: true },
   );
 
-  /** 
-   * 给选中的组件添加active 
-   * @param com 组件实例
-   */
-  const activeSelectCom = (com: FormComponent) => {
-    setCurrentActiveId(com.id)
-    handleSelect(com)
-  }
+  
 </script>
 
 <style scoped lang="scss">
