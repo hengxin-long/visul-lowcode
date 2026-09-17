@@ -63,7 +63,13 @@ import { ElMessage } from 'element-plus';
 
 const designStore = useDesignStore()
 const { formSchema } = storeToRefs(designStore)
-const { handleNotSelected, clearFormComponent, getComponentId } = designStore
+const { 
+  handleNotSelected, 
+  clearFormComponent, 
+  getComponentId, 
+  handleSelect, 
+  setCurrentActiveId
+ } = designStore
 
 /** 清除确认窗状态 */
 const isClearVisible = ref(false)
@@ -105,6 +111,9 @@ const onAdd = (e: any) => {
   const id = getComponentId()
   component.id = `${id}`
   component.field = component.field + '_' + id
+
+  setCurrentActiveId(component.id)
+  handleSelect(component)
 }
 </script>
 

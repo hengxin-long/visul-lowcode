@@ -3,8 +3,12 @@
     class="form-component"
     v-for="(com, index) in formSchema?.schema.components"
     :key="com.id"
-    @click.stop="isEditMode && handleSelect(com)"
-    :class="{ 'form-component--edit': isEditMode }"
+    @click.stop="isEditMode && activeSelectCom(com)"
+    :class="{ 
+      'form-component--edit': isEditMode, 
+      'active': isEditMode && com.id === currentActiveId
+    }"
+    :id="com.id"
     :style="{
       display: 'flex',
       justifyContent: com.props.align,
@@ -61,13 +65,14 @@
   import { DocumentCopy, Delete } from "@element-plus/icons-vue";
   import FormTitle from "./form-custom/FormTitle.vue";
 
+
   /** ElementPlus组价映射 */
   const map = componentMap;
   
   const props = defineProps(["formSchema"]);
   const designStore = useDesignStore();
-  const { handleSelect, handleCopy, handleDelete } = designStore;
-  const { isEditMode, tempData } = storeToRefs(designStore);
+  const { handleSelect, handleCopy, handleDelete, setCurrentActiveId } = designStore;
+  const { isEditMode, tempData, currentActiveId } = storeToRefs(designStore);
 
   /** 深度监听，组件有变化就调用 */
   watch(
@@ -88,6 +93,15 @@
     },
     { deep: true, immediate: true },
   );
+
+  /** 
+   * 给选中的组件添加active 
+   * @param com 组件实例
+   */
+  const activeSelectCom = (com: FormComponent) => {
+    setCurrentActiveId(com.id)
+    handleSelect(com)
+  }
 </script>
 
 <style scoped lang="scss">
@@ -121,5 +135,13 @@
 
   .form-component.form-component--edit:hover .operate {
     display: block;
+  }
+
+  .active {
+    outline: 1px solid #409eff;
+
+    .operate {
+      display: block;
+    }
   }
 </style>

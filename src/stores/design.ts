@@ -172,6 +172,16 @@ export const useDesignStore = defineStore('design', () => {
     return component
   }
 
+  /** 当前被激活组件的id */
+  const currentActiveId = ref<string>('')
+
+  /** 
+   * 修改被激活组件的id
+   * @param activeId 要激活组件的id
+   */
+  const setCurrentActiveId = (activeId: string) => {
+    currentActiveId.value = activeId
+  }
 
   return {
     formSchema,
@@ -179,6 +189,7 @@ export const useDesignStore = defineStore('design', () => {
     selectCom,
     isEditMode,
     isSaved,
+    currentActiveId,
     resetFormSchema,
     setFormSchema,
     handleSelect,
@@ -191,7 +202,8 @@ export const useDesignStore = defineStore('design', () => {
     pushForm,
     getFormDetail,
     handleAddToCanvas,
-    getComponentId
+    getComponentId,
+    setCurrentActiveId
   }
 
 })
