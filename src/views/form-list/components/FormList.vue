@@ -74,12 +74,27 @@
         <el-table-column prop="formName" label="表单名称" min-width="230">
           <!-- 定义插槽实现指定单元格触发点击事件 -->
           <template #default="{ row }">
-            <div
-              @click="browseForm(row)"
-              class="form-name"
+            <el-tooltip
+              content="点击浏览表单"
+              placement="top-end"
+              :show-after="700"
+              :hide-after="200"
+              :width="70"
+              :popper-style="{
+                padding: '3px',
+                'font-size': '12px',
+                border: 'none',
+              }"
             >
-              {{ row.formName }}
-            </div>
+              <template #default>
+                <div
+                  @click="browseForm(row)"
+                  class="form-name"
+                >
+                  {{ row.formName }}
+                </div>
+              </template>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="120" ref="row">
@@ -537,7 +552,7 @@
       return ElMessage.warning("文件名不合法！");
     }
   };
-  
+
   onMounted(() => {
     getFormData();
   });
