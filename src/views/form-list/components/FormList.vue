@@ -67,6 +67,7 @@
         :border="false"
         empty-text="暂无数据"
         :default-sort="{ prop: 'updateTime', order: 'descending' }"
+        :show-overflow-tooltip="true"
         @select="handleSingleRow"
         @select-all="handleAllRow"
       >
@@ -74,27 +75,12 @@
         <el-table-column prop="formName" label="表单名称" min-width="230">
           <!-- 定义插槽实现指定单元格触发点击事件 -->
           <template #default="{ row }">
-            <el-tooltip
-              content="点击浏览表单"
-              placement="top-end"
-              :show-after="700"
-              :hide-after="200"
-              :width="70"
-              :popper-style="{
-                padding: '3px',
-                'font-size': '12px',
-                border: 'none',
-              }"
+            <div
+              class="form-name"
+              @click="browseForm(row)"
             >
-              <template #default>
-                <div
-                  @click="browseForm(row)"
-                  class="form-name"
-                >
-                  {{ row.formName }}
-                </div>
-              </template>
-            </el-tooltip>
+              {{ row.formName }}
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="120" ref="row">
@@ -126,7 +112,7 @@
               >删除</el-button
             >
           </template>
-        </el-table-column>
+        </el-table-column> 
       </el-table>
       <!-- 分页组件 -->
       <div class="pagination">
@@ -216,7 +202,6 @@
   import { exportSchema } from "@/utils/transform";
   import { FormTypeOptions } from "@/enums/component";
   import { getLocalDateTime } from "@/utils/transform";
-  import { statusMap } from '@/config/statusMap'
   import StatusCell from "./StatusCell.vue";
 
   const formStore = useFormStore();
