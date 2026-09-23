@@ -22,6 +22,7 @@
     <el-button
       @click="handleForm('published')"
       type="primary"
+      :loading="isSubmitting"
       >发布表单</el-button
     >
   </div>
@@ -64,9 +65,10 @@
   import { useDesignStore } from "@/stores/design";
   import { storeToRefs } from "pinia";
   import type { FormStatus } from "@/types/form";
+import { ElMessage } from "element-plus";
 
   const designStore = useDesignStore();
-  const { isSaved, formSchema } = storeToRefs(designStore);
+  const { isSaved, formSchema, isSubmitting } = storeToRefs(designStore);
   const { switchEdit, switchPreview, pushForm } = designStore;
 
   const route = useRoute();
@@ -103,7 +105,10 @@
   };
 
   /** 处理新增表单 */
-  const handleForm = (status: FormStatus) => {
+  const handleForm = async (status: FormStatus) => {
+    if (isSubmitting.value) return
+    if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
+
     if (status === "published") {
       console.log("校验画布配置是否合法  待定");
     }
@@ -112,9 +117,9 @@
     const id = route.params.id as string;
     // 有id 更新，id为空串 添加
     if (id) {
-      pushForm("put", status, "已更新");
+      await pushForm("put", status, "已更新");
     } else {
-      pushForm("post", status, "保存成功");
+      await pushForm("post", status, "保存成功");
     }
   };
 
