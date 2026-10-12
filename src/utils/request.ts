@@ -19,7 +19,7 @@ request.interceptors.response.use(
   // console.info('响应拦截config ', response)
   const {code, data, msg} = response.data as ApiResult
   if (code === ApiCodeEnum.NOT_FOUND || code === ApiCodeEnum.BAD_REQUEST) {
-    ElMessage.error(msg || "请求失败!")
+    ElMessage.error(msg || "服务器错误！")
   }
   
   return data
