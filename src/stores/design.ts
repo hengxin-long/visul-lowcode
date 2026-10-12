@@ -125,8 +125,7 @@ export const useDesignStore = defineStore('design', () => {
   }
 
   const router = useRouter()
-  // 请求提交锁，控制loading和防重复点击
-  const isSubmitting = ref(false)
+  
   /** 
    * 添加或更新表单到mock
    * @param type 处理类型
@@ -138,7 +137,6 @@ export const useDesignStore = defineStore('design', () => {
     formSchema.value.status = status
     formSchema.value.updateTime = getLocalDateTime()
 
-    isSubmitting.value = true
     try {
       type === 'post' ? await postFormSchema(formSchema.value) : await putFormSchema(formSchema.value)
       ElMessage.success(succMessage)
@@ -146,8 +144,6 @@ export const useDesignStore = defineStore('design', () => {
       router.replace({ path: '/form-list' })
     } catch (err) {
       // 错误提示已经在拦截器ElMessage弹出，这里不用处理提示
-    } finally {
-      isSubmitting.value = false
     }
   }
 
@@ -203,7 +199,6 @@ export const useDesignStore = defineStore('design', () => {
     isEditMode,
     isSaved,
     currentActiveId,
-    isSubmitting,
     resetFormSchema,
     setFormSchema,
     handleSelect,

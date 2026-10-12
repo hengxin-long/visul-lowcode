@@ -203,6 +203,7 @@
   import { FormTypeOptions } from "@/enums/component";
   import { getLocalDateTime } from "@/utils/transform";
   import StatusCell from "./StatusCell.vue";
+  import { useAppStore } from "@/stores/app.ts";
 
   const formStore = useFormStore();
   const router = useRouter();
@@ -538,8 +539,11 @@
     }
   };
 
+  const { setFullscreenLoading } = useAppStore()
+
   onMounted(() => {
     getFormData();
+    setFullscreenLoading(false)
   });
 </script>
 

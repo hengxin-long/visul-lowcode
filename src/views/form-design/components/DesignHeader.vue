@@ -20,9 +20,9 @@
       >保存</el-button
     >
     <el-button
+      v-loading.fullscreen.lock="fullscreenLoading"
       @click="handleForm('published')"
       type="primary"
-      :loading="isSubmitting"
       >发布表单</el-button
     >
   </div>
@@ -47,8 +47,12 @@
           @click="noSave"
           >不保存</el-button
         >
-        <el-button @click="handleForm('draft')"> 是 </el-button>
+        <el-button 
+          v-loading.fullscreen.lock="fullscreenLoading"
+          @click="handleForm('draft')"
+        > 是 </el-button>
         <el-button
+          v-loading.fullscreen.lock="fullscreenLoading"
           @click="handleForm('published')"
           type="primary"
           >发布</el-button
@@ -65,11 +69,16 @@
   import { useDesignStore } from "@/stores/design";
   import { storeToRefs } from "pinia";
   import type { FormStatus } from "@/types/form";
-import { ElMessage } from "element-plus";
+  import { ElMessage } from "element-plus";
+  import { useAppStore } from '@/stores/app.ts'
 
   const designStore = useDesignStore();
-  const { isSaved, formSchema, isSubmitting } = storeToRefs(designStore);
+  const { isSaved, formSchema } = storeToRefs(designStore);
   const { switchEdit, switchPreview, pushForm } = designStore;
+
+  const appStore = useAppStore()
+  const { fullscreenLoading } = storeToRefs(appStore)
+  const { setFullscreenLoading } = appStore
 
   const route = useRoute();
 
@@ -105,9 +114,9 @@ import { ElMessage } from "element-plus";
   };
 
   /** 处理新增表单 */
-  const handleForm = async (status: FormStatus) => {
-    if (isSubmitting.value) return
+  const handleForm = (status: FormStatus) => {
     if (!formSchema.value.schema.components[0]) return ElMessage.warning('表单控件为空，不能保存！')
+    setFullscreenLoading(true)
 
     if (status === "published") {
       console.log("校验画布配置是否合法  待定");
@@ -117,9 +126,9 @@ import { ElMessage } from "element-plus";
     const id = route.params.id as string;
     // 有id 更新，id为空串 添加
     if (id) {
-      await pushForm("put", status, "已更新");
+      pushForm("put", status, "已更新");
     } else {
-      await pushForm("post", status, "保存成功");
+      pushForm("post", status, "保存成功");
     }
   };
 
